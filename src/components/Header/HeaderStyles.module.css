@@ -1,0 +1,183 @@
+:root {
+    --main-color: #2F2E34;
+}
+
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: #2F2E34;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.header-content {
+    width: calc(100% - 760px); /* потрібно буде збільшити до 700 px */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+/* === LEFT CONTENT === */
+
+.left-content {
+    display: flex;
+    align-items: center;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    line-height: 35px;
+    color: #F1F1F1;
+    text-decoration: none;
+    margin-right: 40px;
+    font-size: 20px;
+}
+
+.logo-image {
+    width: 40px; 
+    height: 45px;
+}
+
+.logo span {
+    font-weight: bold;
+    padding-left: 5px;
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.nav-list li {
+    float: left;
+}
+
+.nav-list a {
+    display: inline-block;
+    padding: 20px 24px;
+    line-height: 30px;
+    color: #F1F1F1;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.4s;
+}
+
+.nav-list a:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.dropdown-content {
+    width: calc(100% - 760px);
+    height: 280px;
+    display: none;
+    position: absolute;
+    left: 0;
+    margin: 0 380px;
+    padding: 28px 60px 40px 60px;
+    background-color: #514F5A;
+    border-radius: 0 0 20px 20px;
+    min-width: 300px;
+    z-index: 2;
+    animation: showDropdown 0.3s ease-in;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+@keyframes showDropdown {
+    0% {
+        
+        opacity: 0;
+    }
+
+    100% {
+        
+        opacity: 1;
+    }
+
+    0% {
+        opacity: 0;
+    }
+}
+
+/* === RIGHT SIDE === */
+
+.right-content {
+    width: 180px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-lenguage span {
+    display: inline-block;
+    padding: 20px 0;
+    padding-right: 40px;
+    line-height: 30px;
+    cursor: pointer;
+    color: #F1F1F1;
+    font-size: 16px;
+    transition: 0.4s;
+}
+
+.dropdown-lenguage span:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.dropdown-lenguage-content {
+    width: 180px;
+    display: none;
+    position: absolute;
+    right: 0;
+    margin: 0 380px;
+    background-color: #514F5A;
+    border-radius: 0 0 15px 15px;
+    min-width: 100px;
+    z-index: 2;
+    animation: showDropdown 0.3s ease-in;
+}
+
+.dropdown-lenguage-content span {
+    width: 100%;
+    padding: 15px 26px;
+}
+
+.dropdown-lenguage:hover
+.dropdown-lenguage-content {
+   display: block;
+}
+
+.btn-auth {
+    position: relative;
+    width: 110px;
+    height: 34px;
+    cursor: pointer;
+}
+
+.btn-auth:hover {
+    filter: drop-shadow(0px 0px 1px #6D8EEB);
+}
+
+.ticket-picture {
+    width: 100%;
+}
+
+.btn-text {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: #F1F1F1;
+    font-weight: 400;
+    line-height: 30px;
+}
