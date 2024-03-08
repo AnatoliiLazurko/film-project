@@ -5,6 +5,7 @@ import authBtnImage from '../../images/ticket-btn.png';
 import logo from '../../images/logo.png'
 import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
 import CartoonMenu from './DropDownMenus/CartoonsMenu/CartoonMenu';
+import SerialMenu from './DropDownMenus/SerialsMenu/SerialMenu';
 
 const Header = () => {
 
@@ -34,7 +35,7 @@ const Header = () => {
                                 <li className={styles["dropdown"]}>
                                     <NavLink className={styles["nav-item"]} to='/serials'>Serials</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <span>Serials</span>
+                                        <SerialMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
