@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import authBtnImage from '../../images/ticket-btn.png';
 import logo from '../../images/logo.png'
 import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
+import CartoonMenu from './DropDownMenus/CartoonsMenu/CartoonMenu';
 
 const Header = () => {
 
@@ -27,7 +28,7 @@ const Header = () => {
                                 <li className={styles["dropdown"]}>
                                     <NavLink className={styles["nav-item"]} to='/cartoons'>Cartoons</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <span>Cartoons</span>
+                                        <CartoonMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
