@@ -1,8 +1,12 @@
 import React from 'react';
 import styles from "./HeaderStyles.module.css";
 import { NavLink } from 'react-router-dom';
-import authBtnImage from '../../images/ticket-btn.png';
-import logo from '../../images/logo.png'
+import authBtnImage from '../../images/header/ticket-btn.png';
+import logo from '../../images/header/logo.png'
+import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
+import CartoonMenu from './DropDownMenus/CartoonsMenu/CartoonMenu';
+import SerialMenu from './DropDownMenus/SerialsMenu/SerialMenu';
+import AnimeMenu from './DropDownMenus/AnimeMenu/AnimeMenu';
 
 const Header = () => {
 
@@ -18,31 +22,31 @@ const Header = () => {
                         <nav>
                             <ul className={styles["nav-list"]}>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink to='/films'>Films</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/films'>Films</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <div>Films</div>
+                                        <FilmMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink to='/cartoons'>Cartoons</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/cartoons'>Cartoons</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <span>Cartoons</span>
+                                        <CartoonMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink to='/serials'>Serials</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/serials'>Serials</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <span>Serials</span>
+                                        <SerialMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink to='/anime'>Anime</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/anime'>Anime</NavLink>
                                     <div className={styles["dropdown-content"]}>
-                                        <span>Anime</span>
+                                        <AnimeMenu />
                                     </div>
                                 </li>
                                 <li>
-                                    <NavLink to='/selections'>Selections</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/selections'>Selections</NavLink>
                                 </li>
                             </ul>
                         </nav>
