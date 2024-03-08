@@ -1,0 +1,31 @@
+.flex-container {
+    display: flex;
+    flex-direction: column column;
+    gap: 60px;
+    color: #F1F1F1;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.section-colums {
+    display: flex;
+    flex-direction: column column column column;
+    gap: 40px;
+}
+
+.section-colums a {
+    display: flex;
+    margin-bottom: 14px;
+    color: #F1F1F1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.4s;
+}
+
+.section-colums a:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}

@@ -14,7 +14,7 @@
 }
 
 .header-content {
-    width: calc(100% - 760px); /* потрібно буде збільшити до 700 px */
+    width: calc(100% - 760px);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -60,7 +60,7 @@
     float: left;
 }
 
-.nav-list a {
+.nav-item {
     display: inline-block;
     padding: 20px 24px;
     line-height: 30px;
@@ -70,13 +70,13 @@
     transition: 0.4s;
 }
 
-.nav-list a:hover {
+.nav-item:hover {
     text-shadow: #6D8EEB 0px 0px 6px;
 }
 
 .dropdown-content {
     width: calc(100% - 760px);
-    height: 280px;
+    min-height: 280px;
     display: none;
     position: absolute;
     left: 0;
@@ -152,7 +152,7 @@
 
 .dropdown-lenguage:hover
 .dropdown-lenguage-content {
-   display: block;
+    display: block;
 }
 
 .btn-auth {
