@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./HeaderStyles.module.css";
 import { NavLink } from 'react-router-dom';
-import authBtnImage from '../../images/ticket-btn.png';
-import logo from '../../images/logo.png'
+import authBtnImage from '../../images/header/ticket-btn.png';
+import logo from '../../images/header/logo.png'
 import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
 import CartoonMenu from './DropDownMenus/CartoonsMenu/CartoonMenu';
 import SerialMenu from './DropDownMenus/SerialsMenu/SerialMenu';
