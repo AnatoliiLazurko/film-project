@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "./SerialMenu.module.css";
+import styles from "./SerialMenuStyles.module.css";
 import { NavLink } from 'react-router-dom';
 
 const SerialMenu = () => {

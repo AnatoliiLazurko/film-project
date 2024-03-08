@@ -86,7 +86,7 @@
     border-radius: 0 0 20px 20px;
     min-width: 300px;
     z-index: 2;
-    animation: showDropdown 0.3s ease-in;
+    animation: showDropdown 0.4s ease-in;
 }
 
 .dropdown:hover .dropdown-content {
@@ -142,7 +142,7 @@
     border-radius: 0 0 15px 15px;
     min-width: 100px;
     z-index: 2;
-    animation: showDropdown 0.3s ease-in;
+    animation: showDropdown 0.4s ease-in;
 }
 
 .dropdown-lenguage-content span {

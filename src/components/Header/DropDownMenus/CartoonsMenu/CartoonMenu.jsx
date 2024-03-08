@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CartoonMenu.module.css';
+import styles from './CartoonMenuStyles.module.css';
 import { NavLink } from 'react-router-dom';
 
 const CartoonMenu = () => {
