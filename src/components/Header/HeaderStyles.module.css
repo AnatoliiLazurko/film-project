@@ -97,6 +97,10 @@
     display: block;
 }
 
+.dropdown:hover .nav-item {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
 @keyframes showDropdown {
     0% {
         

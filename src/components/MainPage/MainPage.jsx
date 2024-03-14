@@ -1,7 +1,6 @@
 import React from 'react';
-import styles from "./MainPageStyles.module.css";
 import Carousel from './Carousel';
-import NewFilms from './NewFilms';
+import NewFilms from './NewFilms/NewFilms';
 
 const MainPage = () => {
     return (

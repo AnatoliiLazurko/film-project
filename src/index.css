@@ -7,8 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
   background-color: #1e1e1e;
-  overflow: hidden;
+  
   font-family: 'Madimi One', sans-serif;
+  overflow-x: hidden;
 }
 
 code {
@@ -18,4 +19,5 @@ code {
 
 * {
   box-sizing: border-box;
+  
 }
