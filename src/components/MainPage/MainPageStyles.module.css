@@ -1,0 +1,46 @@
+:root {
+    --main-color: #2F2E34;
+}
+
+/* CAROUSEL */
+
+.carousel-container {
+    width: 100%;
+    height: 470px;
+    margin-top: 120px;
+}
+
+.top-indicators {
+    width: 100%;
+    height: 40px;
+    background-color: var(--main-color);
+    padding: 0 320px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.indicator {
+    width: 140px;
+    height: 20px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+}
+
+.main-part {
+    margin-top: 10px;
+    width: 100%;
+    height: 360px;
+    background-color: var(--main-color);
+}
+
+.bottom-indicators {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    background-color: var(--main-color);
+    padding: 0 320px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

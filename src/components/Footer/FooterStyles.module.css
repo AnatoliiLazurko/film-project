@@ -3,15 +3,16 @@
 }
 
 .footer {
-    margin-top: 870px;
+    margin-top: 250px;
     width: 100%;
     height: 50px;
     background-color: #2F2E34;
-    font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 .footer-content {
-    width: calc(100% - 760px);
+    max-width: calc(100% - 640px);
+    min-width: 1000px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;

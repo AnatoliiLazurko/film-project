@@ -17,7 +17,7 @@ const Header = () => {
 
                     <div className={styles["left-content"]}>
                         <div className={styles["logo"]}>
-                            <NavLink to="/main-page"><img className={styles["logo-image"]} src={logo} alt="" /><span>BlahoFilm</span></NavLink>
+                            <NavLink to="/home-page"><img className={styles["logo-image"]} src={logo} alt="" /><span>BlahoFilm</span></NavLink>
                         </div>
                         <nav>
                             <ul className={styles["nav-list"]}>
