@@ -4,7 +4,7 @@
     min-width: 1000px;
     width: 100%;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: 64px;
 }
 
 .section-title {
@@ -181,7 +181,7 @@
     font-weight: 400;
     text-align: center;
     overflow: hidden;
-    padding: 6px 5px;
+    padding: 12px 5px 6px 5px;
     transition: 0.5s ease;
 }
 

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleFilmInfoPositioning } from './NewFilmsScripts';
 
-const NewFilmCard = () => {
+const NewFilmCard = ({ movies }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -26,35 +26,32 @@ const NewFilmCard = () => {
     return (
         <div className={styles["film-card"]}>
             <div className={styles["film-poster"]}>
-                <img src="https://upload.wikimedia.org/wikipedia/uk/8/82/%D0%9F%D0%B5%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%B4%D0%B0%D1%87_%D0%93%D0%B0%D1%8F_%D0%A0%D1%96%D1%87%D1%96.jpg" alt="" />
+                <img src={movies.Poster} alt="" />
                 <div className={styles["question-mark"]}>?</div>
                 <div className={styles["film-info"]}>
                     <div className={styles["name-rate"]}>
-                        <h1 className={styles["info-title"]}>The covenant</h1>
+                        <h1 className={styles["info-title"]}>{movies.Title}</h1>
                         <div className={styles["info-rate"]}>
-                            <span><FontAwesomeIcon icon={faStar} /> 8.2/10</span>
+                            <span><FontAwesomeIcon icon={faStar} /> {movies.imdbRating}/10</span>
                         </div>
                     </div>
                     <div className={styles["info"]}>
-                        <p>Release year: 2023</p>
-                        <p>Country: USA</p>
-                        <p>Genre: Action</p>
-                        <p>Actors: Jim Carrey, Laura Linney, Noah Emmerick, Natasha McElhone, Holland Taylor</p>
+                        <p>Release year: {movies.Year}</p>
+                        <p>Country: {movies.Country}</p>
+                        <p>Genre: {movies.Genre}</p>
+                        <p>Actors: {movies.Actors}</p>
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            The film "The Truman Show" immerses the viewer in the extraordinary life
-                            of Truman Burbank (Jim Carrey) - an ordinary man. He lives in a cute town,
-                            has a great job, a loving wife, and a reliable friend. Truman dreams of seeing
-                            the world, but his dream cannot come true...
+                            {movies.Plot}
                         </p>
                     </div>
                 </div>
                 <div className={styles["quality"]}>1080p</div>
             </div>
-            <div className={styles["film-title"]}>The covenant </div>
+            <div className={styles["film-title"]}>{movies.Title}</div>
         </div>
     );
 }
