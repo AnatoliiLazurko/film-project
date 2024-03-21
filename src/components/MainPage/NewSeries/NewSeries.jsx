@@ -3,7 +3,7 @@ import styles from "./NewSeriesStyles.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import NewSeriesCard from './NewSeriesCard';
+import NewSerialCard from './NewSerialCard';
 
 const NewSeries = () => {
 
@@ -40,7 +40,7 @@ const NewSeries = () => {
             <div className={styles["list-new-series"]}>
 
                 {series.map((serial, index) => (
-                    <NewSeriesCard key={index} series={serial} />
+                    <NewSerialCard key={index} series={serial} />
                 ))}
                 
             </div>

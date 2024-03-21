@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import styles from "./NewSeriesStyles.module.css";
+import styles from "./NewCartoonsStyles.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { handleSerialInfoPositioning } from './NewSeriesScripts';
+import { handleCartoonInfoPositioning } from './NewCartoonsScripts';
 import { NavLink } from 'react-router-dom';
 
-const NewSeriesCard = ({ series }) => {
+const NewCartoonCard = ({ cartoons }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
-            handleSerialInfoPositioning(event, styles);
+            handleCartoonInfoPositioning(event, styles);
         };
 
         const questionMarks = document.querySelectorAll(`.${styles['question-mark']}`);
@@ -25,36 +25,36 @@ const NewSeriesCard = ({ series }) => {
     }, []);
 
     return (
-        <NavLink to={`/serial/${series.Genre}/${series.imdbID}`} className={styles["serial-card"]}>
-            <div className={styles["serial-poster"]}>
-                <img src={series.Poster} alt="" />
+        <NavLink to={`/cartoon/${cartoons.Genre}/${cartoons.imdbID}`} className={styles["cartoon-card"]}>
+            <div className={styles["cartoon-poster"]}>
+                <img src={cartoons.Poster} alt="" />
                 <div className={styles["question-mark"]}>?</div>
-                <div className={styles["serial-info"]}>
+                <div className={styles["cartoon-info"]}>
                     <div className={styles["name-rate"]}>
-                        <h1 className={styles["info-title"]}>{series.Title}</h1>
+                        <h1 className={styles["info-title"]}>{cartoons.Title}</h1>
                         <div className={styles["info-rate"]}>
-                            <span><FontAwesomeIcon icon={faStar} /> {series.imdbRating}/10</span>
+                            <span><FontAwesomeIcon icon={faStar} /> {cartoons.imdbRating}/10</span>
                         </div>
                     </div>
                     <div className={styles["info"]}>
-                        <p>Release year: {series.Year}</p>
-                        <p>Country: {series.Country}</p>
-                        <p>Genre: {series.Genre}</p>
-                        <p>Actors: {series.Actors}</p>
+                        <p>Release year: {cartoons.Year}</p>
+                        <p>Country: {cartoons.Country}</p>
+                        <p>Genre: {cartoons.Genre}</p>
+                        <p>Actors: {cartoons.Actors}</p>
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {series.Plot}
+                            {cartoons.Plot}
                         </p>
                     </div>
                 </div>
                 <div className={styles["quality"]}>1080p</div>
             </div>
-            <div className={styles["serial-title"]}>{series.Title}</div>
+            <div className={styles["cartoon-title"]}>{cartoons.Title}</div>
         </NavLink>
     );
 }
 
-export default NewSeriesCard;
+export default NewCartoonCard;
