@@ -13,15 +13,15 @@ const NewCartoons = () => {
 
         try {
             const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42&page=2`);
-            const moviesData = await Promise.all(
-                response.data.Search.map(async movie => {
+            const cartoonsData = await Promise.all(
+                response.data.Search.map(async cartoon => {
                     const detailedResponse = await axios.get(
-                    `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=bfec6a42&plot=full`
+                    `http://www.omdbapi.com/?i=${cartoon.imdbID}&apikey=bfec6a42&plot=full`
                     );
                     return detailedResponse.data;
                 })
             );
-            setCartoons(moviesData);
+            setCartoons(cartoonsData);
         } catch (error) {
             console.error('Помилка під час отримання фільмів:', error);
         }

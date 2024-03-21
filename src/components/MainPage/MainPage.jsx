@@ -3,6 +3,7 @@ import Carousel from './Carousel';
 import NewFilms from './NewFilms/NewFilms';
 import NewSeries from './NewSeries/NewSeries';
 import NewCartoons from './NewCartoons/NewCartoons';
+import NewAnime from './NewAnime/NewAnime';
 
 const MainPage = () => {
     return (
@@ -14,6 +15,8 @@ const MainPage = () => {
             <NewSeries />
 
             <NewCartoons />
+
+            <NewAnime />
         </>
     );
 }
