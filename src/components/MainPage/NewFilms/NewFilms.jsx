@@ -12,7 +12,7 @@ const NewFilms = () => {
     const fetchMovies = async () => {
 
         try {
-            const response = await axios.get(`http://www.omdbapi.com/?s=avengers&apikey=bfec6a42`);
+            const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42`);
             const moviesData = await Promise.all(
                 response.data.Search.map(async movie => {
                     const detailedResponse = await axios.get(
@@ -25,21 +25,6 @@ const NewFilms = () => {
         } catch (error) {
             console.error('Помилка під час отримання фільмів:', error);
         }
-
-        // try {
-        //     const response = await axios.get('http://www.omdbapi.com/?s=avengers&apikey=bfec6a42&page=${page}');
-        //     const moviesData = await Promise.all(
-        //         response.data.Search.map(async movie => {
-        //             const detailedResponse = await axios.get(
-        //             `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=bfec6a42&plot=full`
-        //             );
-        //             return detailedResponse.data;
-        //         })
-        //     );
-        //     setMovies(prevMovies => [...prevMovies, ...moviesData]);
-        // } catch (error) {
-        //     console.error('Помилка під час отримання фільмів:', error);
-        // }
     };
 
     useEffect(() => {
@@ -47,9 +32,7 @@ const NewFilms = () => {
         fetchMovies();
     }, []);
 
-
-
-    console.log(movies);
+    // console.log(movies);
 
     return (
         <div className={styles["new-films-section"]}>
