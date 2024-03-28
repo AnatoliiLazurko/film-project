@@ -25,7 +25,6 @@ const CarouselCard = ({ movies }) => {
                                 <p>Actors: {movies.Actors}</p>
                             </div>
                     </div>
-                    <div className={styles["quality"]}>1080p</div>
                 </div>
             </NavLink>
             <NavLink to={`/film/${movies.Genre}/${movies.imdbID}`} className={styles["carousel-card"]}>
@@ -46,7 +45,6 @@ const CarouselCard = ({ movies }) => {
                                 <p>Actors: {movies.Actors}</p>
                             </div>
                     </div>
-                    <div className={styles["quality"]}>1080p</div>
                 </div>
             </NavLink>
             <NavLink to={`/film/${movies.Genre}/${movies.imdbID}`} className={styles["carousel-card"]}>
@@ -67,7 +65,6 @@ const CarouselCard = ({ movies }) => {
                                 <p>Actors: {movies.Actors}</p>
                             </div>
                     </div>
-                    <div className={styles["quality"]}>1080p</div>
                 </div>
             </NavLink>
         </article>

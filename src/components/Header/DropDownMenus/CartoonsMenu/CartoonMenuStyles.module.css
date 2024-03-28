@@ -21,6 +21,8 @@
     display: flex;
     margin-bottom: 14px;
     color: #F1F1F1;
+    font-family: 'Rubik';
+    font-weight: 400;
     text-decoration: none;
     font-size: 14px;
     transition: 0.4s;

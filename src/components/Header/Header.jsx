@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from "./HeaderStyles.module.css";
 import { NavLink } from 'react-router-dom';
 import authBtnImage from '../../images/header/ticket-btn.png';
@@ -7,8 +7,16 @@ import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
 import CartoonMenu from './DropDownMenus/CartoonsMenu/CartoonMenu';
 import SerialMenu from './DropDownMenus/SerialsMenu/SerialMenu';
 import AnimeMenu from './DropDownMenus/AnimeMenu/AnimeMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
+
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+    const toggleVisibility = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
 
     return (
         <>
@@ -53,6 +61,18 @@ const Header = () => {
                     </div>
 
                     <div className={styles["right-content"]}>
+                        <div className={styles["search"]}>
+                            {!isSearchVisible && <FontAwesomeIcon icon={faMagnifyingGlass} onClick={toggleVisibility} />}
+                            {isSearchVisible && 
+                                <div className={styles["search-field"]}>
+                                    <div className={styles["search-btn"]}>
+                                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                                    </div>
+                                    <input className={styles["search-input"]} type="text" placeholder='Search'/>
+                                </div>
+                            }
+                            
+                        </div>
                         <div className={styles["dropdown-lenguage"]}>
                             <span>Eng</span>
                             <div className={styles["dropdown-lenguage-content"]}>
