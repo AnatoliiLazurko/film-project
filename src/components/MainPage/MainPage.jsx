@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from './Carousel';
+import Carousel from './Carousel/Carousel';
 import NewFilms from './NewFilms/NewFilms';
 import NewSeries from './NewSeries/NewSeries';
 import NewCartoons from './NewCartoons/NewCartoons';
