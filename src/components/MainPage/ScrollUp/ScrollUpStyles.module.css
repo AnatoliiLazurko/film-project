@@ -1,0 +1,47 @@
+
+.scroll-btn {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2F2E34;
+    position: fixed;
+    right: 80px;
+    bottom: 50px;
+    cursor: pointer;
+    z-index: 2;
+    opacity: 0;
+}
+
+.scroll-btn svg {
+    color: #F1F1F1;
+}
+
+.show {
+    animation: showScrollBtn 0.5s ease-in-out forwards;
+}
+
+.hide {
+    animation: hideScrollBtn 0.5s ease-in-out forwards;
+}
+
+@keyframes showScrollBtn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes hideScrollBtn {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

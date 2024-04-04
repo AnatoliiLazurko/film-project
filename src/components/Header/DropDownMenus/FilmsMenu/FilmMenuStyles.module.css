@@ -20,6 +20,8 @@
 .section-colums a {
     display: flex;
     margin-bottom: 14px;
+    font-family: 'Rubik';
+    font-weight: 400;
     color: #F1F1F1;
     text-decoration: none;
     font-size: 14px;
