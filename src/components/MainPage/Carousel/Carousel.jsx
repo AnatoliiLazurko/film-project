@@ -11,7 +11,7 @@ const Carousel = () => {
     const [movies, setMovies] = useState([]);
 
     const fetchMovies = async () => {
-
+        
         try {
             const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42`);
             const moviesData = await Promise.all(
@@ -29,9 +29,16 @@ const Carousel = () => {
     };
 
     useEffect(() => {
-
         fetchMovies();
-    }, []);
+        
+        // Зміна слайду кожних 10 секунд
+        const interval = setInterval(() => {
+            setCurrentSlide(prevSlide => (prevSlide === movies.length - 1 ? 0 : prevSlide + 1));
+        }, 10000);
+
+        return () => clearInterval(interval);
+
+    }, [movies.length]);
 
     const handlePrev = () => {
         setCurrentSlide((prevSlide) => (prevSlide === 0 ? movies.length - 1 : prevSlide - 1));
