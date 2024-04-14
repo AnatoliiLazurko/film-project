@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import jar from '../../../images/header/logo.png';
+import jar from '../../../images/donates/jar.png';
 import styles from './JarDonateStyles.module.css';
 import { NavLink } from 'react-router-dom';
 

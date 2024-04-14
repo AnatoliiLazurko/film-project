@@ -124,6 +124,7 @@ const Header = () => {
                     <div className={styles["screen-dimming"]}></div>
                     {isSingUpOpen && <Signup closeModal={handleCloseModal} openSignIn={handleOpenSignIn} />}
                     {isSingInOpen && <Signin closeModal={handleCloseModal} openSignUp={handleOpenSignUp} />}
+                
                 </>
             }
         </>

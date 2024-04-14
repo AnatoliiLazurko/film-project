@@ -41,7 +41,7 @@ const Subscription = () => {
                             <FontAwesomeIcon icon={faStar} />
                         </div>
                     </div>
-                    <div className={styles["sub-price"]}>$10</div>
+                    <div className={styles["sub-price"]}>$5.99</div>
                 </div>
                 <div className={styles["right-side"]}>
                     <p>Buy!</p>
