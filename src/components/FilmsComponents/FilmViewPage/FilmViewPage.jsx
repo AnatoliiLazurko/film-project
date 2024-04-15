@@ -1,11 +1,10 @@
 import React from 'react';
-import Player from './Player/Player';
 import ViewInfo from './ViewInfo/ViewInfo';
+import Player from './Player/Player';
 import OtherMovies from './OtherMovies/OtherMovies';
 import Comments from './Comments/Comments';
 
-const ViewPage = () => {
-
+const FilmViewPage = () => {
     return (
         <>
             
@@ -21,4 +20,4 @@ const ViewPage = () => {
     );
 }
 
-export default ViewPage;
+export default FilmViewPage;

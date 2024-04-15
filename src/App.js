@@ -3,7 +3,7 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import MainPage from './components/MainPage/MainPage';
 import { Route, Routes } from 'react-router-dom';
-import ViewPage from './components/ViewPage/ViewPage';
+import FilmViewPage from './components/FilmsComponents/FilmViewPage/FilmViewPage';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
 
       <Routes>
         <Route path='/home-page' element={<MainPage />} />
-        <Route path="/film/:genre/:id" element={<ViewPage />} />
+        <Route path="/film/:genre/:id" element={<FilmViewPage />} />
       </Routes>
 
       <Footer />
