@@ -73,9 +73,9 @@ const ViewInfo = () => {
     return (
         <div className={styles["view-info"]}>
             <div className={styles["path"]}>
-                <NavLink to={'films'}>Films</NavLink>
+                <NavLink to={'/films'}>Films</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
+                <NavLink to={`/films/${filmInfo.Genre && filmInfo.Genre.split(',')[0]}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
                 <span>{filmInfo.Title}</span>
             </div>

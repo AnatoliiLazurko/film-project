@@ -10,16 +10,16 @@ const SerialMenu = () => {
                     <p className={styles["section-title"]}>Genres</p>
                     <div className={styles["section-colums"]}>
                         <div>
-                            <NavLink to='/serials/genre:dramas'>Dramas</NavLink>
-                            <NavLink to='/serials/genre:documentaries'>Documentaries</NavLink>
-                            <NavLink to='/serials/genre:doramas'>Doramas</NavLink>
-                            <NavLink to='/serials/genre:family'>Family</NavLink>
-                            <NavLink to='/serials/genre:melodramas'>Melodramas</NavLink>
+                            <NavLink to='/serials/dramas'>Dramas</NavLink>
+                            <NavLink to='/serials/documentaries'>Documentaries</NavLink>
+                            <NavLink to='/serials/doramas'>Doramas</NavLink>
+                            <NavLink to='/serials/family'>Family</NavLink>
+                            <NavLink to='/serials/melodramas'>Melodramas</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/serials/genre:korean'>Korean</NavLink>
-                            <NavLink to='/serials/genre:turkish'>Turkish</NavLink>
-                            <NavLink to='/serials/genre:ukrainian'>Ukrainian</NavLink>
+                            <NavLink to='/serials/korean'>Korean</NavLink>
+                            <NavLink to='/serials/turkish'>Turkish</NavLink>
+                            <NavLink to='/serials/ukrainian'>Ukrainian</NavLink>
                         </div>
                     </div>
                 </div>
@@ -27,11 +27,11 @@ const SerialMenu = () => {
                     <p className={styles["section-title"]}>Popular studios</p>
                     <div className={styles["section-colums"]}>
                         <div>
-                            <NavLink to='/serials/popular-studio:DC'>DC</NavLink>
-                            <NavLink to='/serials/popular-studio:disney'>Disney</NavLink>
-                            <NavLink to='/serials/popular-studio:dream_works'>Dream works</NavLink>
-                            <NavLink to='/serials/popular-studio:netflix'>Netflix</NavLink>
-                            <NavLink to='/serials/popular-studio:pixar'>Pixar</NavLink>
+                            <NavLink to='/serials/DC'>DC</NavLink>
+                            <NavLink to='/serials/disney'>Disney</NavLink>
+                            <NavLink to='/serials/dream_works'>Dream works</NavLink>
+                            <NavLink to='/serials/netflix'>Netflix</NavLink>
+                            <NavLink to='/serials/pixar'>Pixar</NavLink>
                         </div>
                     </div>
                 </div>
