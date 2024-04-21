@@ -33,9 +33,9 @@ const ViewInfo = () => {
     return (
         <div className={styles["view-info"]}>
             <div className={styles["path"]}>
-                <NavLink to={'/films'}>Films</NavLink>
+                <NavLink to={'/cartoons'}>Cartoons</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink to={`/films/${filmInfo.Genre && filmInfo.Genre.split(',')[0]}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
+                <NavLink to={`/cartoons/${filmInfo.Genre && filmInfo.Genre.split(',')[0]}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
                 <span>{filmInfo.Title}</span>
             </div>
@@ -48,7 +48,7 @@ const ViewInfo = () => {
                     <div className={styles["top-section"]}>
                         <h1 className={styles["title"]}>{filmInfo.Title}</h1>
                         <div className={styles["rate-save-section"]}>
-                            <div className={styles["film-rate"]}>
+                            <div className={styles["cartoon-rate"]}>
                                 <FontAwesomeIcon icon={faStar} /> {filmInfo.imdbRating}/10
                             </div>
                             <div className={styles["save"]} onClick={toSave}>

@@ -4,7 +4,7 @@ import Player from './Player/Player';
 import OtherMovies from './OtherMovies/OtherMovies';
 import Comments from './Comments/Comments';
 
-const FilmViewPage = () => {
+const FilmView = () => {
     return (
         <>
             
@@ -20,4 +20,4 @@ const FilmViewPage = () => {
     );
 }
 
-export default FilmViewPage;
+export default FilmView;

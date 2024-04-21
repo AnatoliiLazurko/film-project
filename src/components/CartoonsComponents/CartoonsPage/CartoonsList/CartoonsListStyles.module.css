@@ -1,5 +1,5 @@
 
-.films-list {
+.cartoons-list {
     width: 100%;
     margin: 0;
     margin-top: 16px;
@@ -8,7 +8,7 @@
     gap: 16px;
 }
 
-.film-card {
+.cartoon-card {
     width: 100%;
     height: auto;
     border-radius: 16px;
@@ -27,7 +27,7 @@
     }
 }
 
-.film-poster {
+.cartoon-poster {
     position: relative;
     border-radius: 16px;
     width: 100%;
@@ -35,11 +35,11 @@
     transition: 0.5s ease;
 }
 
-.film-card:hover .film-poster {
+.cartoon-card:hover .cartoon-poster {
     box-shadow: #6D8EEB 0px 0px 6px;
 }
 
-.film-poster img {
+.cartoon-poster img {
     width: 100%;
     height: 100%;
     border-radius: 16px;
@@ -65,11 +65,11 @@
     transition: opacity 0.5s ease;
 }
 
-.film-card:hover .question-mark {
+.cartoon-card:hover .question-mark {
     opacity: 1
 }
 
-.film-info {
+.cartoon-info {
     display: none;
     position: absolute;
     top: 0;
@@ -80,10 +80,10 @@
     border-radius: 20px;
     padding: 26px 40px;
     z-index: 3;
-    animation: showFilmInfo 0.4s ease-in-out forwards;
+    animation: showCartoonInfo 0.4s ease-in-out forwards;
 }
 
-@keyframes showFilmInfo {
+@keyframes showCartoonInfo {
     from {
         opacity: 0;
     }
@@ -93,7 +93,7 @@
     }
 }
 
-.question-mark:hover+.film-info {
+.question-mark:hover+.cartoon-info {
     display: block;
 }
 
@@ -167,11 +167,11 @@
     transition: opacity 0.5s ease;
 }
 
-.film-card:hover .quality {
+.cartoon-card:hover .quality {
     opacity: 1
 }
 
-.film-title {
+.cartoon-title {
     width: 100%;
     height: 50px;
     color: #F1F1F1;
@@ -183,7 +183,7 @@
     transition: 0.5s ease;
 }
 
-.film-card:hover .film-title {
+.cartoon-card:hover .cartoon-title {
     text-shadow: #6D8EEB 0px 0px 6px;
 }
 

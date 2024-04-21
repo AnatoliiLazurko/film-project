@@ -1,36 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import styles from '../FilmsPageStyles.module.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import styles from '../CartoonsPageStyles.module.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const GenreFilter = ({ isClean, setIsClean }) => {
+const DateFilter = ({ isClean, setIsClean }) => {
 
-    const optionsGenre = ['Action', 'Crime', 'Family'];
-    const [selectedFilter, setSelectedFilter] = useState('By genres');
+    const optionsDate = ['From old to new', 'From new to old'];
+    const [selectedFilter, setSelectedFilter] = useState('By date');
     const [isFilterOpen, setFilterOpen] = useState(false);
-    const [urlGenre, setUrlGenre] = useState('');
-    const { genre, date, popular } = useParams();
+    const [urlDate, setUrlDate] = useState('');
     const selectRef = useRef(null);
+    const { category, date, popular } = useParams();
     const navigate = useNavigate();
     
-
     const handleFilter = (selectedOption) => {
         setSelectedFilter(selectedOption);
         setFilterOpen(false);
-        setUrlGenre('');
+        setUrlDate('');
 
-        const genreUrl = selectedOption.toLowerCase().replace(/ /g, '_');
-        const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const dateUrl = selectedOption.toLowerCase().replace(/ /g, '_');
+        const categoyUrl = typeof category === 'undefined' ? `category=u` : category;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
 
-        const newPath = `/films/${genreUrl}/${dateUrl}/${popularUrl}`;
+        const newPath = `/cartoons/${categoyUrl}/${dateUrl}/${popularUrl}`;
         navigate(newPath);
     }
 
     useEffect(() => {
-        setUrlGenre(genre);
-    }, [genre]);
+        setUrlDate(date);
+    }, [date]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -47,29 +46,29 @@ const GenreFilter = ({ isClean, setIsClean }) => {
 
     useEffect(() => {
         if (isClean) {
-            setSelectedFilter('By genres');
-            setUrlGenre('');
+            setSelectedFilter('By date');
+            setUrlDate('');
             setIsClean(false);
         }
     }, [isClean, setIsClean]);
 
     return (
 
-        <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef} key={1}>
+        <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef}>
             <div className={styles["custom-select"]}>
                 <span>
-                    {urlGenre && urlGenre !== 'genre=u' && urlGenre.charAt(0).toUpperCase() + urlGenre.slice(1).replace(/_/g, ' ')}
-                    {urlGenre === 'genre=u' && selectedFilter}
-                    {!urlGenre && selectedFilter}
+                    {urlDate && urlDate !== 'date=u' && urlDate.charAt(0).toUpperCase() + urlDate.slice(1).replace(/_/g, ' ')}
+                    {urlDate === 'date=u' && selectedFilter}
+                    {!urlDate && selectedFilter}
                 </span>
                 {!isFilterOpen && <FontAwesomeIcon icon={faCaretRight}/>}
                 {isFilterOpen && <FontAwesomeIcon icon={faCaretDown}/>}
             </div>
             {isFilterOpen && 
                 <div className={styles["list-options"]}>
-                    {optionsGenre.map((option, index) => (
+                    {optionsDate.map((option, index) => (
                         <span key={index}>
-                            {!urlGenre && 
+                            {!urlDate &&
                                 <p
                                     key={index}
                                     className={`${option === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
@@ -78,10 +77,10 @@ const GenreFilter = ({ isClean, setIsClean }) => {
                                     {option}
                                 </p>
                             }
-                            {urlGenre && 
+                            {urlDate && 
                                 <p
                                     key={index}
-                                    className={`${option.toLowerCase() === urlGenre.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    className={`${option.toLowerCase() === urlDate.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                     onClick={() => handleFilter(option)}
                                 >
                                     {option}
@@ -96,4 +95,4 @@ const GenreFilter = ({ isClean, setIsClean }) => {
     );
 }
 
-export default GenreFilter;
+export default DateFilter;
