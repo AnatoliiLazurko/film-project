@@ -7,6 +7,8 @@ import FilmsPage from './components/FilmsComponents/FilmsPage/FilmsPage';
 import FilmView from './components/FilmsComponents/FilmViewPage/FilmView';
 import CartoonsPage from './components/CartoonsComponents/CartoonsPage/CartoonsPage';
 import CartoonView from './components/CartoonsComponents/CartoonViewPage/CartoonView';
+import SeriesPage from './components/SeriesComponents/SeriesPage/SeriesPage';
+import SerialView from './components/SeriesComponents/SerialViewPage/SerialView';
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
 
         <Route path='/cartoons/:category?/:date?/:popular?' element={<CartoonsPage />} />
         <Route path="/cartoon/:genre/:id" element={<CartoonView />} />
+
+        <Route path='/serials/:genre?/:date?/:popular?' element={<SeriesPage />} />
+        <Route path="/serial/:genre/:id" element={<SerialView />} />
         
       </Routes>
 

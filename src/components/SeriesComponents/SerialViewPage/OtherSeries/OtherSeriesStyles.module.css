@@ -1,0 +1,204 @@
+
+.other-section {
+    max-width: calc(100% - 640px);
+    min-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 64px;
+}
+
+.other-txt {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.list-other-serials {
+    width: 100%;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.serial-card {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    text-decoration: none;
+    animation: showMovieCard 0.8s ease-in-out forwards;
+}
+
+@keyframes showMovieCard {
+    from {
+        opacity: 0;
+        right: -50px;
+    }
+
+    to {
+        opacity: 1;
+        right: 0;
+    }
+}
+
+.serial-poster {
+    position: relative;
+    border-radius: 16px;
+    width: 100%;
+    height: 290px;
+    transition: 0.5s ease;
+}
+
+.serial-card:hover .serial-poster {
+    box-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.serial-poster img {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    object-position: center;
+}
+
+.question-mark {
+    opacity: 0;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    background-color: #6D8EEB;
+    border-radius: 50%;
+    font-family: 'Rubik';
+    color: #F1F1F1;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.serial-card:hover .question-mark {
+    opacity: 1
+}
+
+.serial-info {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 56px;
+    width: 500px;
+    background-color: #514F5A;
+    color: #F1F1F1;
+    border-radius: 20px;
+    padding: 26px 40px;
+    z-index: 3;
+    animation: showserialInfo 0.4s ease-in-out forwards;
+}
+
+@keyframes showserialInfo {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.question-mark:hover+.serial-info {
+    display: block;
+}
+
+.name-rate {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name-rate svg {
+    margin-right: 6px;
+}
+
+.info-title {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 7px;
+}
+
+.info-rate {
+    font-family: 'Rubik';
+    color: #FBBC05;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.info p {
+    font-family: 'Rubik';
+    font-size: 14px;
+    margin: 3px 0;
+    color: #C9C8DA;
+    font-weight: 400;
+}
+
+.info-line {
+    width: 100%;
+    height: 1px;
+    background-color: #F1F1F1;
+    margin: 10px 0;
+}
+
+.info-description h1 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 6px;
+}
+
+.info-description p {
+    margin: 0;
+    font-family: 'Rubik';
+    font-size: 16px;
+    font-weight: 400;
+    color: #C9C8DA;
+}
+
+.quality {
+    opacity: 0;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 80px;
+    height: 28px;
+    background-color: #514F5A;
+    color: #F1F1F1;
+    border-radius: 10px 0 0 10px;
+    font-family: 'Rubik';
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    transition: opacity 0.5s ease;
+}
+
+.serial-card:hover .quality {
+    opacity: 1
+}
+
+.serial-title {
+    width: 100%;
+    height: 50px;
+    color: #F1F1F1;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    overflow: hidden;
+    padding: 12px 5px 6px 5px;
+    transition: 0.5s ease;
+}
+
+.serial-card:hover .serial-title {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
