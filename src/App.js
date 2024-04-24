@@ -9,6 +9,8 @@ import CartoonsPage from './components/CartoonsComponents/CartoonsPage/CartoonsP
 import CartoonView from './components/CartoonsComponents/CartoonViewPage/CartoonView';
 import SeriesPage from './components/SeriesComponents/SeriesPage/SeriesPage';
 import SerialView from './components/SeriesComponents/SerialViewPage/SerialView';
+import AnimePage from './components/AnimeComponents/AnimePage/AnimePage';
+import AnimeView from './components/AnimeComponents/AnimeViewPage/AnimeView';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
 
         <Route path='/serials/:genre?/:date?/:popular?' element={<SeriesPage />} />
         <Route path="/serial/:genre/:id" element={<SerialView />} />
+
+        <Route path='/anime/:genre?/:date?/:popular?' element={<AnimePage />} />
+        <Route path="/anime-view/:genre/:id" element={<AnimeView />} />
+
         
       </Routes>
 

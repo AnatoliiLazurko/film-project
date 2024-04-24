@@ -1,0 +1,140 @@
+
+/* VIEW INFO */
+
+.view-info {
+    max-width: calc(100% - 640px);
+    min-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: calc(64px + 84px);
+}
+
+.path {
+    display: flex;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #C9C8DA;
+}
+
+.path a {
+    display: inline-block;
+    margin: 0;
+    margin-right: 10px;
+    text-decoration: underline;
+    color: #C9C8DA;
+    transition: 0.3s ease-in-out;
+}
+
+.path a:hover {
+    color: #6D8EEB;
+}
+
+.path svg {
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.path span {
+    color: #6D8EEB;
+    text-decoration: underline #6D8EEB;
+}
+
+
+.content-info {
+    width: 100%;
+    margin: 0;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+}
+
+.left-content {
+    width: 100%;
+}
+
+.left-content img {
+    width: 100%;
+    height: 380px;
+    border-radius: 20px;
+    object-position: center;
+}
+
+.right-content {
+    color: #F1F1F1;
+}
+
+.right-content p {
+    margin: 0;
+    margin-bottom: 6px;
+    font-family: 'Rubik';
+    line-height: 18.2px;
+    font-size: 14px;
+}
+
+.top-section {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    margin: 0;
+    margin-bottom: 16px;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.rate-save-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.anime-rate {
+    width: 93px;
+    height: 100%;
+    background-color: #2F2E34;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FBBC05;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.anime-rate svg {
+    margin-right: 6px;
+    width: 16px;
+    height: 16px;
+}
+
+.save {
+    width: 40px;
+    height: 100%;
+    background-color: #6D8EEB;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.save svg {
+    width: 17px;
+    height: 17px;
+    color: #F1F1F1;
+}
+
+.plot {
+    margin-top: 16px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20.8px;
+}
