@@ -25,7 +25,7 @@ const NewAnimeCard = ({ anime }) => {
     }, []);
 
     return (
-        <NavLink to={`/anime-view/${anime.Genre}/${anime.imdbID}`} className={styles["anime-card"]}>
+        <NavLink to={`/anime-view/${anime.Genre.split(',')[0].toLowerCase()}/${anime.imdbID}`} className={styles["anime-card"]}>
             <div className={styles["anime-poster"]}>
                 <img src={anime.Poster} alt="" />
                 <div className={styles["question-mark"]}>?</div>

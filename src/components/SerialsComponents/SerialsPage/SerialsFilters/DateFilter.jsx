@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import styles from '../SeriesPageStyles.module.css';
+import styles from '../SerialsPageStyles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const DateFilter = ({ isClean, setIsClean }) => {

@@ -21,17 +21,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 16px;
+    animation: showMovieCards 2s ease-in-out forwards;
 }
 
-.film-card {
-    width: 100%;
-    height: auto;
-    border-radius: 16px;
-    text-decoration: none;
-    animation: showMovieCard 0.8s ease-in-out forwards;
-}
-
-@keyframes showMovieCard {
+@keyframes showMovieCards {
     from {
         opacity: 0;
         right: -50px;
@@ -41,6 +34,13 @@
         opacity: 1;
         right: 0;
     }
+}
+
+.film-card {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    text-decoration: none;
 }
 
 .film-poster {

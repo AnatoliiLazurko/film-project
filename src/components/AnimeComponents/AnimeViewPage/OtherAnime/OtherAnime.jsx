@@ -57,7 +57,7 @@ const OtherAnime = () => {
             <div className={styles["list-other-anime"]}>
 
                 {movies.map((movie, index) => (
-                    <NavLink to={`/anime/${movie.Genre}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
+                    <NavLink to={`/anime-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
                             <img src={movie.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>

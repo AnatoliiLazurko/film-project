@@ -1,35 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import styles from '../SeriesPageStyles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import styles from '../SerialsPageStyles.module.css';
 
-const PopularFilter = ({ isClean, setIsClean }) => {
+const GenreFilter = ({ isClean, setIsClean }) => {
 
-    const optionsPopular = ['By views', 'By rating', 'By discussion'];
-    const [selectedFilter, setSelectedFilter] = useState('By popularity');
+    const optionsGenre = ['Dramas', 'Family', 'Korean'];
+    const [selectedFilter, setSelectedFilter] = useState('By genres');
     const [isFilterOpen, setFilterOpen] = useState(false);
-    const selectRef = useRef(null);
-    const [urlPopular, setUrlPopular] = useState('');
+    const [urlGenre, setUrlGenre] = useState('');
     const { genre, date, popular } = useParams();
+    const selectRef = useRef(null);
     const navigate = useNavigate();
-    
+
     const handleFilter = (selectedOption) => {
         setSelectedFilter(selectedOption);
         setFilterOpen(false);
-        setUrlPopular('');
+        setUrlGenre('');
 
-        const popularUrl = selectedOption.toLowerCase().replace(/ /g, '_');
-        const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
+        const genreUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
 
         const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}`;
         navigate(newPath);
     }
 
     useEffect(() => {
-        setUrlPopular(popular);
-    }, [popular]);
+        setUrlGenre(genre);
+    }, [genre]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -46,29 +46,28 @@ const PopularFilter = ({ isClean, setIsClean }) => {
 
     useEffect(() => {
         if (isClean) {
-            setSelectedFilter('By popularity');
-            setUrlPopular('');
+            setSelectedFilter('By genres');
+            setUrlGenre('');
             setIsClean(false);
         }
     }, [isClean, setIsClean]);
 
     return (
-
-        <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef}>
+        <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef} key={1}>
             <div className={styles["custom-select"]}>
                 <span>
-                    {urlPopular && urlPopular !== 'popular=u' && urlPopular.charAt(0).toUpperCase() + urlPopular.slice(1).replace(/_/g, ' ')}
-                    {urlPopular === 'popular=u' && selectedFilter}
-                    {!urlPopular && selectedFilter}
+                    {urlGenre && urlGenre !== 'genre=u' && urlGenre.charAt(0).toUpperCase() + urlGenre.slice(1).replace(/_/g, ' ')}
+                    {urlGenre === 'genre=u' && selectedFilter}
+                    {!urlGenre && selectedFilter}
                 </span>
                 {!isFilterOpen && <FontAwesomeIcon icon={faCaretRight}/>}
                 {isFilterOpen && <FontAwesomeIcon icon={faCaretDown}/>}
             </div>
             {isFilterOpen && 
                 <div className={styles["list-options"]}>
-                    {optionsPopular.map((option, index) => (
+                    {optionsGenre.map((option, index) => (
                         <span key={index}>
-                            {!urlPopular &&
+                            {!urlGenre && 
                                 <p
                                     key={index}
                                     className={`${option === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
@@ -77,10 +76,10 @@ const PopularFilter = ({ isClean, setIsClean }) => {
                                     {option}
                                 </p>
                             }
-                            {urlPopular && 
+                            {urlGenre && 
                                 <p
                                     key={index}
-                                    className={`${option.toLowerCase() === urlPopular.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    className={`${option.toLowerCase() === urlGenre.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                     onClick={() => handleFilter(option)}
                                 >
                                     {option}
@@ -95,4 +94,4 @@ const PopularFilter = ({ isClean, setIsClean }) => {
     );
 }
 
-export default PopularFilter;
+export default GenreFilter;

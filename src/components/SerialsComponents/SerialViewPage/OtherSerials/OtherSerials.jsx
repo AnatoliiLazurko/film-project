@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import styles from './OtherSeriesStyles.module.css';
+import styles from './OtherSerialsStyles.module.css';
 import { NavLink } from 'react-router-dom';
-import { handleSerialInfoPositioning } from './OtherSeriesScripts';
+import { handleSerialInfoPositioning } from './OtherSerialsScripts';
 import axios from 'axios';
 
-const OtherSeries = () => {
+const OtherSerials = () => {
 
     const [series, setSeries] = useState([]);
 
@@ -51,12 +51,12 @@ const OtherSeries = () => {
 
     return (
         <div className={styles["other-section"]}>
-            <p className={styles["other-txt"]}>Other series</p>
+            <p className={styles["other-txt"]}>Other serials</p>
 
             <div className={styles["list-other-serials"]}>
 
                 {series.map((serial, index) => (
-                    <NavLink to={`/serial/${serial.Genre}/${serial.imdbID}`} className={styles["serial-card"]} key={index}>
+                    <NavLink to={`/serial-view/${serial.Genre.split(',')[0].toLowerCase()}/${serial.imdbID}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
                             <img src={serial.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>
@@ -92,4 +92,4 @@ const OtherSeries = () => {
     );
 }
 
-export default OtherSeries;
+export default OtherSerials;

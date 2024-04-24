@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import styles from './SeriesPageStyles.module.css';
+import styles from './SerialsPageStyles.module.css';
 import { useNavigate } from 'react-router-dom';
-import SeriesList from './SeriesList/SeriesList';
-import GenreFilter from './SeriesFilters/GenreFilter';
-import DateFilter from './SeriesFilters/DateFilter';
-import PopularFilter from './SeriesFilters/PopularFilter';
+import SerialsList from './SerialsList/SerialsList';
+import GenreFilter from './SerialsFilters/GenreFilter';
+import DateFilter from './SerialsFilters/DateFilter';
+import PopularFilter from './SerialsFilters/PopularFilter';
 
-const SeriesPage = () => {
+const SerialsPage = () => {
 
     const [isClean, setIsClean] = useState(false);
     const navigate = useNavigate();
@@ -32,10 +32,10 @@ const SeriesPage = () => {
                 <div className={styles["clean-btn"]} onClick={handleClean}>Clean</div>
             </div>
 
-            <SeriesList />
+            <SerialsList />
 
         </div>
     );
 }
 
-export default SeriesPage;
+export default SerialsPage;

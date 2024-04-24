@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from './Carousel/Carousel';
 import NewFilms from './NewFilms/NewFilms';
-import NewSeries from './NewSeries/NewSeries';
+import NewSeries from './NewSerials/NewSerials';
 import NewCartoons from './NewCartoons/NewCartoons';
 import NewAnime from './NewAnime/NewAnime';
 import ScrollUpButton from './ScrollUp/ScrollUpButton';

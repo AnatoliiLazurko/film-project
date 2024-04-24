@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import styles from "./NewSeriesStyles.module.css";
+import styles from "./NewSerialsStyles.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import NewSerialCard from './NewSerialCard';
 
-const NewSeries = () => {
+const NewSerials = () => {
 
-    const [series, setSeries] = useState([]);
+    const [serials, setSerials] = useState([]);
 
-    const fetchSeries = async () => {
+    const fetchSerials = async () => {
 
         try {
             const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=series&apikey=bfec6a42`);
-            const seriesData = await Promise.all(
+            const serialsData = await Promise.all(
                 response.data.Search.map(async serial => {
                     const detailedResponse = await axios.get(
                     `http://www.omdbapi.com/?i=${serial.imdbID}&apikey=bfec6a42&plot=full`
@@ -21,26 +21,24 @@ const NewSeries = () => {
                     return detailedResponse.data;
                 })
             );
-            setSeries(seriesData);
+            setSerials(serialsData);
         } catch (error) {
             console.error('Помилка під час отримання серіалів:', error);
         }
     };
 
     useEffect(() => {
-
-        fetchSeries();
+        fetchSerials();
     }, []);
 
-    // console.log(series);
 
     return (
-        <div className={styles["new-series-section"]}>
-            <span className={styles["section-title"]}>New Series <FontAwesomeIcon icon={faChevronRight} /></span>
-            <div className={styles["list-new-series"]}>
+        <div className={styles["new-serials-section"]}>
+            <span className={styles["section-title"]}>New Serials <FontAwesomeIcon icon={faChevronRight} /></span>
+            <div className={styles["list-new-serials"]}>
 
-                {series.map((serial, index) => (
-                    <NewSerialCard key={index} series={serial} />
+                {serials.map((serial, index) => (
+                    <NewSerialCard key={index} serials={serial} />
                 ))}
                 
             </div>
@@ -50,4 +48,4 @@ const NewSeries = () => {
     );
 }
 
-export default NewSeries;
+export default NewSerials;

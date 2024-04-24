@@ -33,9 +33,9 @@ const ViewInfo = () => {
     return (
         <div className={styles["view-info"]}>
             <div className={styles["path"]}>
-                <NavLink to={'/serials'}>Series</NavLink>
+                <NavLink to={'/serials'}>Serials</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink to={`/serials/${serialInfo.Genre && serialInfo.Genre.split(',')[0]}`}>{serialInfo.Genre && serialInfo.Genre.split(',')[0]}</NavLink>
+                <NavLink to={`/serials/${serialInfo.Genre && serialInfo.Genre.split(',')[0].toLowerCase()}`}>{serialInfo.Genre && serialInfo.Genre.split(',')[0]}</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
                 <span>{serialInfo.Title}</span>
             </div>

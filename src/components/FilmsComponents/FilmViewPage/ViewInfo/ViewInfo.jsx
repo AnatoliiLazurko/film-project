@@ -35,7 +35,7 @@ const ViewInfo = () => {
             <div className={styles["path"]}>
                 <NavLink to={'/films'}>Films</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink to={`/films/${filmInfo.Genre && filmInfo.Genre.split(',')[0]}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
+                <NavLink to={`/films/${filmInfo.Genre && filmInfo.Genre.split(',')[0].toLowerCase()}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
                 <span>{filmInfo.Title}</span>
             </div>

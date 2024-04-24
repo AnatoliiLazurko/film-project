@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styles from './SeriesListStyles.module.css';
+import styles from './SerialsListStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { handleSerialInfoPositioning } from './SeriesListScripts';
+import { handleSerialInfoPositioning } from './SerialsListScripts';
 
-const SeriesList = () => {
+const SerialsList = () => {
 
     const [series, setSeries] = useState([]);
 
@@ -78,7 +78,7 @@ const SeriesList = () => {
             
                 {series.map((movie, index) => (
                     
-                    <NavLink to={`/serials/${movie.Genre}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
+                    <NavLink to={`/serial-view/${movie.Genre}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
                             <img src={movie.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>
@@ -124,4 +124,4 @@ const SeriesList = () => {
     );
 }
 
-export default SeriesList;
+export default SerialsList;

@@ -25,7 +25,7 @@ const NewFilmCard = ({ movies }) => {
     }, []);
 
     return (
-        <NavLink to={`/film/${movies.Genre}/${movies.imdbID}`} className={styles["film-card"]}>
+        <NavLink to={`/film-view/${movies.Genre.split(',')[0].toLowerCase()}/${movies.imdbID}`} className={styles["film-card"]}>
             <div className={styles["film-poster"]}>
                 <img src={movies.Poster} alt="" />
                 <div className={styles["question-mark"]}>?</div>
