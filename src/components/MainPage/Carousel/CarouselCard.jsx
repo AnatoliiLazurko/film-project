@@ -7,7 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 const CarouselCard = ({ movies }) => {
     return (
         <article>
-            <NavLink to={`/film-view/${movies.Genre}/${movies.imdbID}`} className={styles["carousel-card"]}>
+            <NavLink to={`/film-view/${movies.Genre.split(',')[0].toLowerCase()}/${movies.imdbID}`} className={styles["carousel-card"]}>
                 <div className={styles["card-poster"]}>
                     <img src={movies.Poster} alt={movies.Title} />
                     <div className={styles["question-mark"]}>?</div>
