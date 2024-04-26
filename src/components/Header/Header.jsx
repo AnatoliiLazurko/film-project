@@ -85,7 +85,7 @@ const Header = () => {
                                     </div>
                                 </li>
                                 <li>
-                                    <NavLink className={styles["nav-item"]} to='/selections'>Selections</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/selections/films'>Selections</NavLink>
                                 </li>
                             </ul>
                         </nav>
