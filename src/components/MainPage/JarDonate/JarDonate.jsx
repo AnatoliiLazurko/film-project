@@ -24,7 +24,7 @@ const JarDonate = () => {
 
     return (
         <div className={`${styles["jar-donate"]} ${isSticky ? styles["sticky"] : ''}`} ref={stickyRef}>
-            <NavLink to={`/donates`}>
+            <NavLink to={`/donate`}>
                 <img src={jar} alt="" />
             </NavLink>
         </div>

@@ -12,6 +12,9 @@ import SerialView from './components/SerialsComponents/SerialViewPage/SerialView
 import AnimePage from './components/AnimeComponents/AnimePage/AnimePage';
 import AnimeView from './components/AnimeComponents/AnimeViewPage/AnimeView';
 import Selections from './components/Selections/Selections';
+import Status404 from './components/StatusComponents/Status404';
+import Donate from './components/Donate/Donate';
+import ProfilePage from './components/Profile/ProfilePage';
 
 function App() {
   return (
@@ -35,6 +38,11 @@ function App() {
 
         <Route path='/selections/:selection' element={<Selections />} />
 
+        <Route path='/donate' element={<Donate />} />
+
+        <Route path='/profile' element={<ProfilePage />} />
+        
+        <Route path="*" element={<Status404 />} />
       </Routes>
 
       <Footer />

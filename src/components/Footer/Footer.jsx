@@ -26,7 +26,7 @@ const Footer = () => {
 
                             <NavLink className={styles["nav-item"]}>Cookies</NavLink>
 
-                            <NavLink className={styles["nav-item"]}>Donate</NavLink>
+                            <NavLink to={'/donate'} className={styles["nav-item"]}>Donate</NavLink>
                         </nav>
                     </div>
                     <div className={styles["right-content"]}>
