@@ -85,7 +85,7 @@ const FilmsList = () => {
             
                 {filteredMovies.map((movie, index) => (
                     
-                    <NavLink to={`/film-view/${movie.Genre}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
+                    <NavLink to={`/film-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
                             <img src={movie.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>

@@ -1,0 +1,112 @@
+
+.edit-title {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 20px;
+    color: #F1F1F1;
+}
+
+.current-txt {
+    margin: 0;
+    margin-top: 20px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.subscription-container {
+    margin-top: 12px;
+    width: 100%;
+    height: 131px;
+    background-color: #F1F1F1;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-content {
+    display: grid;
+    grid-template-columns: 99px 1fr;
+    gap: 20px;
+}
+
+.left-content img {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+}
+
+.subscription-info {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+}
+
+.info-title {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #2F2E34;
+}
+
+.privileges {
+    margin: 0;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #514F5A;
+}
+
+.privileges span {
+    color: #BBDE50;
+}   
+
+.expiration {
+    margin: 0;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #6D8EEB;
+}
+
+.cancel-btn {
+    width: 180px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #ED5F5B;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+.none-subscription {
+    position: absolute;
+    left: 50%;
+    bottom: 46px;
+    transform: translate(-50%, 0);
+}
+
+.none-subscription img {
+    width: 520px;
+    height: 400px;
+}
+
+.none-subscription p {
+    margin: 0;
+    margin-top: 50px;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+}

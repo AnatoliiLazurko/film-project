@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import styles from './CartoonsListStyles.module.css';
-import { NavLink } from 'react-router-dom';
+import styles from './SelectedStyles.module.css';
+import { NavLink, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { handleCartoonInfoPositioning } from './CartoonsListScripts';
+import { handleInfoPositioning } from './SelectedScripts';
 
-const CartoonList = () => {
+const Selected = () => {
 
     const [movies, setMovies] = useState([]);
+    const { type, selected } = useParams();
+
+    const editedType = type.endsWith("s") ? type.slice(0, -1) : type;
 
     useEffect(() => {
         async function fetchMovies() {
@@ -56,7 +59,7 @@ const CartoonList = () => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
-            handleCartoonInfoPositioning(event, styles);
+            handleInfoPositioning(event, styles);
         };
 
         const questionMarks = document.querySelectorAll(`.${styles['question-mark']}`);
@@ -71,18 +74,20 @@ const CartoonList = () => {
         };
     }, [movies]);
 
-
     return (
-        <>
-            <div className={styles["cartoons-list"]}>
+        <div className={styles["selection-page"]}>
+
+            <p className={styles["selected-selection"]}>{selected.charAt(0).toUpperCase() + selected.slice(1).replace(/_/g, ' ')}</p>
+
+            <div className={styles["movies-list"]}>
             
                 {movies.map((movie, index) => (
                     
-                    <NavLink to={`/cartoon-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["cartoon-card"]} key={index}>
-                        <div className={styles["cartoon-poster"]}>
+                    <NavLink to={`/${editedType}-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["movie-card"]} key={index}>
+                        <div className={styles["movie-poster"]}>
                             <img src={movie.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>
-                                <div className={styles["cartoon-info"]}>
+                                <div className={styles["movie-info"]}>
                                     <div className={styles["name-rate"]}>
                                         <h1 className={styles["info-title"]}>{movie.Title}</h1>
                                         <div className={styles["info-rate"]}>
@@ -105,7 +110,7 @@ const CartoonList = () => {
                             </div>
                             <div className={styles["quality"]}>1080p</div>
                         </div>
-                        <div className={styles["cartoon-title"]}>{movie.Title}</div>
+                        <div className={styles["movie-title"]}>{movie.Title}</div>
                     </NavLink>
 
                 ))}
@@ -120,8 +125,9 @@ const CartoonList = () => {
                 <div className={styles["pagination-btn"]}>...</div>
                 <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
             </div>
-        </>
+            
+        </div>
     );
 }
 
-export default CartoonList;
+export default Selected;

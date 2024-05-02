@@ -78,7 +78,7 @@ const SerialsList = () => {
             
                 {series.map((movie, index) => (
                     
-                    <NavLink to={`/serial-view/${movie.Genre}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
+                    <NavLink to={`/serial-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
                             <img src={movie.Poster} alt="" />
                             <div className={styles["question-mark"]}>?</div>

@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp} from '@fortawesome/free-solid-svg-icons';
 import styles from './ScrollUpStyles.module.css';
 
-const ScrollUpButton = ({ isVisible }) => {
+const ScrollUpButton = () => {
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        function handleScroll() {
+            if (window.scrollY > 200) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     
     const scrollToTop = () => {
         window.scrollTo({

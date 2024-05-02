@@ -2,7 +2,7 @@
 
 .profile-page {
     max-width: calc(100% - 640px);
-    min-width: 1000px;
+    min-width: 1200px;
     width: 100%;
     margin: 0 auto;
     margin-top: calc(64px + 84px);
@@ -62,4 +62,5 @@
     background-color: #2F2E34;
     border-radius: 0 20px 20px 0;
     padding: 46px 137px 46px 64px;
+    position: relative;
 }
