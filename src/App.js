@@ -14,10 +14,11 @@ import AnimeView from './components/AnimeComponents/AnimeViewPage/AnimeView';
 import Selections from './components/Selections/Selections';
 import Status404 from './components/StatusComponents/Status404';
 import Donate from './components/Donate/Donate';
-import ProfilePage from './components/Profile/ProfilePage';
 import Selected from './components/Selections/Selected/Selected';
 import ScrollUpButton from './components/ScrollUp/ScrollUpButton';
 import SearchResult from './components/SearchResult/SearchResult';
+import Settings from './components/Profile/Settings/Settings';
+import Profile from './components/Profile/Profile';
 
 function App() {
   return (
@@ -26,6 +27,11 @@ function App() {
 
       <Routes>
         <Route path='/' element={<MainPage />} />
+
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/settings/:option' element={<Settings />} />
+
+        <Route path='/search/:query?' element={<SearchResult />} />
 
         <Route path='/films/:genre?/:date?/:popular?' element={<FilmsPage />} />
         <Route path="/film-view/:genre/:id" element={<FilmView />} />
@@ -43,10 +49,6 @@ function App() {
         <Route path='/selection/:type/:selected' element={<Selected />} />
 
         <Route path='/donate' element={<Donate />} />
-
-        <Route path='/settings/:option' element={<ProfilePage />} />
-
-        <Route path='/search/:query?' element={<SearchResult />} />
         
         <Route path="*" element={<Status404 />} />
       </Routes>

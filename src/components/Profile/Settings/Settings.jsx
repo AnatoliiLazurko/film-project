@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './ProfilePageStyles.module.css';
-import ProfileSettings from './Settings/ProfileSettings/ProfileSettings';
+import styles from './SettingsStyles.module.css';
+import ProfileSettings from './ProfileSettings/ProfileSettings';
 import { useNavigate, useParams } from 'react-router-dom';
-import PasswordSettings from './Settings/PasswordSettings/PasswordSettings';
-import EmailSettings from './Settings/EmailSettings/EmailSettings';
-import SubscriptionSettings from './Settings/SubscriptionSettings/SubscriptionSettings';
+import PasswordSettings from './PasswordSettings/PasswordSettings';
+import EmailSettings from './EmailSettings/EmailSettings';
+import SubscriptionSettings from './SubscriptionSettings/SubscriptionSettings';
 
-const ProfilePage = () => {
+const Settings = () => {
 
     const navigate = useNavigate();
     const { option } = useParams();
@@ -54,4 +54,4 @@ const ProfilePage = () => {
     );
 }
 
-export default ProfilePage;
+export default Settings;
