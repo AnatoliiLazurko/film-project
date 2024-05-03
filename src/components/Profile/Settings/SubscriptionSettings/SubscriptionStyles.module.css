@@ -97,13 +97,12 @@
 }
 
 .none-subscription img {
-    width: 520px;
-    height: 400px;
+    width: 600px;
+    height: 480px;
 }
 
 .none-subscription p {
     margin: 0;
-    margin-top: 50px;
     font-family: 'Madimi One';
     font-weight: 400;
     font-size: 16px;

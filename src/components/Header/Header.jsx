@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./HeaderStyles.module.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import authBtnImage from '../../images/header/ticket-btn.png';
 import logo from '../../images/header/logo.png'
 import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
@@ -19,6 +19,7 @@ const Header = () => {
     const [isSingUpOpen, setIsSignUpOpen] = useState(false);
     const [isSingInOpen, setIsSignInOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const navigate = useNavigate();
 
     const toggleVisibility = () => {
         setIsSearchVisible(!isSearchVisible);
@@ -48,6 +49,12 @@ const Header = () => {
     const handleChange = (e) => {
         setInputValue(e.target.value);
     };
+
+    const handleSearch = () => {
+        navigate(`/search/${inputValue}`);
+        setIsSearchVisible(false);
+        setInputValue('');
+    }
 
     return (
         <>
@@ -96,7 +103,7 @@ const Header = () => {
                             {!isSearchVisible && <FontAwesomeIcon icon={faMagnifyingGlass} onClick={toggleVisibility} />}
                             {isSearchVisible && 
                                 <div className={styles["search-field"]}>
-                                    <div className={styles["search-btn"]}>
+                                    <div className={styles["search-btn"]} onClick={handleSearch}>
                                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                                     </div>
                                     <input className={styles["search-input"]} type="text" placeholder='Search' value={inputValue} onChange={handleChange}/>

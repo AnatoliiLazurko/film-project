@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SubscriptionStyles.module.css';
-import sub_icon from '../../../../images/subscription/subscription_icon.png'
+import sub_icon from '../../../../images/subscription/subscription_icon.png';
+import box from '../../../../images/subscription/box.png';
 
 const SubscriptionSettings = () => {
 
@@ -31,7 +32,7 @@ const SubscriptionSettings = () => {
             
             {!isSubscription && 
                 <div className={styles["none-subscription"]}>
-                    <img src={sub_icon} alt="None Subscription" />
+                    <img src={box} alt="None Subscription" />
                     <p>You don’t have a subscription</p>
                 </div>
             }

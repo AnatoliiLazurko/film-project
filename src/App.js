@@ -17,6 +17,7 @@ import Donate from './components/Donate/Donate';
 import ProfilePage from './components/Profile/ProfilePage';
 import Selected from './components/Selections/Selected/Selected';
 import ScrollUpButton from './components/ScrollUp/ScrollUpButton';
+import SearchResult from './components/SearchResult/SearchResult';
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function App() {
         <Route path='/donate' element={<Donate />} />
 
         <Route path='/settings/:option' element={<ProfilePage />} />
+
+        <Route path='/search/:query?' element={<SearchResult />} />
         
         <Route path="*" element={<Status404 />} />
       </Routes>
