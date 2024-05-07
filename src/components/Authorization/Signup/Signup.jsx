@@ -7,6 +7,9 @@ import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import facebook_logo from "../../../images/forms/facebook.png";
 import google_logo from "../../../images/forms/google.png";
 import { Link } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login';
+import axios from 'axios';
 
 const initialValues = {
     email: '',
@@ -51,6 +54,25 @@ const Signup = ({ closeModal, openSignIn }) => {
     const submitHadler = (values, formikBag) => {
         formikBag.resetForm();
     }
+
+    const signupWithGoogle = useGoogleLogin({
+        onSuccess: codeResponse => {
+            axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${codeResponse.access_token}`
+                }
+            })
+            .then(response => {
+                //console.log(response.data);
+            })
+            .catch(error => console.error('Error fetching user info:', error));
+            }
+    });
+
+    const responseFacebook = (response) => {
+        console.log(response);
+    }
+
 
     return (
         <div className={styles["signup"]}>
@@ -101,8 +123,15 @@ const Signup = ({ closeModal, openSignIn }) => {
                 <p>Or</p>
                 <p>Make a new account with...</p>
                 <div className={styles["social-media"]}>
-                    <img src={facebook_logo} alt="" />
-                    <img src={google_logo} alt="" />
+                    {/* <img src={facebook_logo} alt="" /> */}
+                    <FacebookLogin
+                        appId="449913790752748"
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        callback={responseFacebook}
+                        // cssClass="hidden-facebook-login-button"
+                    />
+                    <img src={google_logo} alt="" onClick={() => signupWithGoogle()} />
                 </div>
             </div>
             <div className={styles["have-account"]}>

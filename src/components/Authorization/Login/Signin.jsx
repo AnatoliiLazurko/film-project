@@ -7,6 +7,8 @@ import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import facebook_logo from "../../../images/forms/facebook.png";
 import google_logo from "../../../images/forms/google.png";
 import { Link } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const initialValues = {
     email: '',
@@ -37,6 +39,20 @@ const Signin = ({ closeModal, openSignUp }) => {
     const submitHadler = (values, formikBag) => {
         formikBag.resetForm();
     }
+
+    const signinWithGoogle = useGoogleLogin({
+        onSuccess: codeResponse => {
+            axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${codeResponse.access_token}`
+                }
+            })
+            .then(response => {
+                //console.log(response.data);
+            })
+            .catch(error => console.error('Error fetching user info:', error));
+            }
+    });
 
 
     return (
@@ -85,7 +101,7 @@ const Signin = ({ closeModal, openSignUp }) => {
                 <p>Login with...</p>
                 <div className={styles["social-media"]}>
                     <img src={facebook_logo} alt="" />
-                    <img src={google_logo} alt="" />
+                    <img src={google_logo} alt="" onClick={() => signinWithGoogle()}/>
                 </div>
             </div>
             <div className={styles["have-account"]}>
