@@ -5,6 +5,7 @@ import video from "../../../../../video/Avatar2.mp4";
 import video2 from "../../../../../video/video.mp4";
 import img from "../../../../../video/avatar-poster.jpg";
 import Subscription from '../../../../Subscription/Subscription';
+import PayPalWindow from '../../../../Subscription/PayPalWindow/PayPalWindow';
 
 const FilmPlayer = () => {
 
@@ -15,6 +16,14 @@ const FilmPlayer = () => {
 
     const [showSub, setShowSub] = useState(false);
     const [closeSub, setCloseSub] = useState(false);
+
+    const [showPayWindow, setPayWindow] = useState(false);
+
+    const openPayWindow = () => {
+        setCloseSub(true);
+        setShowSub(false);
+        setPayWindow(true);
+    }
 
 
     const controls = [
@@ -105,11 +114,10 @@ const FilmPlayer = () => {
     return (
         <>
             <Plyr {...plyrProps} />
-            {showSub &&  
-                <>
-                <Subscription close={setCloseSub} />
-                </>
+            {showSub &&    
+                <Subscription close={setCloseSub} payWindow={openPayWindow} />         
             }
+            {showPayWindow && <PayPalWindow closeWindow={setPayWindow} />}
         </>
     );
 }

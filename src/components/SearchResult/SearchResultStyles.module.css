@@ -102,14 +102,13 @@
     cursor: pointer;
 }
 
-
 .none-found {
-    margin-top: 64px;
-    margin-bottom: 520px;
     display: flex;
     justify-content: center;
-    font-family: 'Rubik';
-    font-family: 400;
-    font-size: 18px;
-    color: #94949483;
+    margin-bottom: 129px;
+}
+
+.none-found img {
+    width: 600px;
+    height: 480px;
 }

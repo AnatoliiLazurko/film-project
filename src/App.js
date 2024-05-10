@@ -19,6 +19,7 @@ import ScrollUpButton from './components/ScrollUp/ScrollUpButton';
 import SearchResult from './components/SearchResult/SearchResult';
 import Settings from './components/Profile/Settings/Settings';
 import Profile from './components/Profile/Profile';
+import RoolsUse from './components/Technicall/Rools/RoolsUse';
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
         <Route path='/selection/:type/:selected' element={<Selected />} />
 
         <Route path='/donate' element={<Donate />} />
+
+        <Route path='/rools/:term' element={<RoolsUse />} />
         
         <Route path="*" element={<Status404 />} />
       </Routes>

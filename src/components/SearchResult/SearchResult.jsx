@@ -5,6 +5,7 @@ import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ResultList from './ResultList/ResultList';
+import box from '../../images/subscription/box.png';
 
 const SearchResult = () => {
 
@@ -100,7 +101,7 @@ const SearchResult = () => {
 
             <ResultList movies={movies} />
             
-            {movies.length === 0 && <div className={styles["none-found"]}>Nothing was found for your query</div>}
+            {movies.length === 0 && <div className={styles["none-found"]}><img src={box} alt='Empty box' /></div>}
             
         </div>
     );

@@ -5,13 +5,14 @@ import subscriptionIcon from '../../images/subscription/subscription_icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const Subscription = ({ close }) => {
+const Subscription = ({ close, payWindow }) => {
+
     return (
         <>
             <div className={styles["screen-dimming"]}></div>
             <div className={styles["subscription"]}>
-                
                 <FontAwesomeIcon icon={faXmark} className={styles["close-mark"]} onClick={() => {close(true)}}/>
+                
                 
                 <img src={subscription} alt="" />
                 <div className={styles["sub-content"]}>
@@ -48,7 +49,7 @@ const Subscription = ({ close }) => {
                         </div>
                         <div className={styles["sub-price"]}>$5.99</div>
                     </div>
-                    <div className={styles["right-side"]}>
+                    <div className={styles["right-side"]} onClick={payWindow}>
                         <p>Buy!</p>
                     </div>
                 </div>

@@ -36,7 +36,7 @@ const Selections = () => {
                 <div onClick={showSerialSelections} className={ selection === 'serials' ? `${styles["active"]}` : '' }>Serial selections</div>
                 <div onClick={showAnimeSelections} className={ selection === 'anime' ? `${styles["active"]}` : '' }>Anime selections</div>
             </div>
-
+            
             <div className={styles["selections-list"]}>
                 {selection === 'films' && <FilmSelections /> }
                 
