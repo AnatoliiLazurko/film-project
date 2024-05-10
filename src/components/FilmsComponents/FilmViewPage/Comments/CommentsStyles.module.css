@@ -151,6 +151,34 @@
     cursor: pointer;
 }
 
+.emoji-block {
+    display: flex;
+    align-items: center;
+}
+
+.emojis-container {
+    display: inline-block;
+    margin-left: 12px;
+    width: auto;
+    height: 30px;
+    background-color: #1e1e1e7a;
+    border-radius: 16px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    animation: showEmojis 0.3s ease-in-out forwards;
+}
+
+@keyframes showEmojis {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .btn-cancel {
     border: none;
     width: 54px;

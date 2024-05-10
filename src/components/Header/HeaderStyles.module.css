@@ -139,7 +139,7 @@
     max-width: 296px;
     min-width: 220px;
     width: 100%;
-    height: 50px;
+    height: 39px;
     background-color: #F1F1F1;
     border-radius: 12px;
     display: flex;
@@ -175,7 +175,7 @@
 
 .search-input {
     width: 100%;
-    height: 50px;
+    height: 39px;
     background-color: #F1F1F1;
     border: none;
     border-radius: 0 12px 12px 0;
@@ -221,6 +221,8 @@
     margin: 0 320px;
     background-color: #514F5A;
     border-radius: 0 0 15px 15px;
+    padding-top: 16px;
+    padding-bottom: 8px;
     min-width: 100px;
     z-index: 2;
     animation: showDropdown 0.4s ease-in;
@@ -228,7 +230,7 @@
 
 .dropdown-lenguage-content span {
     width: 100%;
-    padding: 15px 26px;
+    padding: 0 32px 8px 32px;
 }
 
 .dropdown-lenguage:hover

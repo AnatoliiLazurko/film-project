@@ -7,8 +7,7 @@ import img from "../../../../../video/avatar-poster.jpg";
 import Subscription from '../../../../Subscription/Subscription';
 import PayPalWindow from '../../../../Subscription/PayPalWindow/PayPalWindow';
 
-const FilmPlayer = () => {
-
+const Player = ({ switchPlayer }) => {
     const [isSubcribe, setSubcribe] = useState(false);
 
     const [quality, setQuality] = useState(720);
@@ -24,7 +23,6 @@ const FilmPlayer = () => {
         setShowSub(false);
         setPayWindow(true);
     }
-
 
     const controls = [
       'play-large',
@@ -111,9 +109,33 @@ const FilmPlayer = () => {
         
     }
 
+    // TRAILER
+
+    const plyrPropsTrailer = {
+        source: {
+            type: 'video',
+            sources: [
+                {
+                    src: 'https://www.youtube.com/watch?v=E8Qe0vS_I3I',
+                    provider: 'youtube',
+                },
+            ],
+        },
+        options: {
+            controls,
+            youtube: { 
+                noCookie: true,
+                showinfo: false,
+                rel: 0,
+            },
+        },
+    }
+
+    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+
     return (
         <>
-            <Plyr {...plyrProps} />
+            <Plyr {...switchProps} />
             {showSub &&    
                 <Subscription close={setCloseSub} payWindow={openPayWindow} />         
             }
@@ -122,4 +144,4 @@ const FilmPlayer = () => {
     );
 }
 
-export default FilmPlayer;
+export default Player;

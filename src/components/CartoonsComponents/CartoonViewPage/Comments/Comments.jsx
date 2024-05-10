@@ -8,6 +8,9 @@ import ReplyComment from './ReplyComment';
 
 const Comments = () => {
 
+    const emojis = ['😊', '😎', '😍', '😂',  '☹️', '😴', '🤮', '😡', '🤡', '👍', '👎'];
+    const [openEmoji, setOpenEmoji] = useState(false);
+
     const [isSortDropdown, setSortDropDown] = useState(false);
 
     const [comment, setComment] = useState('');
@@ -24,6 +27,9 @@ const Comments = () => {
 
     const [sortDirection, setSortDirection] = useState('newToOld');
 
+    const handleEmojiSelect = (emoji) => {
+        setComment(comment + emoji);
+    };
 
     // TEMPORARY
 
@@ -162,7 +168,18 @@ const Comments = () => {
                             className={styles["input-message"]}
                         />
                         <div className={styles["under-input-section"]}>
-                            <FontAwesomeIcon icon={faFaceSmile} />
+                            <div className={styles["emoji-block"]}>
+                                <FontAwesomeIcon icon={faFaceSmile} onClick={() => {setOpenEmoji(!openEmoji)}}/>
+                                {openEmoji &&
+                                    <div className={styles["emojis-container"]}>
+                                        {emojis.map((emoji, index) => (
+                                            <span key={index} style={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => handleEmojiSelect(emoji)}>
+                                                {emoji}
+                                            </span>
+                                        ))}
+                                    </div>
+                                }
+                            </div>
                             <div>
                                 <button className={styles["btn-cancel"]} onClick={() => {setComment('')}}>Cancel</button>
                                 <button className={styles["btn-send"]} onClick={handleSubmit}>Send</button>

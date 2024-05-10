@@ -19,6 +19,7 @@ const Header = () => {
     const [isSingUpOpen, setIsSignUpOpen] = useState(false);
     const [isSingInOpen, setIsSignInOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [language, setLanguage] = useState('English');
     const navigate = useNavigate();
 
     const toggleVisibility = () => {
@@ -112,10 +113,11 @@ const Header = () => {
                             
                         </div>
                         <div className={styles["dropdown-lenguage"]}>
-                            <span>Eng</span>
+                            {language === 'English' && <span>Eng</span>}
+                            {language === 'Ukrainian' && <span>Ukr</span>}
                             <div className={styles["dropdown-lenguage-content"]}>
-                                <span>English</span>
-                                <span>Ukrainian</span>
+                                <span onClick={() => {setLanguage('English')}}>English</span>
+                                <span onClick={() => {alert('Under development...')}}>Ukrainian</span>
                             </div>
                         </div>
                         <div className={styles["btn-auth"]} onClick={toggleModal}>
