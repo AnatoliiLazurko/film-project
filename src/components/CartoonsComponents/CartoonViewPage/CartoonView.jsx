@@ -1,8 +1,8 @@
 import React from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
-import Player from './Player/Player';
 import OtherCartoons from './OtherCartoons/OtherCartoons';
 import Comments from './Comments/Comments';
+import CartoonPlayer from './CartoonPlayer/CartoonPlayer';
 
 const CartoonView = () => {
     return (
@@ -10,7 +10,7 @@ const CartoonView = () => {
             
             <ViewInfo />
 
-            <Player />
+            <CartoonPlayer />
 
             <OtherCartoons />
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
-import Player from './Player/Player';
 import OtherAnime from './OtherAnime/OtherAnime';
 import Comments from './Comments/Comments';
+import AnimePlayer from './AnimePlayer/AnimePlayer';
 
 const AnimeView = () => {
     return (
@@ -10,7 +10,7 @@ const AnimeView = () => {
 
             <ViewInfo />
 
-            <Player />
+            <AnimePlayer />
 
             <OtherAnime />
 

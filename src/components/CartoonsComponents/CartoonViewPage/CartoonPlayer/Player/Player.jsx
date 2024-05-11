@@ -7,7 +7,7 @@ import img from "../../../../../video/avatar-poster.jpg";
 import Subscription from '../../../../Subscription/Subscription';
 import PayPalWindow from '../../../../Subscription/PayPalWindow/PayPalWindow';
 
-const Player = ({ switchPlayer, voiceActing }) => {
+const Player = ({ switchPlayer, voiceActing, season, episode }) => {
     const [isSubcribe, setSubcribe] = useState(false);
 
     const [quality, setQuality] = useState(720);

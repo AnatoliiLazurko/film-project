@@ -1,22 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './Player.module.css';
+import styles from './PlayerStyles.module.css';
 import Player from './Player/Player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 
 const FilmPlayer = () => {
 
-    const voiceActing = ['English', 'Ukrainian'];
+    const voiceActingArray = ['English', 'Ukrainian'];
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
-    const [selectedFilter, setSelectedFilter] = useState('English');
-    const [isFilterOpen, setFilterOpen] = useState(false);
+    const [voiceActing, setVoiceActing] = useState('English');
+    const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
     const selectRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (selectRef.current && !selectRef.current.contains(event.target)) {
-                setFilterOpen(false);
+                setVoiceActingOpen(false);
             }
         };
 
@@ -28,33 +28,38 @@ const FilmPlayer = () => {
 
     const handlePlayer = (option) => {
         setSwitchPlayer(true);
-        setSelectedFilter(option);
+        setVoiceActing(option);
     }
 
     const handleTrailer = () => {
         setSwitchPlayer(false);
+        setVoiceActing('Player');
     }
 
     return (
         <div className={styles["player-section"]}>
             <div className={styles["player-content"]}>
                 <div className={styles["switch-players"]}>
-                    <div onClick={handleTrailer} className={styles["btn-trailer"]}>Trailer</div>
-                    <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef} key={1}>
+                    <div onClick={handleTrailer} className={`${styles["btn-trailer"]} ${!switchPlayer ? styles["active"] : ''}`}>Trailer</div>
+                    <div
+                        className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+                        onClick={() => setVoiceActingOpen(!isVoiceActingOpen)}
+                        ref={selectRef}
+                    >
                         <div className={styles["custom-select"]}>
                             <span>
-                                {selectedFilter}
+                                {voiceActing}
                             </span>
-                            {!isFilterOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                            {isFilterOpen && <FontAwesomeIcon icon={faCaretDown}/>}
+                            {!isVoiceActingOpen && <FontAwesomeIcon icon={faCaretRight}/>}
+                            {isVoiceActingOpen && <FontAwesomeIcon icon={faCaretDown}/>}
                         </div>
-                        {isFilterOpen && 
+                        {isVoiceActingOpen && 
                             <div className={styles["list-options"]}>
-                                {voiceActing.map((option, index) => (
+                                {voiceActingArray.map((option, index) => (
                                     <p
                                         key={index}
                                         onClick={() => { handlePlayer(option) }}
-                                        className={`${option === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                        className={`${option === voiceActing ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                     >
                                         {option}
                                     </p>
@@ -64,7 +69,7 @@ const FilmPlayer = () => {
                     </div>
                 </div>
                 <div className={styles["player"]}>
-                    <Player switchPlayer={switchPlayer} />
+                    <Player switchPlayer={switchPlayer} voiceActing={voiceActing} />
                 </div>
             </div>
         </div>

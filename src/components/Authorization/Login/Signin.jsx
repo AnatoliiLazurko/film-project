@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
-import facebook_logo from "../../../images/forms/facebook.png";
 import google_logo from "../../../images/forms/google.png";
 import { Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -100,7 +99,6 @@ const Signin = ({ closeModal, openSignUp }) => {
                 <p>Or</p>
                 <p>Login with...</p>
                 <div className={styles["social-media"]}>
-                    <img src={facebook_logo} alt="" />
                     <img src={google_logo} alt="" onClick={() => signinWithGoogle()}/>
                 </div>
             </div>

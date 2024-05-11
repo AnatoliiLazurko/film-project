@@ -18,16 +18,18 @@
 
 .switch-players {
     display: flex;
-    gap: 16px;
+    gap: 10px;
 }
 
 .select-container {
     position: relative;
-    width: 127px;
+    min-width: 127px;
+    max-width: 150px;
+    width: auto;
     height: 33px;
     border-radius: 10px;
     padding: 6px 16px 6px 16px;
-    background-color: #6D8EEB;
+    background-color: #514F5A;
     font-family: 'Rubik';
     font-weight: 400;
     font-size: 16px;
@@ -88,7 +90,7 @@
     width: 104px;
     height: 33px;
     border-radius: 10px;
-    background-color: #6D8EEB;
+    background-color: #514F5A;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,6 +99,10 @@
     font-size: 16px;
     color: #F1F1F1;
     cursor: pointer;
+}
+
+.active {
+    background-color: #6D8EEB;
 }
 
 .player {

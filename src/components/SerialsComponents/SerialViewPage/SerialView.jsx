@@ -1,8 +1,8 @@
 import React from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
-import Player from './Player/Player';
 import OtherSeries from './OtherSerials/OtherSerials';
 import Comments from './Comments/Comments';
+import SerialPlayer from './SerialPlayer/SerialPlayer';
 
 const SerialView = () => {
     return (
@@ -10,7 +10,7 @@ const SerialView = () => {
             
             <ViewInfo />
 
-            <Player />
+            <SerialPlayer />
 
             <OtherSeries />
 

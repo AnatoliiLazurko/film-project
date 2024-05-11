@@ -15,11 +15,11 @@ import Selections from './components/Selections/Selections';
 import Status404 from './components/StatusComponents/Status404';
 import Donate from './components/Donate/Donate';
 import Selected from './components/Selections/Selected/Selected';
-import ScrollUpButton from './components/ScrollUp/ScrollUpButton';
 import SearchResult from './components/SearchResult/SearchResult';
 import Settings from './components/Profile/Settings/Settings';
 import Profile from './components/Profile/Profile';
 import RoolsUse from './components/Technicall/Rools/RoolsUse';
+import ScrollUpButton from './components/Technicall/ScrollUp/ScrollUpButton';
 
 function App() {
   return (
