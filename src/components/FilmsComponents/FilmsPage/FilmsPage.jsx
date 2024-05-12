@@ -37,7 +37,7 @@ const FilmsPage = () => {
                 </>
             )}
 
-            <FilmsList setIsLoading={setLoading} is />
+            <FilmsList setIsLoading={setLoading} />
         </div>
     );
 }

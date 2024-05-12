@@ -8,6 +8,11 @@ import NewSerialCard from './NewSerialCard';
 const NewSerials = () => {
 
     const [serials, setSerials] = useState([]);
+    const [visibleCards, setVisibleCards] = useState(6);
+
+    const loadMore = () => {
+        setVisibleCards(prevCount => prevCount + 6);
+    };
 
     const fetchSerials = async () => {
 
@@ -37,13 +42,15 @@ const NewSerials = () => {
             <span className={styles["section-title"]}>New Serials <FontAwesomeIcon icon={faChevronRight} /></span>
             <div className={styles["list-new-serials"]}>
 
-                {serials.map((serial, index) => (
+                {serials.slice(0, visibleCards).map((serial, index) => (
                     <NewSerialCard key={index} serials={serial} />
                 ))}
                 
             </div>
 
-            <div className={styles["show-more"]}>More</div>
+            {serials.length > visibleCards && (
+                <div className={styles["show-more"]} onClick={loadMore}>More</div>
+            )}
         </div>
     );
 }

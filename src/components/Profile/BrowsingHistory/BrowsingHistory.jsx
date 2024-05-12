@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BrowsingHistoryStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { handleInfoPositioning } from './HistoryScripts';
+import Pagination from './Pagination/Pagination';
 
 const BrowsingHistory = () => {
 
     const [sortHistory, setSortHistory] = useState('recent');
+    const [currentPage, setCurrentPage] = useState(1);
 
     const handleRecentHistory = () => {
         setSortHistory('recent');
@@ -63,6 +65,11 @@ const BrowsingHistory = () => {
         };
     }, [movies]);
 
+    const moviesPerPage = 12;
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+
 
     return (
         <div className={styles["browsing-history"]}>
@@ -75,7 +82,7 @@ const BrowsingHistory = () => {
 
             <div className={styles["history-list"]}>
 
-                {movies.map((movie, index) => (
+                {currentMovies.map((movie, index) => (
                     <NavLink to={`/film-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
                             <img src={movie.Poster} alt="" />
@@ -109,14 +116,7 @@ const BrowsingHistory = () => {
                 
             </div>
 
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>2</div>
-                <div className={styles["pagination-btn"]}>3</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
-            </div>
+            <Pagination movies={movies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 
         </div>
     );

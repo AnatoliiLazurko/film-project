@@ -8,6 +8,11 @@ import NewCartoonCard from './NewCartoonCard';
 const NewCartoons = () => {
 
     const [cartoons, setCartoons] = useState([]);
+    const [visibleCards, setVisibleCards] = useState(6);
+
+    const loadMore = () => {
+        setVisibleCards(prevCount => prevCount + 6);
+    };
 
     const fetchCartoons = async () => {
 
@@ -37,13 +42,15 @@ const NewCartoons = () => {
             <span className={styles["section-title"]}>New Cartoons <FontAwesomeIcon icon={faChevronRight} /></span>
             <div className={styles["list-new-cartoons"]}>
 
-                {cartoons.map((cartoon, index) => (
+                {cartoons.slice(0, visibleCards).map((cartoon, index) => (
                     <NewCartoonCard key={index} cartoons={cartoon} />
                 ))}
                 
             </div>
 
-            <div className={styles["show-more"]}>More</div>
+            {cartoons.length > visibleCards && (
+                <div className={styles["show-more"]} onClick={loadMore}>More</div>
+            )}
         </div>
     );
 }

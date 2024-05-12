@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './DonateStyles.module.css';
 import DonateCard from './DonateCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import Pagination from './Pagination/Pagination';
 
 const Donate = () => {
 
-    const repetitions = Array.from({ length: 8 });
+    const repetitions = Array.from({ length: 10 });
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const DonatePerPage = 8;
+    const indexOfLastDonate = currentPage * DonatePerPage;
+    const indexOfFirstDonate = indexOfLastDonate - DonatePerPage;
+    const currentDonates = repetitions.slice(indexOfFirstDonate, indexOfLastDonate);
 
     return (
         <div className={styles["donate-page"]}>
@@ -20,18 +25,13 @@ const Donate = () => {
 
             <div className={styles["donations-list"]}>
 
-                {repetitions.map((_, index) => (
+                {currentDonates.map((_, index) => (
                     <DonateCard key={index}/>
                 ))}
                 
             </div>
 
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-            </div>
+            <Pagination donates={repetitions} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 
         </div>
     );

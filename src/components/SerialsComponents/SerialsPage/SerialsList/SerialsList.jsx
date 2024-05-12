@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styles from './SerialsListStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { handleSerialInfoPositioning } from './SerialsListScripts';
+import Pagination from './Pagination/Pagination';
 
 const SerialsList = () => {
 
     const [series, setSeries] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         async function fetchseries() {
@@ -71,12 +73,16 @@ const SerialsList = () => {
         };
     }, [series]);
 
+    const moviesPerPage = 48;
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = series.slice(indexOfFirstMovie, indexOfLastMovie);
 
     return (
         <>
             <div className={styles["serials-list"]}>
             
-                {series.map((movie, index) => (
+                {currentMovies.map((movie, index) => (
                     
                     <NavLink to={`/serial-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
@@ -112,14 +118,7 @@ const SerialsList = () => {
 
             </div>
             
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>2</div>
-                <div className={styles["pagination-btn"]}>3</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
-            </div>
+            <Pagination movies={series} setCurrentPage={setCurrentPage} currentPage={currentPage} />
         </>
     );
 }

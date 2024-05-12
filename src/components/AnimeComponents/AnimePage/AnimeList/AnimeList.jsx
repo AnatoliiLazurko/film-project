@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styles from './AnimeListStyles.module.css';
 import { NavLink, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { handleAnimeInfoPositioning } from './AnimeListScripts';
+import Pagination from './Pagination/Pagination';
 
 const AnimeList = () => {
 
     const [movies, setMovies] = useState([]);
     const { genre } = useParams();
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         async function fetchMovies() {
@@ -79,11 +81,16 @@ const AnimeList = () => {
         return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
     }) : movies;
 
+    const moviesPerPage = 48;
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
+
     return (
         <>
             <div className={styles["anime-list"]}>
             
-                {filteredMovies.map((movie, index) => (
+                {currentMovies.map((movie, index) => (
                     
                     <NavLink to={`/anime-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
@@ -119,14 +126,8 @@ const AnimeList = () => {
 
             </div>
             
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>2</div>
-                <div className={styles["pagination-btn"]}>3</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
-            </div>
+            <Pagination movies={filteredMovies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            
         </>
     );
 }

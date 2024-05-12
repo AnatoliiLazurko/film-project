@@ -8,6 +8,11 @@ import axios from 'axios';
 const NewFilms = () => {
 
     const [movies, setMovies] = useState([]);
+    const [visibleCards, setVisibleCards] = useState(6);
+
+    const loadMore = () => {
+        setVisibleCards(prevCount => prevCount + 6);
+    };
 
     const fetchMovies = async () => {
 
@@ -32,20 +37,21 @@ const NewFilms = () => {
         fetchMovies();
     }, []);
 
-    // console.log(movies);
 
     return (
         <div className={styles["new-films-section"]}>
             <span className={styles["section-title"]}>New Films <FontAwesomeIcon icon={faChevronRight} /></span>
             <div className={styles["list-new-films"]}>
 
-                {movies.map((movie, index) => (
+                {movies.slice(0, visibleCards).map((movie, index) => (
                     <NewFilmCard key={index} movies={movie} />
                 ))}
                 
             </div>
 
-            <div className={styles["show-more"]}>More</div>
+            {movies.length > visibleCards && (
+                <div className={styles["show-more"]} onClick={loadMore}>More</div>
+            )}
         </div>
     );
 }

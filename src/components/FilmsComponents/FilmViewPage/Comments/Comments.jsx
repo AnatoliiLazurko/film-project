@@ -27,6 +27,11 @@ const Comments = () => {
 
     const [sortDirection, setSortDirection] = useState('newToOld');
 
+    const [visibleComments, setVisibleComments] = useState(5);
+
+    const loadMore = () => {
+        setVisibleComments(prevCount => prevCount + 5);
+    };
 
     const handleEmojiSelect = (emoji) => {
         setComment(comment + emoji);
@@ -192,8 +197,7 @@ const Comments = () => {
 
             <div className={styles["list-of-comments"]}>
                 
-
-                {commentsList.slice().sort(sortFunction).map((comment, index) => (
+                {commentsList.sort(sortFunction).slice(0, visibleComments).map((comment, index) => (
                     <div className={styles["comment-block"]} key={index}>
                         <div className={styles["commnet-avatar"]}>
                             <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
@@ -235,7 +239,9 @@ const Comments = () => {
                 ))}
             </div>
 
-            <div className={styles["view-more"]}>View more</div>
+            {commentsList.length > visibleComments && (
+                <div className={styles["view-more"]} onClick={loadMore}>View more</div>
+            )}
         </div>
     );
 }

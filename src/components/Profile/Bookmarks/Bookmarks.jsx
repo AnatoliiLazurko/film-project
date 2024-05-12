@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BookmarksStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { handleInfoPositioning } from '../BrowsingHistory/HistoryScripts';
+import Pagination from './Pagination/Pagination';
 
 const Bookmarks = () => {
 
     const [movies, setmovie] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchmovie = async () => {
 
@@ -49,11 +51,16 @@ const Bookmarks = () => {
         };
     }, [movies]);
 
+    const moviesPerPage = 12;
+    const indexOfLastMovie = currentPage * moviesPerPage;
+    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+
     return (
         <>
             <div className={styles["bookmarks-list"]}>
             
-                {movies.map((movie, index) => (
+                {currentMovies.map((movie, index) => (
                     <NavLink to={`/film-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
                             <img src={movie.Poster} alt="" />
@@ -87,14 +94,7 @@ const Bookmarks = () => {
 
             </div>
 
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>2</div>
-                <div className={styles["pagination-btn"]}>3</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
-            </div>
+            <Pagination movies={movies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
         </>
     );
 }
