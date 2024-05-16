@@ -17,14 +17,12 @@ const SearchResult = () => {
     const [queryReady, setQueryReady] = useState(false);
 
     useEffect(() => {
-        console.log(query)
         if (query !== undefined && !queryReady) {
             setInputValue(query);
             setQueryReady(true);
             searchMoviesByParam();
         }
     }, [query, queryReady]);
-
 
     const searchMoviesByParam = async () => {
         try {
@@ -83,11 +81,17 @@ const SearchResult = () => {
         searchMovies();
     }
 
+    console.log(movies);
+    const films = movies.filter(movie => movie.Type === 'movie');
+    const cartoons = movies.filter(movie => movie.Type === 'cartoon');
+    const serials = movies.filter(movie => movie.Type === 'series');
+    const anime = movies.filter(movie => movie.Type === 'anime');
+
     return (
         <div className={styles["search-page"]}>
             
             <p className={styles["search-txt"]}>Search on the site</p>
-            <p className={styles["count-found"]}>{movies.length} results were found for your query</p>
+            <p className={styles["count-found"]}>For your query, {movies.length} results were found among the categories:</p>
 
             <div className={styles["search-container"]}>
                 <div className={styles["search-field"]}>
@@ -99,7 +103,33 @@ const SearchResult = () => {
                 <div className={styles["search-btn"]} onClick={handleSearch}>Search</div>
             </div>
 
-            <ResultList movies={movies} />
+            {movies.length !== 0 &&
+                <>
+                <div>
+                    <p className={styles["category-title"]}>Films</p>
+                    <ResultList movies={films} type={'film'} />
+                    {films.length === 0 && <p className={styles["none-results"]}>0 results were found for your query in this category</p>}
+                </div>
+
+                <div>
+                    <p className={styles["category-title"]}>Cartoons</p>
+                    <ResultList movies={cartoons} type={'cartoon'} />
+                    {cartoons.length === 0 && <p className={styles["none-results"]}>0 results were found for your query in this category</p>}
+                </div>
+
+                <div>
+                    <p className={styles["category-title"]}>Serials</p>
+                    <ResultList movies={serials} type={'serial'} />
+                    {serials.length === 0 && <p className={styles["none-results"]}>0 results were found for your query in this category</p>}
+                </div>
+
+                <div>
+                    <p className={styles["category-title"]}>Anime</p>
+                    <ResultList movies={anime} type={'anime'} />
+                    {anime.length === 0 && <p className={styles["none-results"]}>0 results were found for your query in this category</p>}
+                </div>
+                </>
+            }
             
             {movies.length === 0 && <div className={styles["none-found"]}><img src={box} alt='Empty box' /></div>}
             

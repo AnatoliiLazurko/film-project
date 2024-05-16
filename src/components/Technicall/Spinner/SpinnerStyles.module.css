@@ -9,6 +9,7 @@
     position: relative;
     margin: 0 auto;
     margin-bottom: 30vh;
+    margin-top: 50px;
 }
 
 .spinner::after,

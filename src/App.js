@@ -20,45 +20,49 @@ import Settings from './components/Profile/Settings/Settings';
 import Profile from './components/Profile/Profile';
 import RoolsUse from './components/Technicall/Rools/RoolsUse';
 import ScrollUpButton from './components/Technicall/ScrollUp/ScrollUpButton';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 function App() {
   return (
     <>
-      <Header />
+      <Provider store={store}>
+        <Header />
 
-      <Routes>
-        <Route path='/' element={<MainPage />} />
+        <Routes>
+          <Route path='/' element={<MainPage />} />
 
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/settings/:option' element={<Settings />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/settings/:option' element={<Settings />} />
 
-        <Route path='/search/:query?' element={<SearchResult />} />
+          <Route path='/search/:query?' element={<SearchResult />} />
 
-        <Route path='/films/:genre?/:date?/:popular?' element={<FilmsPage />} />
-        <Route path="/film-view/:genre/:id" element={<FilmView />} />
+          <Route path='/films/:genre?/:date?/:popular?' element={<FilmsPage />} />
+          <Route path="/film-view/:genre/:id" element={<FilmView />} />
 
-        <Route path='/cartoons/:category?/:date?/:popular?' element={<CartoonsPage />} />
-        <Route path="/cartoon-view/:genre/:id" element={<CartoonView />} />
+          <Route path='/cartoons/:category?/:date?/:popular?' element={<CartoonsPage />} />
+          <Route path="/cartoon-view/:genre/:id" element={<CartoonView />} />
 
-        <Route path='/serials/:genre?/:date?/:popular?' element={<SerialsPage />} />
-        <Route path="/serial-view/:genre/:id" element={<SerialView />} />
+          <Route path='/serials/:genre?/:date?/:popular?' element={<SerialsPage />} />
+          <Route path="/serial-view/:genre/:id" element={<SerialView />} />
 
-        <Route path='/anime/:genre?/:date?/:popular?' element={<AnimePage />} />
-        <Route path="/anime-view/:genre/:id" element={<AnimeView />} /> 
+          <Route path='/anime/:genre?/:date?/:popular?' element={<AnimePage />} />
+          <Route path="/anime-view/:genre/:id" element={<AnimeView />} /> 
 
-        <Route path='/selections/:selection' element={<Selections />} />
-        <Route path='/selection/:type/:selected' element={<Selected />} />
+          <Route path='/selections/:selection' element={<Selections />} />
+          <Route path='/selection/:type/:selected' element={<Selected />} />
 
-        <Route path='/donate' element={<Donate />} />
+          <Route path='/donate' element={<Donate />} />
 
-        <Route path='/rools/:term' element={<RoolsUse />} />
+          <Route path='/rools/:term' element={<RoolsUse />} />
+          
+          <Route path="*" element={<Status404 />} />
+        </Routes>
+
+        <ScrollUpButton />
         
-        <Route path="*" element={<Status404 />} />
-      </Routes>
-
-      <ScrollUpButton />
-      
-      <Footer />
+        <Footer />
+      </Provider>
     </>
   );
 }

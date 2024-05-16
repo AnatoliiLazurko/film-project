@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleInfoPositioning } from './ResultListScripts';
 
-const ResultList = ({ movies }) => {
+const ResultList = ({ movies, type }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -29,7 +29,7 @@ const ResultList = ({ movies }) => {
             
             {movies.map((movie, index) => (
                 
-                <NavLink to={`/film-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
+                <NavLink to={`/${type}-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
                     <div className={styles["film-poster"]}>
                         <img src={movie.Poster} alt="" />
                         <div className={styles["question-mark"]}>?</div>

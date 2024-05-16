@@ -1,63 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styles from './FilmsListStyles.module.css';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { handleFilmInfoPositioning } from './FilmsListScripts';
 import Pagination from './Pagination/Pagination';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFilms } from '../../../../slices/filmsSlices/FilmsSlice';
+import Spinner from '../../../Technicall/Spinner/Spinner';
 
-const FilmsList = ({ setIsLoading }) => {
+const FilmsList = () => {
 
-    const [movies, setMovies] = useState([]);
-    const { genre } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
 
+    const dispatch = useDispatch();
+    const movies = useSelector((state) => state.films.films); 
+    const isLoading = useSelector((state) => state.films.isLoading);
+    const error = useSelector((state) => state.films.error)
+
     useEffect(() => {
-        async function fetchMovies() {
-            try {
-                let fetchedMovies = [];
-
-                for (let page = 1; page <= 20; page++) {
-                    const response = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            s: 'movie',
-                            type: 'movie',
-                            r: 'json',
-                            page: page,
-                            pageSize: 10
-                        }
-                    });
-
-                    if (response.data.Search) {
-                        fetchedMovies = fetchedMovies.concat(response.data.Search);
-                    }
-                }
-
-                const moviesWithDetails = await Promise.all(
-                    fetchedMovies.map(async movie => {
-                        const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                            params: {
-                                apikey: 'bfec6a42',
-                                i: movie.imdbID,
-                                r: 'json'
-                            }
-                        });
-                        return detailsResponse.data;
-                    })
-                );
-
-                setMovies(moviesWithDetails);
-
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-            }
-        }
-
-        fetchMovies();
-    }, [setIsLoading]);
+        dispatch(fetchFilms());
+    }, [dispatch])
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -76,17 +39,24 @@ const FilmsList = ({ setIsLoading }) => {
         };
     }, [movies]);
 
+    if (isLoading) {
+        return <Spinner />;
+    }
 
-    const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
-        let movieGenres = movie.Genre.split(", ");
+    if (error) {
+        console.log(error);
+    }
+
+    // const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
+    //     let movieGenres = movie.Genre.split(", ");
         
-        return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
-    }) : movies;
+    //     return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
+    // }) : movies;
 
     const moviesPerPage = 48;
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
+    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
     return (
         <>
@@ -127,7 +97,7 @@ const FilmsList = ({ setIsLoading }) => {
                 ))}
             </div>
 
-            <Pagination movies={filteredMovies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination movies={movies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
             
         </>
     );

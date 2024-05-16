@@ -48,6 +48,11 @@
     border-radius: 20px;
     position: relative;
     animation: showMovieCards 1s ease-in-out forwards;
+    transition: 0.5s ease;
+}
+
+.selection-card:hover {
+    box-shadow: #6D8EEB 0px 0px 6px;
 }
 
 @keyframes showMovieCards {
