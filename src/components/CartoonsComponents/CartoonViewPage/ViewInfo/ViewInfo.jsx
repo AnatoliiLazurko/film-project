@@ -1,55 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './ViewInfoStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faStar, faBookmark as solidBookMark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookMark } from '@fortawesome/free-regular-svg-icons';
-import { NavLink, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
-const ViewInfo = () => {
+const ViewInfo = ({ cartoonDetails }) => {
 
-    const { id } = useParams();
-    const [filmInfo, setFilmInfo] = useState([]);
     const [isSaved, setSaved] = useState(false);
 
     const toSave = () => {
         setSaved(!isSaved);
     };
 
-    useEffect(() => {
-        const fetchMovie = async () => {
-            try {
-                const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
-                setFilmInfo(response.data);
-
-            } catch (error) {
-                console.error('Помилка під час отримання фільму:', error);
-            }
-        }
-
-        fetchMovie();
-    }, [id]);
-
     return (
         <div className={styles["view-info"]}>
             <div className={styles["path"]}>
                 <NavLink to={'/cartoons'}>Cartoons</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink to={`/cartoons/${filmInfo.Genre && filmInfo.Genre.split(',')[0].toLowerCase()}`}>{filmInfo.Genre && filmInfo.Genre.split(',')[0]}</NavLink>
+                <NavLink to={`/cartoons/${cartoonDetails.Genre && cartoonDetails.Genre.split(',')[0].toLowerCase()}`}>{cartoonDetails.Genre && cartoonDetails.Genre.split(',')[0]}</NavLink>
                 <FontAwesomeIcon icon={faAnglesRight} />
-                <span>{filmInfo.Title}</span>
+                <span>{cartoonDetails.Title}</span>
             </div>
 
             <div className={styles["content-info"]}>
                 <div className={styles["left-content"]}>
-                    <img src={filmInfo.Poster} alt="" />
+                    <img src={cartoonDetails.Poster} alt="" />
                 </div>
                 <div className={styles["right-content"]}>
                     <div className={styles["top-section"]}>
-                        <h1 className={styles["title"]}>{filmInfo.Title}</h1>
+                        <h1 className={styles["title"]}>{cartoonDetails.Title}</h1>
                         <div className={styles["rate-save-section"]}>
                             <div className={styles["cartoon-rate"]}>
-                                <FontAwesomeIcon icon={faStar} /> {filmInfo.imdbRating}/10
+                                <FontAwesomeIcon icon={faStar} /> {cartoonDetails.imdbRating}/10
                             </div>
                             <div className={styles["save"]} onClick={toSave}>
                                 {isSaved && <FontAwesomeIcon icon={solidBookMark} />}
@@ -58,13 +41,13 @@ const ViewInfo = () => {
                         </div>
                     </div>
                     <p>Quality: 1080p</p>
-                    <p>Release year: {filmInfo.Year}</p>
+                    <p>Release year: {cartoonDetails.Year}</p>
                     <p>Age rating: 12+</p>
-                    <p>Country: {filmInfo.Country}</p>
-                    <p>Genre: {filmInfo.Genre}</p>
-                    <p>Actors: {filmInfo.Actors}</p>
+                    <p>Country: {cartoonDetails.Country}</p>
+                    <p>Genre: {cartoonDetails.Genre}</p>
+                    <p>Actors: {cartoonDetails.Actors}</p>
 
-                    <h2 className={styles["plot"]}>{filmInfo.Plot}</h2>
+                    <h2 className={styles["plot"]}>{cartoonDetails.Plot}</h2>
                 </div>
             </div>
         </div>

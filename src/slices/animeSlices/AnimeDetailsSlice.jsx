@@ -2,16 +2,24 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    users: [],
+    animeDetails: [],
     isLoading: false,
     error: null
 }
 
+// export const fetchAnimeDetails = createAsyncThunk(
+//     'fetchAnimeDetails',
+//     async () => {
+//         const res = await axios.get("http://localhost:4000/api/Anime/byid");
+//         return res.data;
+//     }
+// );
+
 export const fetchAnimeDetails = createAsyncThunk(
     'fetchAnimeDetails',
-    async () => {
-        const res = await axios.get("http://localhost:4000/api/Anime/byid");
-        return res.data;
+    async (id) => {
+        const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+        return response.data;
     }
 );
 
@@ -26,7 +34,7 @@ export const animeDetailsSlice = createSlice({
         });
         builder.addCase(fetchAnimeDetails.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.users = action.payload;
+            state.animeDetails = action.payload;
         });
         builder.addCase(fetchAnimeDetails.rejected, (state, action) => {
             state.isLoading = false;

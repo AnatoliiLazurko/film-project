@@ -2,16 +2,24 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-    users: [],
+    serialDetails: [],
     isLoading: false,
     error: null
 }
 
+// export const fetchSerialDetails = createAsyncThunk(
+//     'fetchSerialDetails',
+//     async () => {
+//         const res = await axios.get("http://localhost:4000/api/Serials/byid");
+//         return res.data;
+//     }
+// );
+
 export const fetchSerialDetails = createAsyncThunk(
     'fetchSerialDetails',
-    async () => {
-        const res = await axios.get("http://localhost:4000/api/Serials/byid");
-        return res.data;
+    async (id) => {
+        const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+        return response.data;
     }
 );
 
@@ -26,7 +34,7 @@ export const serialDetailsSlice = createSlice({
         });
         builder.addCase(fetchSerialDetails.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.users = action.payload;
+            state.serialDetails = action.payload;
         });
         builder.addCase(fetchSerialDetails.rejected, (state, action) => {
             state.isLoading = false;

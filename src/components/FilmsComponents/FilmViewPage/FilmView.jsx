@@ -28,8 +28,6 @@ const FilmView = () => {
     if (error) {
         console.log("Film details error: " + error);
     }
-
-    console.log(filmDetails);
     
     return (
         <>

@@ -19,7 +19,7 @@ const FilmsList = () => {
     const error = useSelector((state) => state.films.error)
 
     useEffect(() => {
-        dispatch(fetchFilms());
+        dispatch(fetchFilms(20));
     }, [dispatch])
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const FilmsList = () => {
     }
 
     if (error) {
-        console.log(error);
+        console.log('Films error: ' + error);
     }
 
     // const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {

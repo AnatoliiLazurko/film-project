@@ -22,7 +22,7 @@ export const store = configureStore({
         // CARTOONS REDUCERS
         cartoons: cartoonsReducer,
         cartoonDetails: cartoonDetailsReducer,
-        filteredCartoons: filteredCartoonsReducer,
+        filteredCartoons: filteredCartoonsReducer, 
 
         // SERIALS REDUCERS
         serials: serialsReducer,

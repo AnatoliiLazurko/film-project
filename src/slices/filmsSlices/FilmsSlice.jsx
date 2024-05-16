@@ -17,10 +17,11 @@ const initialState = {
 
 export const fetchFilms = createAsyncThunk(
     'fetchFilms',
-    async () => {
+    async (pageCount) => {
+        const countOfPage = pageCount; 
         let fetchedMovies = [];
 
-        for (let page = 1; page <= 20; page++) {
+        for (let page = 1; page <= countOfPage; page++) {
             const response = await axios.get('http://www.omdbapi.com/', {
                 params: {
                     apikey: 'bfec6a42',
