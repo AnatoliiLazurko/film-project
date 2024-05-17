@@ -69,25 +69,25 @@ const Header = () => {
                         <nav>
                             <ul className={styles["nav-list"]}>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/films'>Films</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/films/genre=u/date=u/popular=u/1'>Films</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <FilmMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/cartoons'>Cartoons</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/cartoons/category=u/date=u/popular=u/1'>Cartoons</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <CartoonMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/serials'>Serials</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/serials/genre=u/date=u/popular=u/1'>Serials</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <SerialMenu />
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/anime'>Anime</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/anime/genre=u/date=u/popular=u/1'>Anime</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <AnimeMenu />
                                     </div>

@@ -1,60 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SerialsListStyles.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { handleSerialInfoPositioning } from './SerialsListScripts';
 import Pagination from './Pagination/Pagination';
 
-const SerialsList = () => {
+const SerialsList = ({ serials, setCurrentPage, currentPage }) => {
 
-    const [series, setSeries] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(9);
+    const { genre, date, popular } = useParams();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchseries() {
-            try {
-                let fetchedSeries = [];
+    // useEffect(() => {
+    //     async function fetchTotalPages() {
+    //         try {
+    //             const response = await axios.get('/movies/pages');
+    //             setTotalPages(response.data.totalPages);
+    //         } catch (error) {
+    //             console.error('Error fetching total pages:', error);
+    //         }
+    //     }
 
-                for (let page = 1; page <= 5; page++) {
-                    const response = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            s: 'series',
-                            type: 'series',
-                            r: 'json',
-                            page: page,
-                            pageSize: 10
-                        }
-                    });
+    //     fetchTotalPages();
+    // }, []);
 
-                    if (response.data.Search) {
-                        fetchedSeries = fetchedSeries.concat(response.data.Search);
-                    }
-                }
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
 
-                const seriesWithDetails = await Promise.all(
-                    fetchedSeries.map(async movie => {
-                        const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            i: movie.imdbID,
-                            r: 'json'
-                        }
-                        });
-                        return detailsResponse.data;
-                    })
-                );
+        const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
+        const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
 
-                setSeries(seriesWithDetails);
-            } catch (error) {
-                console.error('Error fetching series:', error);
-            }
-        }
-
-        fetchseries();
-    }, []);
+        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}/${pageNumber}`;
+        navigate(newPath);
+    };
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -71,18 +51,13 @@ const SerialsList = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [series]);
-
-    const moviesPerPage = 48;
-    const indexOfLastMovie = currentPage * moviesPerPage;
-    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = series.slice(indexOfFirstMovie, indexOfLastMovie);
+    }, [serials]);
 
     return (
         <>
             <div className={styles["serials-list"]}>
             
-                {currentMovies.map((movie, index) => (
+                {serials.map((movie, index) => (
                     
                     <NavLink to={`/serial-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
@@ -118,7 +93,7 @@ const SerialsList = () => {
 
             </div>
             
-            <Pagination movies={series} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} setCurrentPage={handlePageChange} currentPage={currentPage} />
         </>
     );
 }

@@ -11,7 +11,7 @@ const PopularFilter = ({ isClean, setIsClean }) => {
     const [isFilterOpen, setFilterOpen] = useState(false);
     const selectRef = useRef(null);
     const [urlPopular, setUrlPopular] = useState('');
-    const { genre, date, popular } = useParams();
+    const { genre, date, popular, page } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {
@@ -22,8 +22,9 @@ const PopularFilter = ({ isClean, setIsClean }) => {
         const popularUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
 
-        const newPath = `/films/${genreUrl}/${dateUrl}/${popularUrl}`;
+        const newPath = `/films/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
         navigate(newPath);
     }
 

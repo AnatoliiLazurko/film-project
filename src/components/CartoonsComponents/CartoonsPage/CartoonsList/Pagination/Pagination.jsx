@@ -3,10 +3,8 @@ import styles from './PaginationStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const Pagination = ({ movies, setCurrentPage, currentPage }) => {
+const Pagination = ({ totalPages, setCurrentPage, currentPage }) => {
 
-    const moviesPerPage = 48;
-    const totalPages = Math.ceil(movies.length / moviesPerPage);
     const maxPageNumbers = 3;
 
     let startPage = Math.max(1, currentPage - 1);
@@ -22,23 +20,27 @@ const Pagination = ({ movies, setCurrentPage, currentPage }) => {
         pageNumbers.push(i);
     }
 
+    const handlePageClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <div className={styles["pagination-section"]}>
-            <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+            <button onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1}>
                 <FontAwesomeIcon icon={faChevronLeft} className={`${currentPage === 1 ? styles["inactive-arrow"] : styles["active-arrow"]}`} />
             </button>
-            {startPage > 1 && <div className={`${styles["pagination-btn"]}`} onClick={() => setCurrentPage(1)}>1</div>}
+            {startPage > 1 && <div className={`${styles["pagination-btn"]}`} onClick={() => handlePageClick(1)}>1</div>}
             {startPage > 2 && <div className={styles["pagination-btn"]}>...</div>}
             {pageNumbers.map((number) => (
                 <div className={`${styles["pagination-btn"]} ${currentPage === number ? styles["pagin-active-btn"] : ''}`}
-                    key={number} onClick={() => setCurrentPage(number)}
+                    key={number} onClick={() => handlePageClick(number)}
                 >
                     {number}
                 </div>
             ))}
             {endPage < totalPages - 1 && <div className={styles["pagination-btn"]}>...</div>}
-            {endPage < totalPages && <div className={`${styles["pagination-btn"]}`} onClick={() => setCurrentPage(totalPages)}>{totalPages}</div>}
-            <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+            {endPage < totalPages && <div className={`${styles["pagination-btn"]}`} onClick={() => handlePageClick(totalPages)}>{totalPages}</div>}
+            <button onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages}>
                 <FontAwesomeIcon icon={faChevronRight} className={`${currentPage === totalPages ? styles["inactive-arrow"] : styles["active-arrow"]}`} />
             </button>
         </div>

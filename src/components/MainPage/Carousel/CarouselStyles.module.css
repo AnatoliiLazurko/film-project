@@ -121,7 +121,20 @@
     margin-right: 16px;
     border-radius: 24px;
     text-decoration: none;
+    animation: showCarouselCards 2s ease-in-out forwards;
 }
+    
+    @keyframes showCarouselCards {
+        from {
+            opacity: 0;
+            right: -50px;
+        }
+    
+        to {
+            opacity: 1;
+            right: 0;
+        }
+    }
 
 .carousel-card .card-poster::before {
     content: "";

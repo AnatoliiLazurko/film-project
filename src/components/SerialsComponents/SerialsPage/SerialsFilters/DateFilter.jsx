@@ -11,7 +11,7 @@ const DateFilter = ({ isClean, setIsClean }) => {
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlDate, setUrlDate] = useState('');
     const selectRef = useRef(null);
-    const { genre, date, popular } = useParams();
+    const { genre, date, popular, page } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {
@@ -22,8 +22,9 @@ const DateFilter = ({ isClean, setIsClean }) => {
         const dateUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
+        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
 
-        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}`;
+        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
         navigate(newPath);
     }
 

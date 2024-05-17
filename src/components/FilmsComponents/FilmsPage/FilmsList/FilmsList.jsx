@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import styles from './FilmsListStyles.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleFilmInfoPositioning } from './FilmsListScripts';
 import Pagination from './Pagination/Pagination';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilms } from '../../../../slices/filmsSlices/FilmsSlice';
-import Spinner from '../../../Technicall/Spinner/Spinner';
 
-const FilmsList = () => {
+const FilmsList = ({ films, setCurrentPage, currentPage }) => {
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(9);
+    const { genre, date, popular } = useParams();
+    const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-    const movies = useSelector((state) => state.films.films); 
-    const isLoading = useSelector((state) => state.films.isLoading);
-    const error = useSelector((state) => state.films.error)
+    // useEffect(() => {
+    //     async function fetchTotalPages() {
+    //         try {
+    //             const response = await axios.get('/movies/pages');
+    //             setTotalPages(response.data.totalPages);
+    //         } catch (error) {
+    //             console.error('Error fetching total pages:', error);
+    //         }
+    //     }
 
-    useEffect(() => {
-        dispatch(fetchFilms(20));
-    }, [dispatch])
+    //     fetchTotalPages();
+    // }, []);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
+        const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
+
+        const newPath = `/films/${genreUrl}/${dateUrl}/${popularUrl}/${pageNumber}`;
+        navigate(newPath);
+    };
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -37,15 +51,7 @@ const FilmsList = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
-
-    if (isLoading) {
-        return <Spinner />;
-    }
-
-    if (error) {
-        console.log('Films error: ' + error);
-    }
+    }, [films]);
 
     // const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
     //     let movieGenres = movie.Genre.split(", ");
@@ -53,16 +59,11 @@ const FilmsList = () => {
     //     return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
     // }) : movies;
 
-    const moviesPerPage = 48;
-    const indexOfLastMovie = currentPage * moviesPerPage;
-    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-
     return (
         <>
             <div className={styles["films-list"]}>
     
-                {currentMovies.map((movie, index) => (
+                {films.map((movie, index) => (
                     
                     <NavLink to={`/film-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
@@ -97,7 +98,7 @@ const FilmsList = () => {
                 ))}
             </div>
 
-            <Pagination movies={movies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} setCurrentPage={handlePageChange} currentPage={currentPage} />
             
         </>
     );

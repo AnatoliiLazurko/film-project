@@ -1,61 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import styles from './AnimeListStyles.module.css';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { handleAnimeInfoPositioning } from './AnimeListScripts';
 import Pagination from './Pagination/Pagination';
 
-const AnimeList = () => {
+const AnimeList = ({ anime, setCurrentPage, currentPage }) => {
 
-    const [movies, setMovies] = useState([]);
-    const { genre } = useParams();
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(9);
+    const { genre, date, popular } = useParams();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchMovies() {
-            try {
-                let fetchedMovies = [];
+    // useEffect(() => {
+    //     async function fetchTotalPages() {
+    //         try {
+    //             const response = await axios.get('/movies/pages');
+    //             setTotalPages(response.data.totalPages);
+    //         } catch (error) {
+    //             console.error('Error fetching total pages:', error);
+    //         }
+    //     }
 
-                for (let page = 1; page <= 5; page++) {
-                    const response = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                        apikey: 'bfec6a42',
-                        s: 'movie',
-                        type: 'movie',
-                        r: 'json',
-                        page: page,
-                        pageSize: 10
-                        }
-                    });
+    //     fetchTotalPages();
+    // }, []);
 
-                    if (response.data.Search) {
-                        fetchedMovies = fetchedMovies.concat(response.data.Search);
-                    }
-                }
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
 
-                const moviesWithDetails = await Promise.all(
-                    fetchedMovies.map(async movie => {
-                        const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            i: movie.imdbID,
-                            r: 'json'
-                        }
-                        });
-                        return detailsResponse.data;
-                    })
-                );
+        const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
+        const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
 
-                setMovies(moviesWithDetails);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-            }
-        }
-
-        fetchMovies();
-    }, []);
+        const newPath = `/anime/${genreUrl}/${dateUrl}/${popularUrl}/${pageNumber}`;
+        navigate(newPath);
+    };
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -72,25 +51,20 @@ const AnimeList = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
+    }, [anime]);
 
 
-    const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
-        let movieGenres = movie.Genre.split(", ");
+    // const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
+    //     let movieGenres = movie.Genre.split(", ");
         
-        return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
-    }) : movies;
-
-    const moviesPerPage = 48;
-    const indexOfLastMovie = currentPage * moviesPerPage;
-    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
+    //     return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
+    // }) : movies;
 
     return (
         <>
             <div className={styles["anime-list"]}>
             
-                {currentMovies.map((movie, index) => (
+                {anime.map((movie, index) => (
                     
                     <NavLink to={`/anime-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
@@ -126,7 +100,7 @@ const AnimeList = () => {
 
             </div>
             
-            <Pagination movies={filteredMovies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} setCurrentPage={handlePageChange} currentPage={currentPage} />
             
         </>
     );

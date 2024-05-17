@@ -10,7 +10,7 @@ const GenreFilter = ({ isClean, setIsClean }) => {
     const [selectedFilter, setSelectedFilter] = useState('By genres');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlGenre, setUrlGenre] = useState('');
-    const { genre, date, popular } = useParams();
+    const { genre, date, popular, page } = useParams();
     const selectRef = useRef(null);
     const navigate = useNavigate();
 
@@ -22,8 +22,9 @@ const GenreFilter = ({ isClean, setIsClean }) => {
         const genreUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
+        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
 
-        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}`;
+        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
         navigate(newPath);
     }
 

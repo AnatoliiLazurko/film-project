@@ -11,7 +11,7 @@ const PopularFilter = ({ isClean, setIsClean }) => {
     const [isFilterOpen, setFilterOpen] = useState(false);
     const selectRef = useRef(null);
     const [urlPopular, setUrlPopular] = useState('');
-    const { category, date, popular } = useParams();
+    const { category, date, popular, page } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {
@@ -22,8 +22,9 @@ const PopularFilter = ({ isClean, setIsClean }) => {
         const popularUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const categoryUrl = typeof category === 'undefined' ? `category=u` : category;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
 
-        const newPath = `/cartoons/${categoryUrl}/${dateUrl}/${popularUrl}`;
+        const newPath = `/cartoons/${categoryUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
         navigate(newPath);
     }
 

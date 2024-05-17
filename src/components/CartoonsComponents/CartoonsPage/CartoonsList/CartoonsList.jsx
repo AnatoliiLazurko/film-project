@@ -1,60 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import styles from './CartoonsListStyles.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { handleCartoonInfoPositioning } from './CartoonsListScripts';
 import Pagination from './Pagination/Pagination';
 
-const CartoonList = () => {
+const CartoonList = ({ cartoons, setCurrentPage, currentPage }) => {
 
-    const [movies, setMovies] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(9);
+    const { category, date, popular } = useParams();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        async function fetchMovies() {
-            try {
-                let fetchedMovies = [];
+    // useEffect(() => {
+    //     async function fetchTotalPages() {
+    //         try {
+    //             const response = await axios.get('/movies/pages');
+    //             setTotalPages(response.data.totalPages);
+    //         } catch (error) {
+    //             console.error('Error fetching total pages:', error);
+    //         }
+    //     }
 
-                for (let page = 1; page <= 5; page++) {
-                    const response = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                        apikey: 'bfec6a42',
-                        s: 'movie',
-                        type: 'movie',
-                        r: 'json',
-                        page: page,
-                        pageSize: 10
-                        }
-                    });
+    //     fetchTotalPages();
+    // }, []);
 
-                    if (response.data.Search) {
-                        fetchedMovies = fetchedMovies.concat(response.data.Search);
-                    }
-                }
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
 
-                const moviesWithDetails = await Promise.all(
-                    fetchedMovies.map(async movie => {
-                        const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            i: movie.imdbID,
-                            r: 'json'
-                        }
-                        });
-                        return detailsResponse.data;
-                    })
-                );
+        const categoryUrl = typeof category === 'undefined' ? `category=u` : category;
+        const dateUrl = typeof date === 'undefined' ? `date=u` : date;
+        const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
 
-                setMovies(moviesWithDetails);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
-            }
-        }
-
-        fetchMovies();
-    }, []);
+        const newPath = `/cartoons/${categoryUrl}/${dateUrl}/${popularUrl}/${pageNumber}`;
+        navigate(newPath);
+    };
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -71,19 +51,13 @@ const CartoonList = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
-
-
-    const moviesPerPage = 48;
-    const indexOfLastMovie = currentPage * moviesPerPage;
-    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+    }, [cartoons]);
 
     return (
         <>
             <div className={styles["cartoons-list"]}>
             
-                {currentMovies.map((movie, index) => (
+                {cartoons.map((movie, index) => (
                     
                     <NavLink to={`/cartoon-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["cartoon-card"]} key={index}>
                         <div className={styles["cartoon-poster"]}>
@@ -119,7 +93,7 @@ const CartoonList = () => {
 
             </div>
             
-            <Pagination movies={movies} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} setCurrentPage={handlePageChange} currentPage={currentPage} />
         </>
     );
 }
