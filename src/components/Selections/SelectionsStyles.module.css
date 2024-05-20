@@ -1,0 +1,84 @@
+
+.selections-page {
+    max-width: calc(100% - 640px);
+    min-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: calc(64px + 84px);
+}
+
+.nav-section {
+    width: 100%;
+    height: auto;
+    padding: 12px 16px 12px 16px;
+    border-radius: 20px 20px 0 0;
+    background-color: #2F2E34;
+    display: flex;
+    gap: 16px;
+}
+
+.nav-section div {
+    display: inline-block;
+    padding: 6px 12px 6px 12px;
+    border-radius: 16px;
+    background-color: #514F5A;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+.nav-section .active {
+    background-color: #6D8EEB;
+}
+
+.selections-list {
+    width: 100%;
+    margin: 0;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.selection-card {
+    width: 100%;
+    height: 260px;
+    border-radius: 20px;
+    position: relative;
+    animation: showMovieCards 1s ease-in-out forwards;
+    transition: 0.5s ease;
+}
+
+.selection-card:hover {
+    box-shadow: #6D8EEB 0px 0px 6px;
+}
+
+@keyframes showMovieCards {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.selection-card img {
+    width: 100%;
+    height: 260px;
+    border-radius: 20px;
+}
+
+.selection-name {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+}

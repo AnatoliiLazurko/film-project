@@ -1,0 +1,398 @@
+
+.comments-section {
+    max-width: calc(100% - 640px);
+    min-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 64px;
+}
+
+.top-panel {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+}
+
+.top-panel p {
+    margin: 0;
+}
+
+.sort-block {
+    position: relative;
+}
+
+.sort-comments {
+    cursor: pointer;
+}
+
+.sort-comments svg {
+    width: 18px;
+    height: 18px;
+}
+
+.sort-dropdown {
+    position: absolute;
+    top: 22px;
+    right: 0;
+    background-color: #514F5A;
+    width: 137px;
+    height: auto;
+    border-radius: 0 0 16px 16px;
+    padding: 16px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+    z-index: 2;
+    animation: showSortDropdown 0.4s ease-in-out forwards;
+}
+
+@keyframes showSortDropdown {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.sort-dropdown p {
+    width: 100%;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sort-dropdown p:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.leave-comment {
+    width: 100%;
+    height: 153px;
+    margin: 0;
+    margin-top: 32px;
+    background-color: #2F2E34;
+    border-radius: 20px;
+    padding: 20px;
+    gap: 20px;
+    display: flex;
+}
+
+.commnet-avatar {
+    width: 60px;
+    justify-content: inline-block;
+}
+
+.commnet-avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-position: center;
+}
+
+.commnet-form {
+    width: 100%;
+}
+
+.username {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.input-section {
+    width: 100%;
+    margin: 0;
+    margin-top: 16px;
+}
+
+.input-message {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #514F5A;
+    padding: 0;
+    padding-bottom: 12px;
+    color: #514F5A;
+    background-color: #2F2E34;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Rubik';
+    font-weight: 400;
+}
+
+.input-message:focus {
+    color: #FFFFFF;
+}
+
+.under-input-section {
+    margin: 0;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #F1F1F1;
+}
+
+.under-input-section svg {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.emoji-block {
+    display: flex;
+    align-items: center;
+}
+
+.emojis-container {
+    display: inline-block;
+    margin-left: 12px;
+    width: auto;
+    height: 30px;
+    background-color: #1e1e1e7a;
+    border-radius: 16px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    animation: showEmojis 0.3s ease-in-out forwards;
+}
+
+@keyframes showEmojis {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-cancel {
+    border: none;
+    width: 54px;
+    height: 30px;
+    background-color: #2F2E34;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-send {
+    border: none;
+    width: 54px;
+    height: 30px;
+    background-color: #6D8EEB;
+    border-radius: 10px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+
+.list-of-comments {
+    max-width: calc(100% - 40px);
+    min-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 64px;
+}
+
+.comment-block {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 32px;
+    gap: 20px;
+    display: flex;
+    animation: showComment 0.4s ease-in-out forwards;
+}
+
+@keyframes showComment {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.comment-content {
+    width: 100%;
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-section svg {
+    color: #F1F1F1;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.username span {
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #514F5A;
+    margin-left: 15px;
+}
+
+.comment {
+    margin: 0;
+    margin-top: 16px;
+    width: 100%;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.under-comment-section {
+    margin: 0;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-section {
+    display: flex;
+}
+
+.left-section p {
+    margin: 0;
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.like {
+    color: #BBDE50;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.like svg {
+    margin-right: 6px;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.dislike {
+    color: #ED5F5B;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.dislike svg {
+    margin-right: 6px;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.see-comments {
+    color: #F1F1F1;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.see-comments svg {
+    margin-right: 6px;
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.btn-comment {
+    border: none;
+    width: 84px;
+    height: 30px;
+    background-color: #6D8EEB;
+    border-radius: 10px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+.view-more {
+    width: 70px;
+    margin: 0 auto;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    margin-top: 32px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+
+.reply-comment {
+    width: 100%;
+    height: 153px;
+    margin: 0;
+    margin-top: 16px;
+    background-color: #2F2E34;
+    border-radius: 20px;
+    padding: 20px;
+    gap: 20px;
+    display: flex;
+    animation: replyComment 0.4s ease-in-out forwards;
+}
+
+@keyframes replyComment {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.subcomment {
+    width: 100%;
+    min-height: 153px;
+    margin: 0;
+    margin-top: 16px;
+    margin-bottom: 32px;
+    gap: 20px;
+    display: flex;
+    animation: showSubcomment 0.4s ease-in-out forwards;
+}
+
+@keyframes showSubcomment {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

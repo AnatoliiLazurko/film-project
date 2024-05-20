@@ -1,0 +1,133 @@
+
+.search-page {
+    max-width: calc(100% - 640px);
+    min-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: calc(64px + 84px);
+}
+
+.search-txt {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.count-found {
+    margin: 0;
+    margin-top: 12px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.search-container {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.search-field {
+    width: 100%;
+    height: 36px;
+    background-color: #F1F1F1;
+    border-radius: 20px;
+    display: flex;
+    animation: showSearchField 0.7s ease-in-out forwards;
+}
+
+@keyframes showSearchField {
+    from {
+        opacity: 0;
+        right: -50px;
+    }
+
+    to {
+        opacity: 1;
+        right: 0;
+    }
+}
+
+.loop {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loop svg {
+    color: #2F2E34;
+    width: 18px;
+    height: 18px;
+}
+
+.search-input {
+    width: 100%;
+    height: 36px;
+    background-color: #F1F1F1;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    padding-right: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Inter';
+    color: #2F2E34;
+}
+
+.search-input::placeholder {
+    color: #8D8D8D;
+}
+
+.search-input:focus,
+.search-input:hover {
+    outline: none;
+}
+
+.search-btn {
+    width: 80px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #6D8EEB;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+.category-title {
+    margin: 0;
+    margin-top: 64px;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.none-results {
+    margin-top: 140px;
+    margin-bottom: 150px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.none-found {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 129px;
+}
+
+.none-found img {
+    width: 600px;
+    height: 480px;
+}

@@ -10,57 +10,57 @@ const AnimeMenu = () => {
                     <p className={styles["section-title"]}>Genres</p>
                     <div className={styles["section-colums"]}>
                         <div>
-                            <NavLink to='/anime/genre:action'>Action</NavLink>
-                            <NavLink to='/anime/genre:adventure'>Adventure</NavLink>
-                            <NavLink to='/anime/genre:comedies'>Comedies</NavLink>
-                            <NavLink to='/anime/genre:cyberpunk'>Cyberpunk</NavLink>
-                            <NavLink to='/anime/genre:dementia'>Dementia</NavLink>
+                            <NavLink to='/anime/action'>Action</NavLink>
+                            <NavLink to='/anime/adventure'>Adventure</NavLink>
+                            <NavLink to='/anime/comedies'>Comedies</NavLink>
+                            <NavLink to='/anime/cyberpunk'>Cyberpunk</NavLink>
+                            <NavLink to='/anime/dementia'>Dementia</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:detectives'>Detectives</NavLink>
-                            <NavLink to='/anime/genre:dramas'>Dramas</NavLink>
-                            <NavLink to='/anime/genre:dystopia'>Dystopia</NavLink>
-                            <NavLink to='/anime/genre:ecchi'>Ecchi</NavLink>
-                            <NavLink to='/anime/genre:everyday'>Everyday</NavLink>
+                            <NavLink to='/anime/detectives'>Detectives</NavLink>
+                            <NavLink to='/anime/dramas'>Dramas</NavLink>
+                            <NavLink to='/anime/dystopia'>Dystopia</NavLink>
+                            <NavLink to='/anime/ecchi'>Ecchi</NavLink>
+                            <NavLink to='/anime/everyday'>Everyday</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:fairytale'>Fairytale</NavLink>
-                            <NavLink to='/anime/genre:fantasy'>Fantasy</NavLink>
-                            <NavLink to='/anime/genre:for_children'>For childre</NavLink>
-                            <NavLink to='/anime/genre:gothic'>Gothic</NavLink>
-                            <NavLink to='/anime/genre:history'>History</NavLink>
+                            <NavLink to='/anime/fairytale'>Fairytale</NavLink>
+                            <NavLink to='/anime/fantasy'>Fantasy</NavLink>
+                            <NavLink to='/anime/for_children'>For childre</NavLink>
+                            <NavLink to='/anime/gothic'>Gothic</NavLink>
+                            <NavLink to='/anime/history'>History</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:horror'>Horror</NavLink>
-                            <NavLink to='/anime/genre:isekai'>Isekai</NavLink>
-                            <NavLink to='/anime/genre:jyosei'>Jyosei</NavLink>
-                            <NavLink to='/anime/genre:kodomomaho-shojyo'>KodomoMaho-shojyo</NavLink>
-                            <NavLink to='/anime/genre:martial_arts'>Martial Arts</NavLink>
+                            <NavLink to='/anime/horror'>Horror</NavLink>
+                            <NavLink to='/anime/isekai'>Isekai</NavLink>
+                            <NavLink to='/anime/jyosei'>Jyosei</NavLink>
+                            <NavLink to='/anime/kodomomaho-shojyo'>KodomoMaho-shojyo</NavLink>
+                            <NavLink to='/anime/martial_arts'>Martial Arts</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:mecha'>Mecha</NavLink>
-                            <NavLink to='/anime/genre:musical'>Musical</NavLink>
-                            <NavLink to='/anime/genre:mystic'>Mystic</NavLink>
-                            <NavLink to='/anime/genre:parody'>Parody</NavLink>
-                            <NavLink to='/anime/genre:post-apocalyptic'>Post-apocalyptic</NavLink>
+                            <NavLink to='/anime/mecha'>Mecha</NavLink>
+                            <NavLink to='/anime/musical'>Musical</NavLink>
+                            <NavLink to='/anime/mystic'>Mystic</NavLink>
+                            <NavLink to='/anime/parody'>Parody</NavLink>
+                            <NavLink to='/anime/post-apocalyptic'>Post-apocalyptic</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:romance'>Romance</NavLink>
-                            <NavLink to='/anime/genre:school'>School</NavLink>
-                            <NavLink to='/anime/genre:seinen'>Seinen</NavLink>
-                            <NavLink to='/anime/genre:shogyo'>Shogyo</NavLink>
-                            <NavLink to='/anime/genre:shojyo-ai'>Shojyo-ai</NavLink>
+                            <NavLink to='/anime/romance'>Romance</NavLink>
+                            <NavLink to='/anime/school'>School</NavLink>
+                            <NavLink to='/anime/seinen'>Seinen</NavLink>
+                            <NavLink to='/anime/shogyo'>Shogyo</NavLink>
+                            <NavLink to='/anime/shojyo-ai'>Shojyo-ai</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:shonen'>Shonen</NavLink>
-                            <NavLink to='/anime/genre:shonen-ai'>Shonen-ai</NavLink>
-                            <NavLink to='/anime/genre:sports'>Sports</NavLink>
-                            <NavLink to='/anime/genre:supernatural'>Supernatural</NavLink>
-                            <NavLink to='/anime/genre:thriller'>Thriller</NavLink>
+                            <NavLink to='/anime/shonen'>Shonen</NavLink>
+                            <NavLink to='/anime/shonen-ai'>Shonen-ai</NavLink>
+                            <NavLink to='/anime/sports'>Sports</NavLink>
+                            <NavLink to='/anime/supernatural'>Supernatural</NavLink>
+                            <NavLink to='/anime/thriller'>Thriller</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/anime/genre:war'>War</NavLink>
-                            <NavLink to='/anime/genre:zombie'>Zombie</NavLink>
+                            <NavLink to='/anime/war'>War</NavLink>
+                            <NavLink to='/anime/zombie'>Zombie</NavLink>
                         </div>
                     </div>
                 </div>

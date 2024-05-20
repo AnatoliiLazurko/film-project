@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import jar from '../../../images/header/logo.png';
+import jar from '../../../images/donates/jar.png';
 import styles from './JarDonateStyles.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const JarDonate = () => {
 
     return (
         <div className={`${styles["jar-donate"]} ${isSticky ? styles["sticky"] : ''}`} ref={stickyRef}>
-            <NavLink to={`/donates`}>
+            <NavLink to={`/donate`}>
                 <img src={jar} alt="" />
             </NavLink>
         </div>

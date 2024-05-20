@@ -1,0 +1,127 @@
+/* PLAYER SECTION */
+
+.player-section {
+    margin: 0;
+    margin-top: 64px;
+    width: 100%;
+    height: auto;
+    background-color: #2F2E34;
+    padding: 26px 0;
+}
+
+.player-content {
+    max-width: calc(100% - 640px);
+    min-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.switch-players {
+    display: flex;
+    gap: 10px;
+}
+
+.select-container {
+    position: relative;
+    min-width: 127px;
+    max-width: 150px;
+    width: auto;
+    height: 33px;
+    border-radius: 10px;
+    padding: 6px 16px 6px 16px;
+    background-color: #514F5A;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #f1f1f1;
+    cursor: pointer;
+}
+
+.custom-select {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-select span {
+    display: inline-block;
+}
+
+.custom-select svg {
+    margin-left: 6px;
+    width: 19px;
+    height: 19px;
+}
+
+.list-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2F2E34;
+    padding: 6px 0 16px 32px;
+    border-radius: 0 0 16px 16px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 14px;
+    color: #F1F1F1;
+    cursor: default;
+    z-index: 2;
+}
+
+.select-option {
+    margin: 0;
+    margin-top: 10px;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.select-option:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.selected-option {
+    margin: 0;
+    margin-top: 10px;
+    opacity: 0.7;
+    cursor: default;
+}
+
+.btn-trailer {
+    width: 104px;
+    height: 33px;
+    border-radius: 10px;
+    background-color: #514F5A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rubik';
+    font-family: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #6D8EEB;
+}
+
+.player {
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.player {
+    --plyr-color-main: #6D8EEB;
+    --plyr-video-background: #514F5A;
+    animation: showPlayer 1s ease-in-out forwards;
+}
+
+@keyframes showPlayer {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

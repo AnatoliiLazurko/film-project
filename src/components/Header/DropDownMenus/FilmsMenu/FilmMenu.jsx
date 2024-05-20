@@ -10,28 +10,28 @@ const FilmMenu = () => {
                     <p className={styles["section-title"]}>Genres</p>
                     <div className={styles["section-colums"]}>
                         <div>
-                            <NavLink to='/films/genre:action'>Action</NavLink>
-                            <NavLink to='/films/genre:biographical'>Biographical</NavLink>
-                            <NavLink to='/films/genre:crime'>Crime</NavLink>
-                            <NavLink to='/films/genre:comedies'>Comedies</NavLink>
-                            <NavLink to='/films/genre:dramas'>Dramas</NavLink>
+                            <NavLink to='/films/action'>Action</NavLink>
+                            <NavLink to='/films/biographical'>Biographical</NavLink>
+                            <NavLink to='/films/crime'>Crime</NavLink>
+                            <NavLink to='/films/comedies'>Comedies</NavLink>
+                            <NavLink to='/films/dramas'>Dramas</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/films/genre:detectives'>Detectives</NavLink>
-                            <NavLink to='/films/genre:documentaries'>Documentaries</NavLink>
-                            <NavLink to='/films/genre:family'>Family</NavLink>
-                            <NavLink to='/films/genre:fantasy'>Fantasy</NavLink>
-                            <NavLink to='/films/genre:historical'>Historical</NavLink>
+                            <NavLink to='/films/detectives'>Detectives</NavLink>
+                            <NavLink to='/films/documentaries'>Documentaries</NavLink>
+                            <NavLink to='/films/family'>Family</NavLink>
+                            <NavLink to='/films/fantasy'>Fantasy</NavLink>
+                            <NavLink to='/films/historical'>Historical</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/films/genre:melodrams'>Melodrams</NavLink>
-                            <NavLink to='/films/genre:musicals'>Musicals</NavLink>
-                            <NavLink to='/films/genre:thrillers'>Thrillers</NavLink>
-                            <NavLink to='/films/genre:westerns'>Westerns</NavLink>
+                            <NavLink to='/films/melodrams'>Melodrams</NavLink>
+                            <NavLink to='/films/musicals'>Musicals</NavLink>
+                            <NavLink to='/films/thrillers'>Thrillers</NavLink>
+                            <NavLink to='/films/westerns'>Westerns</NavLink>
                         </div>
                         <div>
-                            <NavLink to='/films/genre:short_films'>Short films</NavLink>
-                            <NavLink to='/films/genre:full-length_films'>Full-length films</NavLink>
+                            <NavLink to='/films/short_films'>Short films</NavLink>
+                            <NavLink to='/films/full-length_films'>Full-length films</NavLink>
                         </div>
                     </div>
                 </div>
@@ -39,11 +39,11 @@ const FilmMenu = () => {
                     <p className={styles["section-title"]}>Popular studios</p>
                     <div className={styles["section-colums"]}>
                         <div>
-                            <NavLink to='/films/popular-studio:DC'>DC</NavLink>
-                            <NavLink to='/films/popular-studio:disney'>Disney</NavLink>
-                            <NavLink to='/films/popular-studio:netflix'>Netflix</NavLink>
-                            <NavLink to='/films/popular-studio:sony'>Sony</NavLink>
-                            <NavLink to='/films/popular-studio:warner_bros'>Warner Bros</NavLink>
+                            <NavLink to='/films/DC'>DC</NavLink>
+                            <NavLink to='/films/disney'>Disney</NavLink>
+                            <NavLink to='/films/netflix'>Netflix</NavLink>
+                            <NavLink to='/films/sony'>Sony</NavLink>
+                            <NavLink to='/films/warner_bros'>Warner Bros</NavLink>
                         </div>
                     </div>
                 </div>
