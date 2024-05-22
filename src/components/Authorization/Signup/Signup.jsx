@@ -68,62 +68,65 @@ const Signup = ({ closeModal, openSignIn }) => {
     });
 
     return (
-        <div className={styles["signup"]}>
+        <>
+            <div className={styles["signup"]}>
 
-            <FontAwesomeIcon icon={faXmark} className={styles["close-mark"]} onClick={handleCloseModal}/>
+                <FontAwesomeIcon icon={faXmark} className={styles["close-mark"]} onClick={handleCloseModal}/>
 
-            <p className={styles["title"]}>New account</p>
+                <p className={styles["title"]}>New account</p>
 
-            <Formik
-                initialValues={initialValues}
-                onSubmit={submitHadler}
-                validationSchema={SIGNUP_SCHEMA}
-            >
-                <Form className={styles["form"]}>
-                    <div>
-                        <p className={styles["label"]}>Enter e-mail*</p>
-                        <Field name="email" className={styles["input"]} placeholder="E-mail" />
-                        <ErrorMessage name='email' component="p" className={styles["error"]}/>
-                    </div>
-                    <div className={styles["password-section"]}>
-                        <p className={styles["label"]}>Enter password*</p>
-                        <div className={styles["password-field"]}>
-                            <Field name="password" className={styles["input-password"]} type={showPassword ? "text" : "password"} placeholder="Password" />
-                            <div className={styles["show-password"]}>
-                                {!showPassword && <FontAwesomeIcon icon={faEye} onClick={togglePasswordVisibility} />}
-                                {showPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={togglePasswordVisibility} />}
-                            </div>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={submitHadler}
+                    validationSchema={SIGNUP_SCHEMA}
+                >
+                    <Form className={styles["form"]}>
+                        <div>
+                            <p className={styles["label"]}>Enter e-mail*</p>
+                            <Field name="email" className={styles["input"]} placeholder="E-mail" />
+                            <ErrorMessage name='email' component="p" className={styles["error"]}/>
                         </div>
-                        <div className={styles["password-field"]}>
-                            <Field name="confirmPassword" className={styles["input-password"]} type={showConfirmPassword ? "text" : "password"} placeholder="Repeat password" />
-                            <div className={styles["show-password"]}>
-                                {!showConfirmPassword && <FontAwesomeIcon icon={faEye} onClick={toggleConfirmPasswordVisibility} />}
-                                {showConfirmPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={toggleConfirmPasswordVisibility} />}
+                        <div className={styles["password-section"]}>
+                            <p className={styles["label"]}>Enter password*</p>
+                            <div className={styles["password-field"]}>
+                                <Field name="password" className={styles["input-password"]} type={showPassword ? "text" : "password"} placeholder="Password" />
+                                <div className={styles["show-password"]}>
+                                    {!showPassword && <FontAwesomeIcon icon={faEye} onClick={togglePasswordVisibility} />}
+                                    {showPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={togglePasswordVisibility} />}
+                                </div>
                             </div>
+                            <div className={styles["password-field"]}>
+                                <Field name="confirmPassword" className={styles["input-password"]} type={showConfirmPassword ? "text" : "password"} placeholder="Repeat password" />
+                                <div className={styles["show-password"]}>
+                                    {!showConfirmPassword && <FontAwesomeIcon icon={faEye} onClick={toggleConfirmPasswordVisibility} />}
+                                    {showConfirmPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={toggleConfirmPasswordVisibility} />}
+                                </div>
+                            </div>
+
+                            <ErrorMessage name='password' component="p" className={styles["error"]} />
+                            <ErrorMessage name='confirmPassword' component="p" className={styles["error"]} />
                         </div>
 
-                        <ErrorMessage name='password' component="p" className={styles["error"]} />
-                        <ErrorMessage name='confirmPassword' component="p" className={styles["error"]} />
-                    </div>
+                        <div className={styles["btn-section"]}>
+                            <Field className={styles["btn-confirm"]} type="submit" value="Create" id="signup" />
+                        </div>
+                    </Form> 
+                </Formik>
 
-                    <div className={styles["btn-section"]}>
-                        <Field className={styles["btn-confirm"]} type="submit" value="Create" id="signup" />
+                <div className={styles["signup-with"]}>
+                    <p>Or</p>
+                    <p>Make a new account with...</p>
+                    <div className={styles["social-media"]}>
+                        <img src={google_logo} alt="" onClick={() => signupWithGoogle()} />
                     </div>
-                </Form> 
-            </Formik>
-
-            <div className={styles["signup-with"]}>
-                <p>Or</p>
-                <p>Make a new account with...</p>
-                <div className={styles["social-media"]}>
-                    <img src={google_logo} alt="" onClick={() => signupWithGoogle()} />
+                </div>
+                <div className={styles["have-account"]}>
+                    <p>Already have an account?</p>
+                    <Link onClick={handleOpenSignIn}>Sign in</Link>
                 </div>
             </div>
-            <div className={styles["have-account"]}>
-                <p>Already have an account?</p>
-                <Link onClick={handleOpenSignIn}>Sign in</Link>
-            </div>
-        </div>
+            <div className={styles["screen-dimming"]}></div>
+        </>    
     );
 }
 

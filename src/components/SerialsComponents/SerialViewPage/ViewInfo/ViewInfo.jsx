@@ -4,53 +4,62 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faStar, faBookmark as solidBookMark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as regularBookMark } from '@fortawesome/free-regular-svg-icons';
 import { NavLink } from 'react-router-dom';
+import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 
 const ViewInfo = ({ serialDetails }) => {
 
     const [isSaved, setSaved] = useState(false);
+    const [isRating, setIsRating] = useState(false);
 
     const toSave = () => {
         setSaved(!isSaved);
     };
 
-    return (
-        <div className={styles["view-info"]}>
-            <div className={styles["path"]}>
-                <NavLink to={'/serials'}>Serials</NavLink>
-                <FontAwesomeIcon icon={faAnglesRight} />
-                <NavLink to={`/serials/${serialDetails.Genre && serialDetails.Genre.split(',')[0].toLowerCase()}`}>{serialDetails.Genre && serialDetails.Genre.split(',')[0]}</NavLink>
-                <FontAwesomeIcon icon={faAnglesRight} />
-                <span>{serialDetails.Title}</span>
-            </div>
+    const rateSerial = () => {
+        setIsRating(true);
+    };
 
-            <div className={styles["content-info"]}>
-                <div className={styles["left-content"]}>
-                    <img src={serialDetails.Poster} alt="" />
+    return (
+        <>
+            <div className={styles["view-info"]}>
+                <div className={styles["path"]}>
+                    <NavLink to={'/serials'}>Serials</NavLink>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                    <NavLink to={`/serials/${serialDetails.Genre && serialDetails.Genre.split(',')[0].toLowerCase()}`}>{serialDetails.Genre && serialDetails.Genre.split(',')[0]}</NavLink>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                    <span>{serialDetails.Title}</span>
                 </div>
-                <div className={styles["right-content"]}>
-                    <div className={styles["top-section"]}>
-                        <h1 className={styles["title"]}>{serialDetails.Title}</h1>
-                        <div className={styles["rate-save-section"]}>
-                            <div className={styles["serial-rate"]}>
-                                <FontAwesomeIcon icon={faStar} /> {serialDetails.imdbRating}/10
-                            </div>
-                            <div className={styles["save"]} onClick={toSave}>
-                                {isSaved && <FontAwesomeIcon icon={solidBookMark} />}
-                                {!isSaved && <FontAwesomeIcon icon={regularBookMark} />}
+
+                <div className={styles["content-info"]}>
+                    <div className={styles["left-content"]}>
+                        <img src={serialDetails.Poster} alt="" />
+                    </div>
+                    <div className={styles["right-content"]}>
+                        <div className={styles["top-section"]}>
+                            <h1 className={styles["title"]}>{serialDetails.Title}</h1>
+                            <div className={styles["rate-save-section"]}>
+                                <div className={styles["serial-rate"]} onClick={rateSerial}>
+                                    <FontAwesomeIcon icon={faStar} /> {serialDetails.imdbRating}/10
+                                </div>
+                                <div className={styles["save"]} onClick={toSave}>
+                                    {isSaved && <FontAwesomeIcon icon={solidBookMark} />}
+                                    {!isSaved && <FontAwesomeIcon icon={regularBookMark} />}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <p>Quality: 1080p</p>
-                    <p>Release year: {serialDetails.Year}</p>
-                    <p>Age rating: 12+</p>
-                    <p>Country: {serialDetails.Country}</p>
-                    <p>Genre: {serialDetails.Genre}</p>
-                    <p>Actors: {serialDetails.Actors}</p>
+                        <p>Quality: 1080p</p>
+                        <p>Release year: {serialDetails.Year}</p>
+                        <p>Age rating: 12+</p>
+                        <p>Country: {serialDetails.Country}</p>
+                        <p>Genre: {serialDetails.Genre}</p>
+                        <p>Actors: {serialDetails.Actors}</p>
 
-                    <h2 className={styles["plot"]}>{serialDetails.Plot}</h2>
+                        <h2 className={styles["plot"]}>{serialDetails.Plot}</h2>
+                    </div>
                 </div>
             </div>
-        </div>
+            {isRating && <RateWindow type={'serial'} setIsRating={setIsRating} />}
+        </>
     );
 }
 

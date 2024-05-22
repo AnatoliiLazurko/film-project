@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
-import video from "../../../../../video/Avatar2.mp4";
-import video2 from "../../../../../video/video.mp4";
-import img from "../../../../../video/avatar-poster.jpg";
-import Subscription from '../../../../Subscription/Subscription';
-import PayPalWindow from '../../../../Subscription/PayPalWindow/PayPalWindow';
 
-const Player = ({ switchPlayer, voiceActing }) => {
-    const [isSubcribe, setSubcribe] = useState(false);
-
-    const [quality, setQuality] = useState(720);
-    const [checkQuality, setCheckQuality] = useState();
-
-    const [showSub, setShowSub] = useState(false);
-    const [closeSub, setCloseSub] = useState(false);
-
-    const [showPayWindow, setPayWindow] = useState(false);
-
-    const openPayWindow = () => {
-        setCloseSub(true);
-        setShowSub(false);
-        setPayWindow(true);
-    }
+const Player = ({ switchPlayer, filmDetails }) => {
 
     const controls = [
       'play-large',
@@ -37,59 +17,12 @@ const Player = ({ switchPlayer, voiceActing }) => {
       'fullscreen',
     ];
 
-    const videoSources = [
-        {
-            src: video2,
-            type: 'video/mp4',
-            size: 2160,
-        },
-        {
-            src: video,
-            type: 'video/mp4',
-            size: 1080,
-        },
-        {
-            src: video2,
-            type: 'video/mp4',
-            size: 720,
-        },
-        {
-            src: video2, 
-            type: 'video/mp4',
-            size: 480,
-        },
-    ];
-    
-    const handleChangeQuality = (newQuality) => {
-        setCheckQuality(newQuality);
-        if (isSubcribe) {
-            setQuality(newQuality);
-        }
-
-        if (!isSubcribe) {
-            if (checkQuality === 2160) {
-                setShowSub(true);
-            } else {
-                setShowSub(false);
-                setQuality(newQuality);
-            }
-        }
-    };
-
-    useEffect(() => {
-        
-        setCheckQuality(720);
-        setShowSub(false);
-        setCloseSub(false);
-        
-    }, [closeSub]);
-
     const plyrProps = {
         
         source: {
             type: 'video',
-            sources: videoSources.filter(source => source.size === quality),
-            poster: img,
+            sources: 'https://blahofilmstorage.blob.core.windows.net/films/A Haunting in Venice (2023) [Ukr,Eng] BDRip-AVC [Hurtom].mkv?sv=2023-11-03&st=2024-05-19T12%3A36%3A49Z&se=2024-05-19T22%3A36%3A49Z&sr=b&sp=r&sig=GT1fRZGv%2BqCCqZIIx4H3FIHbgnOCrH79Le4VdfcJx%2Fw%3D',
+            poster: `data:image/jpeg;base64,${filmDetails.poster}`,
         },
         options: {
             controls,
@@ -101,9 +34,8 @@ const Player = ({ switchPlayer, voiceActing }) => {
             },
             quality: {
                 default: 720,
-                options: [2160, 1080, 720, 480],
+                options: [720],
                 forced: true,
-                onChange: handleChangeQuality,
             },
         },
         
@@ -116,7 +48,7 @@ const Player = ({ switchPlayer, voiceActing }) => {
             type: 'video',
             sources: [
                 {
-                    src: 'https://www.youtube.com/watch?v=E8Qe0vS_I3I',
+                    src: filmDetails.trailerUri,
                     provider: 'youtube',
                 },
             ],
@@ -136,10 +68,6 @@ const Player = ({ switchPlayer, voiceActing }) => {
     return (
         <>
             <Plyr {...switchProps} />
-            {showSub &&    
-                <Subscription close={setCloseSub} payWindow={openPayWindow} />         
-            }
-            {showPayWindow && <PayPalWindow closeWindow={setPayWindow} />}
         </>
     );
 }

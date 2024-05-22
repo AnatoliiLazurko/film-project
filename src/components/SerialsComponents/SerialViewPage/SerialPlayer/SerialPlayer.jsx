@@ -6,7 +6,7 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 
 const SerialPlayer = () => {
 
-    const voiceActingArray = ['English', 'Ukrainian'];
+    const voiceActingArray = ['English'];
     const seasonArray = ['Season 1', 'Season 2', 'Season 3']
     const episodesData = {
         "Season 1": ["Episode 1", "Episode 2", "Episode 3", "Episode 4", "Episode 5"],

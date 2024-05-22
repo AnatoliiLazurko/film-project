@@ -46,8 +46,8 @@ const Carousel = ({ films }) => {
                     <div className={styles["slider"]}>
                         <div className={styles["slides"]}>
                             <div className={styles["image-container"]} style={{ transform: `translateX(-${currentSlide * (100 / films.length)}%)` }}>
-                                {films.map((movie, index) => (
-                                    <CarouselCard key={index} movies={movie}/>
+                                {films.map((film, index) => (
+                                    <CarouselCard key={index} films={film}/>
                                 ))}
                             </div>
                         </div>

@@ -7,21 +7,25 @@ const initialState = {
     error: null
 }
 
-// export const fetchFilmDetails = createAsyncThunk(
-//     'fetchFilmDetails',
-//     async () => {
-//         const res = await axios.get("http://localhost:4000/api/Films/byid");
-//         return res.data;
-//     }
-// );
-
 export const fetchFilmDetails = createAsyncThunk(
     'fetchFilmDetails',
     async (id) => {
-        const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+        const response = await axios.get("https://localhost:7095/api/Films/byid", {
+            params: {    
+                id: id,
+            }
+        });
         return response.data;
     }
 );
+
+// export const fetchFilmDetails = createAsyncThunk(
+//     'fetchFilmDetails',
+//     async (id) => {
+//         const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+//         return response.data;
+//     }
+// );
 
 export const filmDetailsSlice = createSlice({
     name: 'filmDetails',

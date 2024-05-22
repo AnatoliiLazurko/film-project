@@ -1,61 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SelectedStyles.module.css';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { handleInfoPositioning } from './SelectedScripts';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFilteredFilms } from '../../../slices/filmsSlices/FilmsFiltersSlice';
+import Spinner from '../../Technicall/Spinner/Spinner';
+import Pagination from './Pagination/Pagination';
 
 const Selected = () => {
 
-    const [movies, setMovies] = useState([]);
-    const { type, selected } = useParams();
+    const [totalPages, setTotalPages] = useState(9);
+    const navigate = useNavigate();
 
+    const { type, selected, page } = useParams();
     const editedType = type.endsWith("s") ? type.slice(0, -1) : type;
 
+    const initialPage = parseInt(page) || 1;
+    const [currentPage, setCurrentPage] = useState(initialPage);
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        async function fetchMovies() {
-            try {
-                let fetchedMovies = [];
-
-                for (let page = 1; page <= 5; page++) {
-                    const response = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                        apikey: 'bfec6a42',
-                        s: 'movie',
-                        type: 'movie',
-                        r: 'json',
-                        page: page,
-                        pageSize: 10
-                        }
-                    });
-
-                    if (response.data.Search) {
-                        fetchedMovies = fetchedMovies.concat(response.data.Search);
-                    }
-                }
-
-                const moviesWithDetails = await Promise.all(
-                    fetchedMovies.map(async movie => {
-                        const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                        params: {
-                            apikey: 'bfec6a42',
-                            i: movie.imdbID,
-                            r: 'json'
-                        }
-                        });
-                        return detailsResponse.data;
-                    })
-                );
-
-                setMovies(moviesWithDetails);
-            } catch (error) {
-                console.error('Error fetching movies:', error);
+        dispatch(fetchFilteredFilms(
+            {
+                pageNumber: currentPage 
             }
-        }
+        ));
+    }, [dispatch, currentPage])
 
-        fetchMovies();
-    }, []);
+    const selectionData = useSelector((state) => state.filteredFilms.filteredFilms); 
+    const isLoadingSelection = useSelector((state) => state.filteredFilms.isLoading);
+    const selectionError = useSelector((state) => state.filteredFilms.error)
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -72,7 +48,22 @@ const Selected = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
+    }, [selectionData]);
+
+    if (isLoadingSelection) {
+        return <Spinner />;
+    }
+
+    if (selectionError) {
+        console.log('Selection error: ' + selectionError);
+    }
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        const newPath = `/selection/${type}/${selected}/${pageNumber}`;
+        navigate(newPath);
+    };
 
     return (
         <div className={styles["selection-page"]}>
@@ -81,7 +72,7 @@ const Selected = () => {
 
             <div className={styles["movies-list"]}>
             
-                {movies.map((movie, index) => (
+                {selectionData.map((movie, index) => (
                     
                     <NavLink to={`/${editedType}-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
@@ -117,14 +108,7 @@ const Selected = () => {
 
             </div>
             
-            <div className={styles["pagination-section"]}>
-                <FontAwesomeIcon icon={faChevronLeft} className={`${styles["pagin-arrow"]} ${styles["inactive-arrow"]}`} />
-                <div className={`${styles["pagination-btn"]} ${styles["pagin-active-btn"]}`}>1</div>
-                <div className={styles["pagination-btn"]}>2</div>
-                <div className={styles["pagination-btn"]}>3</div>
-                <div className={styles["pagination-btn"]}>...</div>
-                <FontAwesomeIcon icon={faChevronRight} className={styles["pagin-arrow"]} />
-            </div>
+            <Pagination totalPages={totalPages} setCurrentPage={handlePageChange} currentPage={currentPage} />
             
         </div>
     );

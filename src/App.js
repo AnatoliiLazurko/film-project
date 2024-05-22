@@ -37,20 +37,20 @@ function App() {
 
           <Route path='/search/:query?' element={<SearchResult />} />
 
-          <Route path='/films/:genre?/:date?/:popular?/:page?' element={<FilmsPage />} />
+          <Route path='/films/:genre?/:studio?/:date?/:popular?/:page' element={<FilmsPage />} />
           <Route path="/film-view/:genre/:id" element={<FilmView />} />
 
-          <Route path='/cartoons/:category?/:date?/:popular?/:page?' element={<CartoonsPage />} />
+          <Route path='/cartoons/:category?/:date?/:popular?/:page' element={<CartoonsPage />} />
           <Route path="/cartoon-view/:genre/:id" element={<CartoonView />} />
 
-          <Route path='/serials/:genre?/:date?/:popular?/:page?' element={<SerialsPage />} />
+          <Route path='/serials/:genre?/:date?/:popular?/:page' element={<SerialsPage />} />
           <Route path="/serial-view/:genre/:id" element={<SerialView />} />
 
-          <Route path='/anime/:genre?/:date?/:popular?/:page?' element={<AnimePage />} />
+          <Route path='/anime/:genre?/:date?/:popular?/:page' element={<AnimePage />} />
           <Route path="/anime-view/:genre/:id" element={<AnimeView />} /> 
 
           <Route path='/selections/:selection' element={<Selections />} />
-          <Route path='/selection/:type/:selected' element={<Selected />} />
+          <Route path='/selection/:type/:selected/:page' element={<Selected />} />
 
           <Route path='/donate' element={<Donate />} />
 

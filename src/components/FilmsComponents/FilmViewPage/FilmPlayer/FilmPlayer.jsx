@@ -4,9 +4,9 @@ import Player from './Player/Player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 
-const FilmPlayer = () => {
+const FilmPlayer = ({ filmDetails }) => {
 
-    const voiceActingArray = ['English', 'Ukrainian'];
+    const voiceActingArray = ['English'];
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
     const [voiceActing, setVoiceActing] = useState('English');
@@ -69,7 +69,7 @@ const FilmPlayer = () => {
                     </div>
                 </div>
                 <div className={styles["player"]}>
-                    <Player switchPlayer={switchPlayer} voiceActing={voiceActing} />
+                    <Player switchPlayer={switchPlayer} voiceActing={voiceActing} filmDetails={filmDetails} />
                 </div>
             </div>
         </div>

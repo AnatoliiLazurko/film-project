@@ -34,7 +34,7 @@ const FilmView = () => {
             
             <ViewInfo filmDetails={filmDetails} />
 
-            <FilmPlayer />
+            <FilmPlayer filmDetails={filmDetails} />
 
             <OtherMovies />
 

@@ -13,13 +13,20 @@
 
 .section-colums {
     display: flex;
-    flex-direction: auto;
     gap: 40px;
+}
+
+.column {
+    flex: 1;
+}
+
+.row {
+    margin-bottom: 14px;
 }
 
 .section-colums a {
     display: flex;
-    margin-bottom: 14px;
+    /* margin-bottom: 14px; */
     font-family: 'Rubik';
     font-weight: 400;
     color: #F1F1F1;

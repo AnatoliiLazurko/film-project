@@ -1,4 +1,3 @@
-
 .alert {
     position: fixed;
     top: 50%;
@@ -6,7 +5,7 @@
     transform: translate(-50%, -50%);
     z-index: 7;
     width: 632px;
-    height: 459px;
+    height: 233px;
     border-radius: 20px;
     padding: 46px 82px;
     background-color: #FFFFFF;
@@ -29,21 +28,35 @@
     margin: 0;
     font-family: 'Madimi One';
     font-weight: 400;
-    font-size: 20px;
+    font-size: 18px;
     color: #151518;
     text-align: center;
 }
 
-.alert img {
-    margin-top: 20px;
-    width: 100%;
-    height: 265px;
+.rate-container {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
 }
 
-.btn-okay {
+.rate-container span {
+    margin-right: 16px;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #514F5A;
+    cursor: pointer;
+    transition: 0.4s ease;
+}
+
+.rate-container span:hover {
+    text-shadow: #6D8EEB 0px 0px 6px;
+}
+
+.btn-rate {
     width: 100%;
     height: 33px;
-    margin-top: 20px;
+    margin-top: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,6 +68,7 @@
     color: #F1F1F1;
     cursor: pointer;
 }
+
 
 .screen-dimming {
     position: fixed;
