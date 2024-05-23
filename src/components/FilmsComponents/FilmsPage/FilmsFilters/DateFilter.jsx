@@ -4,7 +4,7 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import styles from '../FilmsPageStyles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const DateFilter = ({ isClean, setIsClean ,setCurrentPage }) => {
+const DateFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
     const optionsDate = ['From old to new', 'From new to old'];
     const [selectedFilter, setSelectedFilter] = useState('By date');

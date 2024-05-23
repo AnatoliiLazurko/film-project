@@ -25,34 +25,34 @@ const NewAnimeCard = ({ anime }) => {
     }, []);
 
     return (
-        <NavLink to={`/anime-view/${anime.Genre.split(',')[0].toLowerCase()}/${anime.imdbID}`} className={styles["anime-card"]}>
+        <NavLink to={`/anime-view/${anime.genres[0].name.toLowerCase()}/${anime.id}`} className={styles["anime-card"]}>
             <div className={styles["anime-poster"]}>
-                <img src={anime.Poster} alt="" />
+                <img src={anime.poster ? `data:image/jpeg;base64,${anime.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
                 <div className={styles["anime-info"]}>
                     <div className={styles["name-rate"]}>
-                        <h1 className={styles["info-title"]}>{anime.Title}</h1>
+                        <h1 className={styles["info-title"]}>{anime.title}</h1>
                         <div className={styles["info-rate"]}>
-                            <span><FontAwesomeIcon icon={faStar} /> {anime.imdbRating}/10</span>
+                            <span><FontAwesomeIcon icon={faStar} /> {anime.rating}/10</span>
                         </div>
                     </div>
                     <div className={styles["info"]}>
-                        <p>Release year: {anime.Year}</p>
-                        <p>Country: {anime.Country}</p>
-                        <p>Genre: {anime.Genre}</p>
-                        <p>Actors: {anime.Actors}</p>
+                        <p>Release year: {new Date(anime.dateOfPublish).getFullYear()}</p>
+                        <p>Country: {anime.country}</p>
+                        <p>Genre: {anime.genres.map(genre => genre.name).join(', ')}</p>
+                        <p>Actors: {anime.actors}</p>
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {anime.Plot}
+                            {anime.description}
                         </p>
                     </div>
                 </div>
                 <div className={styles["quality"]}>1080p</div>
             </div>
-            <div className={styles["anime-title"]}>{anime.Title}</div>
+            <div className={styles["anime-title"]}>{anime.title}</div>
         </NavLink>
     );
 }

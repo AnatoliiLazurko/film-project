@@ -4,14 +4,14 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import styles from '../AnimePageStyles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const PopularFilter = ({ isClean, setIsClean }) => {
+const PopularFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
-    const optionsPopular = ['By views', 'By rating', 'By discussion'];
+    const optionsPopular = ['By rating', 'By discussion'];
     const [selectedFilter, setSelectedFilter] = useState('By popularity');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const selectRef = useRef(null);
     const [urlPopular, setUrlPopular] = useState('');
-    const { genre, date, popular, page } = useParams();
+    const { genre, date, popular } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {
@@ -22,9 +22,10 @@ const PopularFilter = ({ isClean, setIsClean }) => {
         const popularUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
-        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
+        const pageUrl = 1;
 
         const newPath = `/anime/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        setCurrentPage(1);
         navigate(newPath);
     }
 

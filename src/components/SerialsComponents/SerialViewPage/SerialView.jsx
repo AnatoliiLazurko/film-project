@@ -39,14 +39,14 @@ const SerialView = () => {
         console.log("Serial details error: " + error);
     }
 
-    // OTHER FILMS
+    // OTHER SERIALS
 
-    const serialsData = useSelector((state) => state.films.films); 
-    const isLoadingSerials = useSelector((state) => state.films.isLoading);
-    const serialsError = useSelector((state) => state.films.error)
+    const serialsData = useSelector((state) => state.serials.serials); 
+    const isLoadingSerials = useSelector((state) => state.serials.isLoading);
+    const serialsError = useSelector((state) => state.serials.error)
 
     if (serialsError) {
-        console.log('Films error: ' + serialsError);
+        console.log('Serials error: ' + serialsError);
     }
 
     if (isLoading && isLoadingSerials) {

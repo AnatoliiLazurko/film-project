@@ -5,25 +5,65 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleAnimeInfoPositioning } from './AnimeListScripts';
 import Pagination from './Pagination/Pagination';
+import axios from 'axios';
 
-const AnimeList = ({ anime, setCurrentPage, currentPage }) => {
+const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
 
-    const [totalPages, setTotalPages] = useState(9);
-    const { genre, date, popular } = useParams();
+    const { genre, date, popular} = useParams();
+
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     async function fetchTotalPages() {
-    //         try {
-    //             const response = await axios.get('/movies/pages');
-    //             setTotalPages(response.data.totalPages);
-    //         } catch (error) {
-    //             console.error('Error fetching total pages:', error);
-    //         }
-    //     }
+    const [dateFilter, setDateFilter] = useState('');
+    const [popularFilter, setPopularFilter] = useState('');
 
-    //     fetchTotalPages();
-    // }, []);
+    const genreFilter = [];
+
+    useEffect(() => {
+        if (date === 'from_old_to_new') {
+            setDateFilter('asc');
+        } else if (date === 'from_new_to_old') {
+            setDateFilter('desc');
+        } else {
+            setDateFilter('');
+        }
+    }, [date]);
+
+    useEffect(() => {   
+        if (popular === 'by_rating') {
+            setPopularFilter('rating');
+        } else if (popular === 'by_discussion') {
+            setPopularFilter('discussing');
+        } else {
+            setPopularFilter('');
+        }
+    }, [popular]);
+
+    useEffect(() => {
+        if (genre !== 'genre=u') {
+            genreFilter.push(genre.replace(/_/g, ' '));
+        }
+
+        async function fetchTotalPages() {
+            try {
+                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                    Genres: genreFilter,
+                    Studios: []
+                }, {
+                    params: {    
+                        pageSize: pageSize,
+                        sortByDate: dateFilter,
+                        sortByPopularity: popularFilter,
+                    }
+                });
+                setTotalPages(response.data);
+            } catch (error) {
+                console.error('Error fetching total pages:', error);
+            }
+        }
+
+        fetchTotalPages();
+    }, [genre, date, popular]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -53,47 +93,40 @@ const AnimeList = ({ anime, setCurrentPage, currentPage }) => {
         };
     }, [anime]);
 
-
-    // const filteredMovies = genre && genre !== 'genre=u' ? movies.filter(movie => {
-    //     let movieGenres = movie.Genre.split(", ");
-        
-    //     return movieGenres.includes(genre.charAt(0).toUpperCase() + genre.slice(1));
-    // }) : movies;
-
     return (
         <>
             <div className={styles["anime-list"]}>
             
-                {anime.map((movie, index) => (
+                {anime.map((anime, index) => (
                     
-                    <NavLink to={`/anime-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
+                    <NavLink to={`/anime-view/${anime.genres[0].name.toLowerCase()}/${anime.id}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
-                            <img src={movie.Poster} alt="" />
+                            <img src={anime.poster ? `data:image/jpeg;base64,${anime.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["anime-info"]}>
                                     <div className={styles["name-rate"]}>
-                                        <h1 className={styles["info-title"]}>{movie.Title}</h1>
+                                        <h1 className={styles["info-title"]}>{anime.title}</h1>
                                         <div className={styles["info-rate"]}>
-                                            <span><FontAwesomeIcon icon={faStar} /> {movie.imdbRating}/10</span>
+                                            <span><FontAwesomeIcon icon={faStar} /> {anime.rating}/10</span>
                                         </div>
                                     </div>
                                     <div className={styles["info"]}>
-                                        <p>Release year: {movie.Year}</p>
-                                        <p>Country: {movie.Country}</p>
-                                        <p>Genre: {movie.Genre}</p>
-                                        <p>Actors: {movie.Actors}</p>
+                                        <p>Release year: {new Date(anime.dateOfPublish).getFullYear()}</p>
+                                        <p>Country: {anime.country}</p>
+                                        <p>Genre: {anime.genres.map(genre => genre.name).join(', ')}</p>
+                                        <p>Actors: {anime.actors}</p>
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.Plot}
+                                        {anime.description}
                                     </p>
                                 </div>
                             </div>
                             <div className={styles["quality"]}>1080p</div>
                         </div>
-                        <div className={styles["anime-title"]}>{movie.Title}</div>
+                        <div className={styles["anime-title"]}>{anime.title}</div>
                     </NavLink>
 
                 ))}

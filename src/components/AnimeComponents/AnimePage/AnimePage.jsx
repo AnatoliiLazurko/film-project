@@ -7,7 +7,7 @@ import PopularFilter from './AnimeFilters/PopularFilter';
 import AnimeList from './AnimeList/AnimeList';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../../Technicall/Spinner/Spinner';
-import { fetchFilteredAnime } from '../../../slices/animeSlices/AnimeFiltersSlice';
+import { fetchAnime } from '../../../slices/animeSlices/AnimeSlice';
 
 const AnimePage = () => {
 
@@ -17,27 +17,63 @@ const AnimePage = () => {
     const handleClean = () => {
         setIsClean(true);
         navigate(`/anime/genre=u/date=u/popular=u/${page}`);
+        setDateFilter('');
+        setPopularFilter('');
     };
 
     // REDUX REQUEST
 
-    const { genre, page } = useParams();
+    const { genre, date, popular, page } = useParams();
+    const dispatch = useDispatch();
+    const pageSize = 10;
+
     const initialPage = parseInt(page) || 1;
     const [currentPage, setCurrentPage] = useState(initialPage);
-    const dispatch = useDispatch();
+
+    const [dateFilter, setDateFilter] = useState('');
+    const [popularFilter, setPopularFilter] = useState('');
+    const genreFilter = [];
 
     useEffect(() => {
-        dispatch(fetchFilteredAnime(
+        if (date === 'from_old_to_new') {
+            setDateFilter('asc');
+        } else if (date === 'from_new_to_old') {
+            setDateFilter('desc');
+        } else {
+            setDateFilter('');
+        }
+    }, [date]);
+
+    useEffect(() => {   
+        if (popular === 'by_rating') {
+            setPopularFilter('rating');
+        } else if (popular === 'by_discussion') {
+            setPopularFilter('discussing');
+        } else {
+            setPopularFilter('');
+        }
+    }, [popular]);
+
+    useEffect(() => {
+        if (genre !== 'genre=u') {
+            genreFilter.push(genre.replace(/_/g, ' '));
+        }
+
+        dispatch(fetchAnime(
             {
-                genre: genre,
-                pageNumber: currentPage 
+                pageNumber: currentPage,
+                pageSize: pageSize,
+                sortByDate: dateFilter,
+                sortByPopularity: popularFilter,
+                genres: genreFilter,
+                studios: [],
             }
         ));
-    }, [dispatch, currentPage])
+    }, [dispatch, isClean, currentPage, pageSize, dateFilter, popularFilter, genre])
 
-    const animeData = useSelector((state) => state.filteredAnime.filteredAnime); 
-    const isLoadingAnime = useSelector((state) => state.filteredAnime.isLoading);
-    const animeError = useSelector((state) => state.filteredAnime.error)
+    const animeData = useSelector((state) => state.anime.anime); 
+    const isLoadingAnime = useSelector((state) => state.anime.isLoading);
+    const animeError = useSelector((state) => state.anime.error)
 
     if (isLoadingAnime) {
         return <Spinner />;
@@ -53,17 +89,22 @@ const AnimePage = () => {
             <div className={styles["filter-panel"]}>
                 <div className={styles["filter-selections"]}>
 
-                    <GenreFilter isClean={isClean} setIsClean={setIsClean} />
+                    <GenreFilter isClean={isClean} setIsClean={setIsClean} setCurrentPage={setCurrentPage} />
 
-                    <DateFilter isClean={isClean} setIsClean={setIsClean}/>
+                    <DateFilter isClean={isClean} setIsClean={setIsClean} setCurrentPage={setCurrentPage} />
 
-                    <PopularFilter isClean={isClean} setIsClean={setIsClean}/>
+                    <PopularFilter isClean={isClean} setIsClean={setIsClean} setCurrentPage={setCurrentPage} />
 
                 </div>
                 <div className={styles["clean-btn"]} onClick={handleClean}>Clean</div>
             </div>
 
-            <AnimeList anime={animeData} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <AnimeList
+                anime={animeData}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                pageSize={pageSize}
+            />
 
         </div>
     );

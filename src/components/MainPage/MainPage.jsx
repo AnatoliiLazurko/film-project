@@ -17,10 +17,10 @@ const MainPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchFilms({ pageNumber: 1, pageSize: 20, sortByDate: 'desc', }));
-        dispatch(fetchSerials({ pageNumber: 1, pageSize: 20, sortByDate: 'desc', }));
+        dispatch(fetchFilms({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
+        dispatch(fetchSerials({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
         dispatch(fetchCartoons());
-        dispatch(fetchAnime());
+        dispatch(fetchAnime({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
     }, [dispatch])
 
     // FILMS 

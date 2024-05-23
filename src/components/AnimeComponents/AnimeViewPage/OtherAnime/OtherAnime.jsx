@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import styles from './OtherAnimeStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import { handleAnimeInfoPositioning } from './OtherAnimeScripts';
-import axios from 'axios';
 
-const OtherAnime = () => {
-
-    const [movies, setMovies] = useState([]);
-
-    const fetchMovies = async () => {
-
-        try {
-            const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42`);
-            const moviesData = await Promise.all(
-                response.data.Search.slice(0, 6).map(async movie => {
-                    const detailedResponse = await axios.get(
-                        `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=bfec6a42&plot=full`
-                    );
-                    return detailedResponse.data;
-                })
-            );
-            setMovies(moviesData);
-        } catch (error) {
-            console.error('Помилка під час отримання фільмів:', error);
-        }
-    };
+const OtherAnime = ({ anime }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -43,12 +22,7 @@ const OtherAnime = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
-
-    useEffect(() => {
-
-        fetchMovies();
-    }, []);
+    }, [anime]);
 
     return (
         <div className={styles["other-section"]}>
@@ -56,35 +30,35 @@ const OtherAnime = () => {
 
             <div className={styles["list-other-anime"]}>
 
-                {movies.map((movie, index) => (
-                    <NavLink to={`/anime-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["anime-card"]} key={index}>
+                {anime.map((anime, index) => (
+                    <NavLink to={`/anime-view/${anime.genres?.[0]?.name?.toLowerCase() ?? ''}/${anime.id}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
-                            <img src={movie.Poster} alt="" />
+                            <img src={anime.poster ? `data:image/jpeg;base64,${anime.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["anime-info"]}>
                                     <div className={styles["name-rate"]}>
-                                        <h1 className={styles["info-title"]}>{movie.Title}</h1>
+                                        <h1 className={styles["info-title"]}>{anime.title}</h1>
                                         <div className={styles["info-rate"]}>
-                                            <span><FontAwesomeIcon icon={faStar} /> {movie.imdbRating}/10</span>
+                                            <span><FontAwesomeIcon icon={faStar} /> {anime.rating}/10</span>
                                         </div>
                                     </div>
                                     <div className={styles["info"]}>
-                                        <p>Release year: {movie.Year}</p>
-                                        <p>Country: {movie.Country}</p>
-                                        <p>Genre: {movie.Genre}</p>
-                                        <p>Actors: {movie.Actors}</p>
+                                        <p>Release year: {new Date(anime.dateOfPublish).getFullYear()}</p>
+                                        <p>Country: {anime.country}</p>
+                                        <p>Genre: {anime.genres?.map(genre => genre.name).join(', ') ?? ''}</p>
+                                        <p>Actors: {anime.actors}</p>
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.Plot}
+                                        {anime.description}
                                     </p>
                                 </div>
                             </div>
                             <div className={styles["quality"]}>1080p</div>
                         </div>
-                        <div className={styles["anime-title"]}>{movie.Title}</div>
+                        <div className={styles["anime-title"]}>{anime.title}</div>
                     </NavLink>
                 ))}
                 
