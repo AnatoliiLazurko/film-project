@@ -25,7 +25,9 @@ const ViewInfo = ({ filmDetails }) => {
                 <div className={styles["path"]}>
                     <NavLink to={'/films/genre=u/studio=u/date=u/popular=u/1'}>Films</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
-                    <NavLink to={`/films/${filmDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/studio=u/date=u/popular=u/1`}>{filmDetails.genres?.[0]?.name ?? ''}</NavLink>
+                    <NavLink to={`/films/${filmDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/studio=u/date=u/popular=u/1`}>
+                        {filmDetails.genres?.[0]?.name ?? ''}
+                    </NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <span>{filmDetails.title}</span>
                 </div>

@@ -1,9 +1,8 @@
 import React from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
-import img from "../../../../../video/avatar-poster.jpg";
 
-const Player = ({ switchPlayer, season, episode }) => {
+const Player = ({ switchPlayer, season, episode, cartoonDetails }) => {
 
     const controls = [
       'play-large',
@@ -22,8 +21,8 @@ const Player = ({ switchPlayer, season, episode }) => {
         
         source: {
             type: 'video',
-            sources: '',
-            poster: img,
+            sources: 'test',
+            poster: `${cartoonDetails.poster ? `data:image/jpeg;base64,${cartoonDetails.poster}` : ''}`,
         },
         options: {
             controls,
@@ -49,7 +48,7 @@ const Player = ({ switchPlayer, season, episode }) => {
             type: 'video',
             sources: [
                 {
-                    src: 'https://www.youtube.com/watch?v=E8Qe0vS_I3I',
+                    src: cartoonDetails.trailerUri,
                     provider: 'youtube',
                 },
             ],

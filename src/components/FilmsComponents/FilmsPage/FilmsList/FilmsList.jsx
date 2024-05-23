@@ -77,6 +77,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
         const studioUrl = typeof studio === 'undefined' ? 'studio=u' : studio;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
+        
         const newPath = `/films/${genreUrl}/${studioUrl}/${dateUrl}/${popularUrl}/${pageNumber}`;
         navigate(newPath);
     };

@@ -25,34 +25,34 @@ const NewCartoonCard = ({ cartoons }) => {
     }, []);
 
     return (
-        <NavLink to={`/cartoon-view/${cartoons.Genre.split(',')[0].toLowerCase()}/${cartoons.imdbID}`} className={styles["cartoon-card"]}>
+        <NavLink to={`/cartoon-view/${cartoons.genres[0].name.toLowerCase()}/${cartoons.id}`} className={styles["cartoon-card"]}>
             <div className={styles["cartoon-poster"]}>
-                <img src={cartoons.Poster} alt="" />
+                <img src={cartoons.poster ? `data:image/jpeg;base64,${cartoons.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
                 <div className={styles["cartoon-info"]}>
                     <div className={styles["name-rate"]}>
-                        <h1 className={styles["info-title"]}>{cartoons.Title}</h1>
+                        <h1 className={styles["info-title"]}>{cartoons.title}</h1>
                         <div className={styles["info-rate"]}>
-                            <span><FontAwesomeIcon icon={faStar} /> {cartoons.imdbRating}/10</span>
+                            <span><FontAwesomeIcon icon={faStar} /> {cartoons.rating}/10</span>
                         </div>
                     </div>
                     <div className={styles["info"]}>
-                        <p>Release year: {cartoons.Year}</p>
-                        <p>Country: {cartoons.Country}</p>
-                        <p>Genre: {cartoons.Genre}</p>
-                        <p>Actors: {cartoons.Actors}</p>
+                        <p>Release year: {new Date(cartoons.dateOfPublish).getFullYear()}</p>
+                        <p>Country: {cartoons.country}</p>
+                        <p>Genre: {cartoons.genres.map(genre => genre.name).join(', ')}</p>
+                        <p>Actors: {cartoons.actors}</p>
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {cartoons.Plot}
+                            {cartoons.description}
                         </p>
                     </div>
                 </div>
                 <div className={styles["quality"]}>1080p</div>
             </div>
-            <div className={styles["cartoon-title"]}>{cartoons.Title}</div>
+            <div className={styles["cartoon-title"]}>{cartoons.title}</div>
         </NavLink>
     );
 }

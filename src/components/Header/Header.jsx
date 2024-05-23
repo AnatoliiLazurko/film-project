@@ -58,7 +58,7 @@ const Header = () => {
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/cartoons/category=u/date=u/popular=u/1'>Cartoons</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/cartoons/category=u/animation=u/studio=u/date=u/popular=u/1'>Cartoons</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <CartoonMenu />
                                     </div>

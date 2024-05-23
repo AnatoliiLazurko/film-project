@@ -40,8 +40,8 @@ function App() {
           <Route path='/films/:genre?/:studio?/:date?/:popular?/:page' element={<FilmsPage />} />
           <Route path="/film-view/:genre/:id" element={<FilmView />} />
 
-          <Route path='/cartoons/:category?/:date?/:popular?/:page' element={<CartoonsPage />} />
-          <Route path="/cartoon-view/:genre/:id" element={<CartoonView />} />
+          <Route path='/cartoons/:category?/:animation?/:studio?/:date?/:popular?/:page' element={<CartoonsPage />} />
+          <Route path="/cartoon-view/:category/:id" element={<CartoonView />} />
 
           <Route path='/serials/:genre?/:studio?/:date?/:popular?/:page' element={<SerialsPage />} />
           <Route path="/serial-view/:genre/:id" element={<SerialView />} />
