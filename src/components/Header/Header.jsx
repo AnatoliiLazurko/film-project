@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./HeaderStyles.module.css";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import authBtnImage from '../../images/header/ticket-btn.png';
 import logo from '../../images/header/logo.png'
 import FilmMenu from './DropDownMenus/FilmsMenu/FilmMenu';
@@ -64,7 +64,7 @@ const Header = () => {
                                     </div>
                                 </li>
                                 <li className={styles["dropdown"]}>
-                                    <NavLink className={styles["nav-item"]} to='/serials/genre=u/date=u/popular=u/1'>Serials</NavLink>
+                                    <NavLink className={styles["nav-item"]} to='/serials/genre=u/studio=u/date=u/popular=u/1'>Serials</NavLink>
                                     <div className={styles["dropdown-content"]}>
                                         <SerialMenu />
                                     </div>

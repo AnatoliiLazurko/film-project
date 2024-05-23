@@ -23,7 +23,7 @@ const ViewInfo = ({ filmDetails }) => {
         <>
             <div className={styles["view-info"]}>
                 <div className={styles["path"]}>
-                    <NavLink to={'/films'}>Films</NavLink>
+                    <NavLink to={'/films/genre=u/studio=u/date=u/popular=u/1'}>Films</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <NavLink to={`/films/${filmDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/studio=u/date=u/popular=u/1`}>{filmDetails.genres?.[0]?.name ?? ''}</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
@@ -32,7 +32,7 @@ const ViewInfo = ({ filmDetails }) => {
 
                 <div className={styles["content-info"]}>
                     <div className={styles["left-content"]}>
-                        <img src={`data:image/jpeg;base64,${filmDetails.poster}`} alt="" />
+                        <img src={filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''} alt="Poster" />
                     </div>
                     <div className={styles["right-content"]}>
                         <div className={styles["top-section"]}>
@@ -49,7 +49,7 @@ const ViewInfo = ({ filmDetails }) => {
                         </div>
                         <p>Quality: 1080p</p>
                         <p>Release year: {new Date(filmDetails.dateOfPublish).getFullYear()}</p>
-                        <p>Age rating: {filmDetails.ageRestriction}</p>
+                        <p>Age rating: {filmDetails.ageRestriction}+</p>
                         <p>Country: {filmDetails.country}</p>
                         <p>Genre: {filmDetails.genres?.map(genre => genre.name).join(', ') ?? ''}</p>
                         <p>Actors: {filmDetails.actors}</p>

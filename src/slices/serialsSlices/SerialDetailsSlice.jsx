@@ -7,21 +7,25 @@ const initialState = {
     error: null
 }
 
-// export const fetchSerialDetails = createAsyncThunk(
-//     'fetchSerialDetails',
-//     async () => {
-//         const res = await axios.get("http://localhost:4000/api/Serials/byid");
-//         return res.data;
-//     }
-// );
-
 export const fetchSerialDetails = createAsyncThunk(
     'fetchSerialDetails',
     async (id) => {
-        const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+        const response = await axios.get("https://localhost:7095/api/Films/byid", {
+            params: {    
+                id: id,
+            }
+        });
         return response.data;
     }
 );
+
+// export const fetchSerialDetails = createAsyncThunk(
+//     'fetchSerialDetails',
+//     async (id) => {
+//         const response = await axios.get(`http://www.omdbapi.com/?i=${id}&apikey=bfec6a42&plot=full`);
+//         return response.data;
+//     }
+// );
 
 export const serialDetailsSlice = createSlice({
     name: 'serialDetails',

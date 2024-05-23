@@ -22,7 +22,7 @@ const Player = ({ switchPlayer, filmDetails }) => {
         source: {
             type: 'video',
             sources: 'https://blahofilmstorage.blob.core.windows.net/films/A Haunting in Venice (2023) [Ukr,Eng] BDRip-AVC [Hurtom].mkv?sv=2023-11-03&st=2024-05-19T12%3A36%3A49Z&se=2024-05-19T22%3A36%3A49Z&sr=b&sp=r&sig=GT1fRZGv%2BqCCqZIIx4H3FIHbgnOCrH79Le4VdfcJx%2Fw%3D',
-            poster: `data:image/jpeg;base64,${filmDetails.poster}`,
+            poster: `${filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''}`,
         },
         options: {
             controls,

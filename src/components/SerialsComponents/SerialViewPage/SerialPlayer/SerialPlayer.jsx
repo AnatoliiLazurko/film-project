@@ -4,7 +4,7 @@ import styles from './PlayerStyles.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 
-const SerialPlayer = () => {
+const SerialPlayer = ({ serialDetails }) => {
 
     const voiceActingArray = ['English'];
     const seasonArray = ['Season 1', 'Season 2', 'Season 3']
@@ -164,7 +164,12 @@ const SerialPlayer = () => {
 
                 </div>
                 <div className={styles["player"]}>
-                    <Player switchPlayer={switchPlayer} voiceActing={voiceActing} season={season} episode={episode} />
+                    <Player
+                        switchPlayer={switchPlayer}
+                        voiceActing={voiceActing}
+                        season={season} episode={episode}
+                        serialDetails={serialDetails}
+                    />
                 </div>
             </div>
         </div>

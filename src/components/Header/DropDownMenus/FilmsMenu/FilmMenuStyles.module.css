@@ -11,7 +11,7 @@
     margin-bottom: 20px;
 }
 
-.section-colums {
+.columns-container {
     display: flex;
     gap: 40px;
 }
@@ -24,9 +24,8 @@
     margin-bottom: 14px;
 }
 
-.section-colums a {
+.columns-container a {
     display: flex;
-    /* margin-bottom: 14px; */
     font-family: 'Rubik';
     font-weight: 400;
     color: #F1F1F1;
@@ -35,6 +34,6 @@
     transition: 0.4s;
 }
 
-.section-colums a:hover {
+.columns-container a:hover {
     text-shadow: #6D8EEB 0px 0px 6px;
 }

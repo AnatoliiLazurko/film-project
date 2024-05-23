@@ -18,7 +18,7 @@ const MainPage = () => {
 
     useEffect(() => {
         dispatch(fetchFilms({ pageNumber: 1, pageSize: 20, sortByDate: 'desc', }));
-        dispatch(fetchSerials(1));
+        dispatch(fetchSerials({ pageNumber: 1, pageSize: 20, sortByDate: 'desc', }));
         dispatch(fetchCartoons());
         dispatch(fetchAnime());
     }, [dispatch])

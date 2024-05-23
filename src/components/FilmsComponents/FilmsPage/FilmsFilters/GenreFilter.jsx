@@ -10,7 +10,7 @@ const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
     const [selectedFilter, setSelectedFilter] = useState('By genres');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlGenre, setUrlGenre] = useState('');
-    const { genre, studio, date, popular, page } = useParams();
+    const { genre, studio, date, popular } = useParams();
     const selectRef = useRef(null);
     const navigate = useNavigate();
 

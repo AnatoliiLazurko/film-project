@@ -11,7 +11,7 @@ const DateFilter = ({ isClean, setIsClean ,setCurrentPage }) => {
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlDate, setUrlDate] = useState('');
     const selectRef = useRef(null);
-    const { genre, studio, date, popular, page } = useParams();
+    const { genre, studio, date, popular } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {

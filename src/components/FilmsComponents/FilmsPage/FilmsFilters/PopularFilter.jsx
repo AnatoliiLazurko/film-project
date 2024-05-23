@@ -11,7 +11,7 @@ const PopularFilter = ({ isClean, setIsClean, setCurrentPage }) => {
     const [isFilterOpen, setFilterOpen] = useState(false);
     const selectRef = useRef(null);
     const [urlPopular, setUrlPopular] = useState('');
-    const { genre, studio, date, popular, page } = useParams();
+    const { genre, studio, date, popular } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {

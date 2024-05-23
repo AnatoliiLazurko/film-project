@@ -43,7 +43,7 @@ function App() {
           <Route path='/cartoons/:category?/:date?/:popular?/:page' element={<CartoonsPage />} />
           <Route path="/cartoon-view/:genre/:id" element={<CartoonView />} />
 
-          <Route path='/serials/:genre?/:date?/:popular?/:page' element={<SerialsPage />} />
+          <Route path='/serials/:genre?/:studio?/:date?/:popular?/:page' element={<SerialsPage />} />
           <Route path="/serial-view/:genre/:id" element={<SerialView />} />
 
           <Route path='/anime/:genre?/:date?/:popular?/:page' element={<AnimePage />} />

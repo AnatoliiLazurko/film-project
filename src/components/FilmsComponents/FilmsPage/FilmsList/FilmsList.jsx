@@ -106,7 +106,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
                     
                     <NavLink to={`/film-view/${film.genres[0].name.toLowerCase()}/${film.id}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
-                            <img src={`data:image/jpeg;base64,${film.poster}`} alt="" />
+                            <img src={film.poster ? `data:image/jpeg;base64,${film.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["film-info"]}>
                                     <div className={styles["name-rate"]}>

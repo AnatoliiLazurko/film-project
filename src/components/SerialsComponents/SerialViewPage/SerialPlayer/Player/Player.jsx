@@ -1,9 +1,8 @@
 import React from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
-import img from "../../../../../video/avatar-poster.jpg";
 
-const Player = ({ switchPlayer, voiceActing, season, episode }) => {
+const Player = ({ switchPlayer, voiceActing, season, episode, serialDetails }) => {
 
     const controls = [
       'play-large',
@@ -18,13 +17,12 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
       'fullscreen',
     ];
 
-
     const plyrProps = {
         
         source: {
             type: 'video',
             sources: '',
-            poster: img,
+            poster: `${serialDetails.poster ? `data:image/jpeg;base64,${serialDetails.poster}` : ''}`,
         },
         options: {
             controls,
@@ -50,7 +48,7 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
             type: 'video',
             sources: [
                 {
-                    src: 'https://www.youtube.com/watch?v=E8Qe0vS_I3I',
+                    src: serialDetails.trailerUri,
                     provider: 'youtube',
                 },
             ],

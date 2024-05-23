@@ -22,37 +22,37 @@ const NewSerialCard = ({ serials }) => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, []);
+    }, [serials]);
 
     return (
-        <NavLink to={`/serial-view/${serials.Genre.split(',')[0].toLowerCase()}/${serials.imdbID}`} className={styles["serial-card"]}>
+        <NavLink to={`/serial-view/${serials.genres[0].name.toLowerCase()}/${serials.id}`} className={styles["serial-card"]}>
             <div className={styles["serial-poster"]}>
-                <img src={serials.Poster} alt="" />
+                <img src={serials.poster ? `data:image/jpeg;base64,${serials.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
                 <div className={styles["serial-info"]}>
                     <div className={styles["name-rate"]}>
-                        <h1 className={styles["info-title"]}>{serials.Title}</h1>
+                        <h1 className={styles["info-title"]}>{serials.title}</h1>
                         <div className={styles["info-rate"]}>
-                            <span><FontAwesomeIcon icon={faStar} /> {serials.imdbRating}/10</span>
+                            <span><FontAwesomeIcon icon={faStar} /> {serials.rating}/10</span>
                         </div>
                     </div>
                     <div className={styles["info"]}>
-                        <p>Release year: {serials.Year}</p>
-                        <p>Country: {serials.Country}</p>
-                        <p>Genre: {serials.Genre}</p>
-                        <p>Actors: {serials.Actors}</p>
+                        <p>Release year: {new Date(serials.dateOfPublish).getFullYear()}</p>
+                        <p>Country: {serials.country}</p>
+                        <p>Genre: {serials.genres.map(genre => genre.name).join(', ')}</p>
+                        <p>Actors: {serials.actors}</p>
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {serials.Plot}
+                            {serials.description}
                         </p>
                     </div>
                 </div>
                 <div className={styles["quality"]}>1080p</div>
             </div>
-            <div className={styles["serial-title"]}>{serials.Title}</div>
+            <div className={styles["serial-title"]}>{serials.title}</div>
         </NavLink>
     );
 }

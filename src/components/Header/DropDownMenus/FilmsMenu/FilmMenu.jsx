@@ -56,7 +56,7 @@ const FilmMenu = () => {
             <div className={styles["flex-container"]}>
                 <div>
                     <p className={styles["section-title"]}>Genres</p>
-                    <div className={styles["section-colums"]}>
+                    <div className={styles["columns-container"]}>
                         {rowsGenres.map((row, rowIndex) => (
                             <div className={styles["column"]} key={rowIndex}>
                             {row.map((genre, index) => (
@@ -70,7 +70,7 @@ const FilmMenu = () => {
                 </div>
                 <div>
                     <p className={styles["section-title"]}>Popular studios</p>
-                    <div className={styles["section-colums"]}>
+                    <div className={styles["columns-container"]}>
                         {rowsStudios.map((row, rowIndex) => (
                             <div className={styles["column"]} key={rowIndex}>
                             {row.map((studio, index) => (

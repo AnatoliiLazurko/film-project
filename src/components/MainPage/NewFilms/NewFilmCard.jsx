@@ -27,7 +27,7 @@ const NewFilmCard = ({ films }) => {
     return (
         <NavLink to={`/film-view/${films.genres[0].name.toLowerCase()}/${films.id}`} className={styles["film-card"]}>
             <div className={styles["film-poster"]}>
-                <img src={`data:image/jpeg;base64,${films.poster}`} alt="" />
+                <img src={films.poster ? `data:image/jpeg;base64,${films.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
                     <div className={styles["film-info"]}>
                         <div className={styles["name-rate"]}>

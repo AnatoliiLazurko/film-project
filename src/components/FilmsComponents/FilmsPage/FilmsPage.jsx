@@ -35,7 +35,6 @@ const FilmsPage = () => {
     const genreFilter = [];
     const studioFilter = [];
 
-
     useEffect(() => {
         if (date === 'from_old_to_new') {
             setDateFilter('asc');
