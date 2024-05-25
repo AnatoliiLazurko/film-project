@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styles from './SelectedStyles.module.css';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleInfoPositioning } from './SelectedScripts';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilteredFilms } from '../../../slices/filmsSlices/FilmsFiltersSlice';
+import { fetchFilms } from '../../../slices/filmsSlices/FilmsSlice';
 import Spinner from '../../Technicall/Spinner/Spinner';
 import Pagination from './Pagination/Pagination';
+import axios from 'axios';
 
 const Selected = () => {
 
@@ -20,18 +21,54 @@ const Selected = () => {
     const initialPage = parseInt(page) || 1;
     const [currentPage, setCurrentPage] = useState(initialPage);
     const dispatch = useDispatch();
+    const pageSize = 10;
+    const selectedFilter = [];
 
     useEffect(() => {
-        dispatch(fetchFilteredFilms(
+        
+        async function fetchTotalPages() {
+            try {
+                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                    Genres: [],
+                    Studios: [],
+                    Selections: selectedFilter
+                }, {
+                    params: {    
+                        pageSize: pageSize,
+                        sortByDate: '',
+                        sortByPopularity: '',
+                    }
+                });
+                setTotalPages(response.data);
+            } catch (error) {
+                console.error('Error fetching total pages:', error);
+            }
+        }
+
+        fetchTotalPages();
+    }, [selected]);
+
+    useEffect(() => {
+        if (selected !== 'selected=u') {
+            selectedFilter.push(selected.replace(/_/g, ' '));
+        }
+
+        dispatch(fetchFilms(
             {
-                pageNumber: currentPage 
+                pageNumber: currentPage,
+                pageSize: pageSize,
+                sortByDate: '',
+                sortByPopularity: '',
+                genres: [],
+                studios: [],
+                selections: selectedFilter
             }
         ));
     }, [dispatch, currentPage])
 
-    const selectionData = useSelector((state) => state.filteredFilms.filteredFilms); 
-    const isLoadingSelection = useSelector((state) => state.filteredFilms.isLoading);
-    const selectionError = useSelector((state) => state.filteredFilms.error)
+    const selectionData = useSelector((state) => state.films.films); 
+    const isLoadingSelection = useSelector((state) => state.films.isLoading);
+    const selectionError = useSelector((state) => state.films.error)
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -74,34 +111,34 @@ const Selected = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/${editedType}-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/${editedType}-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
-                            <img src={movie.Poster} alt="" />
+                             <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["movie-info"]}>
                                     <div className={styles["name-rate"]}>
-                                        <h1 className={styles["info-title"]}>{movie.Title}</h1>
+                                        <h1 className={styles["info-title"]}>{movie.title}</h1>
                                         <div className={styles["info-rate"]}>
-                                            <span><FontAwesomeIcon icon={faStar} /> {movie.imdbRating}/10</span>
+                                            <span><FontAwesomeIcon icon={faStar} /> {movie.rating}/10</span>
                                         </div>
                                     </div>
                                     <div className={styles["info"]}>
-                                        <p>Release year: {movie.Year}</p>
-                                        <p>Country: {movie.Country}</p>
-                                        <p>Genre: {movie.Genre}</p>
-                                        <p>Actors: {movie.Actors}</p>
+                                        <p>Release year: {new Date(movie.dateOfPublish).getFullYear()}</p>
+                                        <p>Country: {movie.country}</p>
+                                        <p>Genre: {movie.genres.map(genre => genre.name).join(', ')}</p>
+                                        <p>Actors: {movie.actors}</p>
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.Plot}
+                                        {movie.description}
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{movie.quality}p</div>
                         </div>
-                        <div className={styles["movie-title"]}>{movie.Title}</div>
+                        <div className={styles["movie-title"]}>{movie.title}</div>
                     </NavLink>
 
                 ))}

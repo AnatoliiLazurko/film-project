@@ -16,14 +16,6 @@ import { useCookies } from 'react-cookie';
 
 const MainPage = () => {
 
-    // const { isAuth, user } = useAuth();
-
-    // console.log(isAuth);
-    // console.log(user);
-    const [cookies] = useCookies(['authenticated']);
-    //console.log(cookies.authenticated);
-
-
     const dispatch = useDispatch();
 
     useEffect(() => {

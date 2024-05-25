@@ -10,11 +10,12 @@ const initialState = {
 export const fetchFilms = createAsyncThunk(
     'fetchFilms',
     async (payload) => {
-        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios } = payload;
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios, selections } = payload;
     
         const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
             Genres: genres,
-            Studios: studios
+            Studios: studios,
+            Selections: selections,
         },  {
             params: {    
                 pageNumber: pageNumber,
