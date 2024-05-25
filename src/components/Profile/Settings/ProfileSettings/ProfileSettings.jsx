@@ -2,7 +2,9 @@ import React, { useRef, useState } from 'react';
 import styles from './ProfileStyles.module.css';
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import userAvatar from '../../../../images/profile/user_avatar.jpg'
+import noneUserAvatar from '../../../../images/profile/user_avatar.jpg'
+import useAuth from '../../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
     name: '',
@@ -16,9 +18,12 @@ const EDIT_NAME_SCHEMA = Yup.object().shape({
 
 const ProfileSettings = () => {
 
+    const { user, logout } = useAuth();
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [fileEror, setFileEror] = useState('');
     const fileInputRef = useRef(null);
+    const nav = useNavigate();
 
     const submitHadler = (values, formikBag) => {
         formikBag.resetForm();
@@ -81,7 +86,7 @@ const ProfileSettings = () => {
                 <div className={styles["edit-avatar-block"]}>
                     <div className={styles["curent-avatar"]}>
                         {selectedImage && <img src={selectedImage} alt="Avatar" />}
-                        {!selectedImage && <img src={userAvatar} alt="Avatar" />}
+                        {!selectedImage && <img src={user.avatar ? user.avatar : noneUserAvatar} alt="Avatar" />}
                         <p>Max size 1000x1000px</p>
                     </div>
                     
@@ -100,7 +105,7 @@ const ProfileSettings = () => {
 
             {fileEror && <div className={styles["error-container"]}>{fileEror}</div> }
 
-            <div className={styles["delete-btn"]}>Delete account</div>
+            <div className={styles["logout-btn"]} onClick={() => { logout(); nav('/'); }}>Logout</div>
         </div>
     );
 }

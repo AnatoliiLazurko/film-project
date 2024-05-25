@@ -7,7 +7,7 @@ import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import google_logo from "../../../images/forms/google.png";
 import { Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import useAuth from '../../../hooks/useAuth';
 
 const initialValues = {
     email: '',
@@ -20,6 +20,8 @@ const SIGNIN_SCHEMA = Yup.object().shape({
 });
 
 const Signin = ({ closeModal, openSignUp }) => {
+
+    const { login, authWithGoogle } = useAuth();
 
     const [showPassword, setPassword] = useState(false);
 
@@ -36,21 +38,20 @@ const Signin = ({ closeModal, openSignUp }) => {
     };
 
     const submitHadler = (values, formikBag) => {
-        formikBag.resetForm();
+        try {
+            login({ email: values.email, password: values.password });
+            formikBag.resetForm();
+            closeModal();
+        } catch (error) {
+            console.error('Login user error: ', error);
+        }
     }
 
     const signinWithGoogle = useGoogleLogin({
         onSuccess: codeResponse => {
-            axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-                headers: {
-                    'Authorization': `Bearer ${codeResponse.access_token}`
-                }
-            })
-            .then(response => {
-                //console.log(response.data);
-            })
-            .catch(error => console.error('Error fetching user info:', error));
-            }
+            authWithGoogle(codeResponse.access_token);
+            closeModal();
+        }
     });
 
 

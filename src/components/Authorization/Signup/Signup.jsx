@@ -7,7 +7,7 @@ import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import google_logo from "../../../images/forms/google.png";
 import { Link } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import useAuth from '../../../hooks/useAuth';
 
 const initialValues = {
     email: '',
@@ -30,6 +30,8 @@ const SIGNUP_SCHEMA = Yup.object().shape({
 
 const Signup = ({ closeModal, openSignIn }) => {
 
+    const { register, authWithGoogle } = useAuth();
+
     const [showPassword, setPassword] = useState(false);
     const [showConfirmPassword, setConfirmPassword] = useState(false);
 
@@ -49,22 +51,21 @@ const Signup = ({ closeModal, openSignIn }) => {
         setConfirmPassword(!showConfirmPassword);
     };
 
-    const submitHadler = (values, formikBag) => {
-        formikBag.resetForm();
+    const submitHadler = async (values, formikBag) => {
+        try {
+            register({ email: values.email, password: values.password });
+            formikBag.resetForm();
+            closeModal();
+        } catch (error) {
+            console.error('There was an error registering the user:', error);
+        }
     }
 
     const signupWithGoogle = useGoogleLogin({
         onSuccess: codeResponse => {
-            axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-                headers: {
-                    'Authorization': `Bearer ${codeResponse.access_token}`
-                }
-            })
-            .then(response => {
-                //console.log(response.data);
-            })
-            .catch(error => console.error('Error fetching user info:', error));
-            }
+            authWithGoogle(codeResponse.access_token);
+            closeModal();
+        }
     });
 
     return (

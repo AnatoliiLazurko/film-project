@@ -5,8 +5,12 @@ import { faGear} from '@fortawesome/free-solid-svg-icons';
 import BrowsingHistory from './BrowsingHistory/BrowsingHistory';
 import Bookmarks from './Bookmarks/Bookmarks';
 import { NavLink } from 'react-router-dom';
+import noneUserAvatar from '../../images/profile/user_avatar.jpg'
+import useAuth from '../../hooks/useAuth';
 
 const Profile = () => {
+
+    const { user } = useAuth();
 
     const [profileContent, setProfileContent] = useState('history');
 
@@ -21,10 +25,11 @@ const Profile = () => {
         <div className={styles["profile-page"]}>
             
             <div className={styles["user-container"]}>
-                <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
+                {user.avatar && <img src={`data:image/jpeg;base64,${user.avatar}`} alt="User Avatar" />}
+                {!user.avatar && <img src={noneUserAvatar} alt="User Avatar" />}
                 <div className={styles["profile-info"]}>
                     <div className={styles["top-content"]}>
-                        <p>Username</p>
+                        <p>{user.userName}</p>
                         <NavLink to={'/settings/profile'}><FontAwesomeIcon icon={faGear} /></NavLink>
                     </div>
                     <div className={styles["bottom-content"]}>

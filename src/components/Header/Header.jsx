@@ -11,10 +11,12 @@ import Signup from '../Authorization/Signup/Signup';
 import Signin from '../Authorization/Login/Signin';
 import Language from './Language/Language';
 import HeaderSearch from './HeaderSearch/HeaderSearch';
+import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
 
-    const [isAuth, setIsAuth] = useState(false);
+    const { isAuth } = useAuth();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSingUpOpen, setIsSignUpOpen] = useState(false);
     const [isSingInOpen, setIsSignInOpen] = useState(false);
@@ -39,6 +41,7 @@ const Header = () => {
         setIsSignUpOpen(false);
         setIsSignInOpen(!isSingInOpen);
     }
+
 
     return (
         <>

@@ -11,8 +11,18 @@ import { fetchFilms } from '../../slices/filmsSlices/FilmsSlice';
 import { fetchSerials } from '../../slices/serialsSlices/SerialsSlice';
 import { fetchCartoons } from '../../slices/cartoonsSlices/CartoonsSlice';
 import { fetchAnime } from '../../slices/animeSlices/AnimeSlice';
+import useAuth from '../../hooks/useAuth';
+import { useCookies } from 'react-cookie';
 
 const MainPage = () => {
+
+    // const { isAuth, user } = useAuth();
+
+    // console.log(isAuth);
+    // console.log(user);
+    const [cookies] = useCookies(['authenticated']);
+    //console.log(cookies.authenticated);
+
 
     const dispatch = useDispatch();
 

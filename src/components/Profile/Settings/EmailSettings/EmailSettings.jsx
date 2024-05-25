@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../../../hooks/useAuth';
 
 const initialValues = {
     email: '',
@@ -16,6 +17,8 @@ const EDIT_EMAIL_SCHEMA = Yup.object().shape({
 });
 
 const EmailSettings = () => {
+
+    const { user } = useAuth();
 
     const [showPassword, setPassword] = useState(false);
 
@@ -35,7 +38,7 @@ const EmailSettings = () => {
         <div>
             
             <h1 className={styles["edit-title"]}>Edit E-mail</h1>
-            <p className={styles["current-email"]}>Your current e-mail: filmlover@gmail.com</p>
+            <p className={styles["current-email"]}>Your current e-mail: {user.email}</p>
             <p className={styles["edit-rules"]}>
                 To change your e-mail, you must enter your password. <br/>
                 Then we will send you a verification letter on your <span>new e-mail.</span>
