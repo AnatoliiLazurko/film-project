@@ -10,7 +10,7 @@ import useAuth from '../../hooks/useAuth';
 
 const Profile = () => {
 
-    const { user } = useAuth();
+    const { isAuth, user } = useAuth();
 
     const [profileContent, setProfileContent] = useState('history');
 
@@ -25,8 +25,13 @@ const Profile = () => {
         <div className={styles["profile-page"]}>
             
             <div className={styles["user-container"]}>
-                {user.avatar && <img src={`data:image/jpeg;base64,${user.avatar}`} alt="User Avatar" />}
-                {!user.avatar && <img src={noneUserAvatar} alt="User Avatar" />}
+                {isAuth &&
+                    <>
+                        {user.avatar && <img src={`data:image/jpeg;base64,${user.avatar}`} alt="User Avatar" />}
+                        {!user.avatar && <img src={noneUserAvatar} alt="User Avatar" />}
+                    </>
+                }
+                {!isAuth && <img src={noneUserAvatar} alt="User Avatar" />}
                 <div className={styles["profile-info"]}>
                     <div className={styles["top-content"]}>
                         <p>{user.userName}</p>

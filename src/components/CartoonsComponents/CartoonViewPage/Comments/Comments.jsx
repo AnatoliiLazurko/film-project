@@ -5,8 +5,14 @@ import { faHeart as solidHeart, faHeartCrack, faShuffle, faEllipsis, faCommentDo
 import { faHeart as regularHeart, faFaceSmile,  } from '@fortawesome/free-regular-svg-icons';
 import Subcomment from './Subcomment';
 import ReplyComment from './ReplyComment';
+import useAuth from '../../../../hooks/useAuth';
+import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
+import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 
 const Comments = () => {
+
+    const { isAuth, user } = useAuth();
+    const [isAuthPrompt, setIsAuthPrompt] = useState(false);
 
     const emojis = ['😊', '😎', '😍', '😂',  '☹️', '😴', '🤮', '😡', '🤡', '👍', '👎'];
     const [openEmoji, setOpenEmoji] = useState(false);
@@ -39,39 +45,46 @@ const Comments = () => {
 
     // TEMPORARY
 
-    const toLike = () => {
-        if (!isLiked) {
-            setLiked(!isLiked);
-            setDisLiked(false);
-            setLikeCount(likeCount + 1);
+    const toLike = () => {  
+        if (isAuth) {
+            if (!isLiked) {
+                setLiked(!isLiked);
+                setDisLiked(false);
+                setLikeCount(likeCount + 1);
 
-            if (isDisLiked) {
-                setDisLikeCount(disLikeCount - 1);
+                if (isDisLiked) {
+                    setDisLikeCount(disLikeCount - 1);
+                }
             }
+            
+            if (isLiked) {
+                setLiked(!isLiked);
+                setLikeCount(likeCount - 1);
+            }
+        } else {
+            setIsAuthPrompt(true);
         }
-        
-        if (isLiked) {
-            setLiked(!isLiked);
-            setLikeCount(likeCount - 1);
-        }   
     };
 
     const toDisLike = () => {
+        if (isAuth) {
+            if (!isDisLiked) {
+                setDisLiked(!isDisLiked);
+                setLiked(false);
+                setDisLikeCount(disLikeCount + 1);
 
-        if (!isDisLiked) {
-            setDisLiked(!isDisLiked);
-            setLiked(false);
-            setDisLikeCount(disLikeCount + 1);
-
-            if (isLiked) {
-                setLikeCount(likeCount - 1);
+                if (isLiked) {
+                    setLikeCount(likeCount - 1);
+                }
             }
-        }
 
-        if (isDisLiked) {
-            setDisLiked(!isDisLiked);
-            setDisLikeCount(disLikeCount - 1);
-        } 
+            if (isDisLiked) {
+                setDisLiked(!isDisLiked);
+                setDisLikeCount(disLikeCount - 1);
+            } 
+        } else {
+            setIsAuthPrompt(true);
+        }
     };
 
     //COMMENT
@@ -81,13 +94,17 @@ const Comments = () => {
     };
 
     const handleSubmit = () => {
-        if (comment.trim() !== '') {
-            const newComment = {
-                text: comment,
-                timestamp: new Date()
-            };
-            setCommentsList([...commentsList, newComment]);
-            setComment('');
+        if (isAuth) {
+            if (comment.trim() !== '') {
+                const newComment = {
+                    text: comment,
+                    timestamp: new Date()
+                };
+                setCommentsList([...commentsList, newComment]);
+                setComment('');
+            }
+        } else {
+            setIsAuthPrompt(true);
         }
     };
 
@@ -144,106 +161,115 @@ const Comments = () => {
     const sortFunction = sortDirection === 'oldToNew' ? sortByOldToNew : sortByNewToOld;
 
     return (
-        <div className={styles["comments-section"]}>
-            <div className={styles["top-panel"]}>
-                <p>{commentsList.length} Comments</p>
-                <div className={styles["sort-block"]}>
-                    <p className={styles["sort-comments"]} onClick={() => setSortDropDown(!isSortDropdown)}>Sort by <FontAwesomeIcon icon={faShuffle} /></p>
-                    {isSortDropdown && 
-                        <div className={styles["sort-dropdown"]}>
-                            <p>By popularity</p>
-                            <p onClick={() => handleSortChange('oldToNew')}>From old to new</p>
-                            <p onClick={() => handleSortChange('newToOld')}>From new to old</p>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div className={styles["leave-comment"]}>
-                <div className={styles["commnet-avatar"]}>
-                    <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
-                </div>
-                <div className={styles["commnet-form"]}>
-                    <p className={styles["username"]}>Username</p>
-                    <div className={styles["input-section"]}>
-                        <input
-                            type="text"
-                            value={comment}
-                            onChange={handleChange}
-                            placeholder="Enter message..."
-                            className={styles["input-message"]}
-                        />
-                        <div className={styles["under-input-section"]}>
-                            <div className={styles["emoji-block"]}>
-                                <FontAwesomeIcon icon={faFaceSmile} onClick={() => {setOpenEmoji(!openEmoji)}}/>
-                                {openEmoji &&
-                                    <div className={styles["emojis-container"]}>
-                                        {emojis.map((emoji, index) => (
-                                            <span key={index} style={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => handleEmojiSelect(emoji)}>
-                                                {emoji}
-                                            </span>
-                                        ))}
-                                    </div>
-                                }
+        <>
+            <div className={styles["comments-section"]}>
+                <div className={styles["top-panel"]}>
+                    <p>{commentsList.length} Comments</p>
+                    <div className={styles["sort-block"]}>
+                        <p className={styles["sort-comments"]} onClick={() => setSortDropDown(!isSortDropdown)}>Sort by <FontAwesomeIcon icon={faShuffle} /></p>
+                        {isSortDropdown && 
+                            <div className={styles["sort-dropdown"]}>
+                                <p>By popularity</p>
+                                <p onClick={() => handleSortChange('oldToNew')}>From old to new</p>
+                                <p onClick={() => handleSortChange('newToOld')}>From new to old</p>
                             </div>
-                            <div>
-                                <button className={styles["btn-cancel"]} onClick={() => {setComment('')}}>Cancel</button>
-                                <button className={styles["btn-send"]} onClick={handleSubmit}>Send</button>
+                        }
+                    </div>
+                </div>
+
+                <div className={styles["leave-comment"]}>
+                    <div className={styles["commnet-avatar"]}>
+                        {isAuth &&
+                            <>
+                                {user.avatar && <img src={`data:image/jpeg;base64,${user.avatar}`} alt="User Avatar" />}
+                                {!user.avatar && <img src={noneUserAvatar} alt="User Avatar" />}
+                            </>
+                        }
+                        {!isAuth && <img src={noneUserAvatar} alt="User Avatar" />}
+                    </div>
+                    <div className={styles["commnet-form"]}>
+                        <p className={styles["username"]}>{user ? user.userName : 'Username'}</p>
+                        <div className={styles["input-section"]}>
+                            <input
+                                type="text"
+                                value={comment}
+                                onChange={handleChange}
+                                placeholder="Enter message..."
+                                className={styles[`${comment ? 'inputed-message' : 'input-message'}`]}
+                            />
+                            <div className={styles["under-input-section"]}>
+                                <div className={styles["emoji-block"]}>
+                                    <FontAwesomeIcon icon={faFaceSmile} onClick={() => {setOpenEmoji(!openEmoji)}}/>
+                                    {openEmoji &&
+                                        <div className={styles["emojis-container"]}>
+                                            {emojis.map((emoji, index) => (
+                                                <span key={index} style={{ cursor: 'pointer', fontSize: '20px' }} onClick={() => handleEmojiSelect(emoji)}>
+                                                    {emoji}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    }
+                                </div>
+                                <div>
+                                    <button className={styles["btn-cancel"]} onClick={() => {setComment('')}}>Cancel</button>
+                                    <button className={styles["btn-send"]} onClick={handleSubmit}>Send</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div className={styles["list-of-comments"]}>
-                
+                <div className={styles["list-of-comments"]}>
+                    
 
-                {commentsList.sort(sortFunction).slice(0, visibleComments).map((comment, index) => (
-                    <div className={styles["comment-block"]} key={index}>
-                        <div className={styles["commnet-avatar"]}>
-                            <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
-                        </div>
-                        <div className={styles["comment-content"]}>
-                            <div className={styles["top-section"]}>
-                                <p className={styles["username"]}>Username <span>{getTimeDifference(comment.timestamp)}</span></p>
-                                <FontAwesomeIcon icon={faEllipsis} />
+                    {commentsList.sort(sortFunction).slice(0, visibleComments).map((comment, index) => (
+                        <div className={styles["comment-block"]} key={index}>
+                            <div className={styles["commnet-avatar"]}>
+                                <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
                             </div>
-                            <div className={styles["comment"]}>
-                                {comment.text}
-                            </div>
-                            <div className={styles["under-comment-section"]}>
-                                <div className={styles["left-section"]}>
-                                    <p className={styles["like"]}>
-                                        {isLiked && <FontAwesomeIcon icon={solidHeart} onClick={toLike} />}
-                                        {!isLiked && <FontAwesomeIcon icon={regularHeart} onClick={toLike} />}
-                                        {likeCount}
-                                    </p>
-                                    <p className={styles["dislike"]}>
-                                        {isDisLiked && <FontAwesomeIcon icon={faHeartCrack} onClick={toDisLike} />}
-                                        {!isDisLiked && <FontAwesomeIcon icon={regularHeart} onClick={toDisLike} />}
-                                        {disLikeCount}
-                                    </p>
-                                    <p className={styles["see-comments"]}>
-                                        <FontAwesomeIcon icon={faCommentDots} onClick={() => showReplayedComments(index)}/>
-                                        0
-                                    </p>
+                            <div className={styles["comment-content"]}>
+                                <div className={styles["top-section"]}>
+                                    <p className={styles["username"]}>Username <span>{getTimeDifference(comment.timestamp)}</span></p>
+                                    <FontAwesomeIcon icon={faEllipsis} />
                                 </div>
-                                <button className={styles["btn-comment"]} onClick={() => replyComment(index)}>Comment</button>
-                            </div>
+                                <div className={styles["comment"]}>
+                                    {comment.text}
+                                </div>
+                                <div className={styles["under-comment-section"]}>
+                                    <div className={styles["left-section"]}>
+                                        <p className={styles["like"]}>
+                                            {isLiked && <FontAwesomeIcon icon={solidHeart} onClick={toLike} />}
+                                            {!isLiked && <FontAwesomeIcon icon={regularHeart} onClick={toLike} />}
+                                            {likeCount}
+                                        </p>
+                                        <p className={styles["dislike"]}>
+                                            {isDisLiked && <FontAwesomeIcon icon={faHeartCrack} onClick={toDisLike} />}
+                                            {!isDisLiked && <FontAwesomeIcon icon={regularHeart} onClick={toDisLike} />}
+                                            {disLikeCount}
+                                        </p>
+                                        <p className={styles["see-comments"]}>
+                                            <FontAwesomeIcon icon={faCommentDots} onClick={() => showReplayedComments(index)}/>
+                                            0
+                                        </p>
+                                    </div>
+                                    <button className={styles["btn-comment"]} onClick={() => replyComment(index)}>Comment</button>
+                                </div>
 
-                            {replyStates[index] && <ReplyComment />}
-                            
-                            {showReplayedStates[index] && <Subcomment/> }
+                                {replyStates[index] && <ReplyComment />}
+                                
+                                {showReplayedStates[index] && <Subcomment/> }
 
-                        </div>      
-                    </div>   
-                ))}
+                            </div>      
+                        </div>   
+                    ))}
+                </div>
+
+                {commentsList.length > visibleComments && (
+                    <div className={styles["view-more"]} onClick={loadMore}>View more</div>
+                )}
             </div>
-
-            {commentsList.length > visibleComments && (
-                <div className={styles["view-more"]} onClick={loadMore}>View more</div>
-            )}
-        </div>
+            {isAuthPrompt && <AuthPrompt closeAlert={setIsAuthPrompt} /> }
+        </>
     );
 }
 

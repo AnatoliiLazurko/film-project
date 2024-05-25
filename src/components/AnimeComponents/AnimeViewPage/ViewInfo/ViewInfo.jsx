@@ -5,18 +5,31 @@ import { faAnglesRight, faStar, faBookmark as solidBookMark } from '@fortawesome
 import { faBookmark as regularBookMark } from '@fortawesome/free-regular-svg-icons';
 import { NavLink } from 'react-router-dom';
 import RateWindow from '../../../Technicall/RateWindow/RateWindow';
+import useAuth from '../../../../hooks/useAuth';
+import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 
 const ViewInfo = ({ animeDetails }) => {
 
+    const { isAuth } = useAuth();
+
     const [isSaved, setSaved] = useState(false);
     const [isRating, setIsRating] = useState(false);
+    const [isAuthPrompt, setIsAuthPrompt] = useState(false);
 
     const toSave = () => {
-        setSaved(!isSaved);
+        if (isAuth) {
+            setSaved(!isSaved);
+        } else {
+            setIsAuthPrompt(true);
+        }
     };
 
     const rateAnime = () => {
-        setIsRating(true);
+        if (isAuth) {
+            setIsRating(true);
+        } else {
+            setIsAuthPrompt(true);
+        }
     };
 
     return (
@@ -59,6 +72,7 @@ const ViewInfo = ({ animeDetails }) => {
                 </div>
             </div>
             {isRating && <RateWindow type={'anime'} setIsRating={setIsRating} />}
+            {isAuthPrompt && <AuthPrompt closeAlert={setIsAuthPrompt} /> }
         </>
     );
 }
