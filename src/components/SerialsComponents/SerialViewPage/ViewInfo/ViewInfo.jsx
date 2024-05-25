@@ -60,7 +60,7 @@ const ViewInfo = ({ serialDetails }) => {
                                 </div>
                             </div>
                         </div>
-                        <p>Quality: 1080p</p>
+                        <p>Quality: {serialDetails.quality}p</p>
                         <p>Release year: {new Date(serialDetails.dateOfPublish).getFullYear()}</p>
                         <p>Age rating: {serialDetails.ageRestriction}+</p>
                         <p>Country: {serialDetails.country}</p>

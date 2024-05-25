@@ -56,7 +56,7 @@ const OtherFilms = ({ films }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{film.quality}p</div>
                         </div>
                         <div className={styles["film-title"]}>{film.title}</div>
                     </NavLink>

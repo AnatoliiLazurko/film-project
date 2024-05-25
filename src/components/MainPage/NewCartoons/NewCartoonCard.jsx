@@ -50,7 +50,7 @@ const NewCartoonCard = ({ cartoons }) => {
                         </p>
                     </div>
                 </div>
-                <div className={styles["quality"]}>1080p</div>
+                <div className={styles["quality"]}>{cartoons.quality}p</div>
             </div>
             <div className={styles["cartoon-title"]}>{cartoons.title}</div>
         </NavLink>

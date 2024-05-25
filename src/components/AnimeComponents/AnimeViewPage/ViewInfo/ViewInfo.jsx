@@ -60,7 +60,7 @@ const ViewInfo = ({ animeDetails }) => {
                                 </div>
                             </div>
                         </div>
-                        <p>Quality: 1080p</p>
+                        <p>Quality: {animeDetails.quality}p</p>
                         <p>Release year: {new Date(animeDetails.dateOfPublish).getFullYear()}</p>
                         <p>Age rating: {animeDetails.ageRestriction}+</p>
                         <p>Country: {animeDetails.country}</p>

@@ -62,7 +62,7 @@ const ViewInfo = ({ filmDetails }) => {
                                 </div>
                             </div>
                         </div>
-                        <p>Quality: 1080p</p>
+                        <p>Quality: {filmDetails.quality}p</p>
                         <p>Release year: {new Date(filmDetails.dateOfPublish).getFullYear()}</p>
                         <p>Age rating: {filmDetails.ageRestriction}+</p>
                         <p>Country: {filmDetails.country}</p>

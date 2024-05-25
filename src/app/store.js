@@ -11,6 +11,7 @@ import serialsSelectionsReducer from '../slices/serialsSlices/SerialsSelectionsS
 import animeReducer from '../slices/animeSlices/AnimeSlice';
 import animeDetailsReducer from '../slices/animeSlices/AnimeDetailsSlice';
 import animeSelectionsReducer from '../slices/animeSlices/AnimeSelectionsSlice';
+import donationsReducer from '../slices/donationsSlices/DonatiosSlice';
 
 export const store = configureStore({
     reducer: {
@@ -33,5 +34,8 @@ export const store = configureStore({
         anime: animeReducer,
         animeDetails: animeDetailsReducer,
         animeSelections: animeSelectionsReducer,
+
+        // DONATIONS REDUCERS
+        donations: donationsReducer,
     }
 });

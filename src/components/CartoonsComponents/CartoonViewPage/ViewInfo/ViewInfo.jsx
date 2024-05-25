@@ -62,7 +62,7 @@ const ViewInfo = ({ cartoonDetails }) => {
                                 </div>
                             </div>
                         </div>
-                        <p>Quality: 1080p</p>
+                        <p>Quality: {cartoonDetails.quality}p</p>
                         <p>Release year: {new Date(cartoonDetails.dateOfPublish).getFullYear()}</p>
                         <p>Age rating: {cartoonDetails.ageRestriction}+</p>
                         <p>Country: {cartoonDetails.country}</p>

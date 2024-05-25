@@ -50,7 +50,7 @@ const NewFilmCard = ({ films }) => {
                         </p>
                     </div>
                 </div>
-                <div className={styles["quality"]}>1080p</div>
+                <div className={styles["quality"]}>{films.quality}p</div>
             </div>
             <div className={styles["film-title"]}>{films.title}</div>
         </NavLink>

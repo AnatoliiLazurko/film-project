@@ -130,7 +130,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{film.quality}p</div>
                         </div>
                         <div className={styles["film-title"]}>{film.title}</div>
                     </NavLink>

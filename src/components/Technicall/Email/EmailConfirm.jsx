@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './EmailConfirmStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import RequestError from '../Error/RequestError'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -44,7 +43,7 @@ const EmailConfirm = () => {
             }
             {error &&
                 <div className={styles["alert-error"]}>
-                    <h1>Email verification error <FontAwesomeIcon icon={faTriangleExclamation} /></h1>
+                    <h1>E-mail verification error!</h1>
                     <p className={styles["text-error"]}>{error}</p>
                     <div className={styles["btn-okay"]} onClick={() => { nav('/'); }}>Back to main</div>
                 </div>

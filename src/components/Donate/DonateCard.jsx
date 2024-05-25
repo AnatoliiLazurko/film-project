@@ -1,28 +1,30 @@
 import React from 'react';
 import styles from './DonateStyles.module.css';
 
-const DonateCard = () => {
+const DonateCard = ({ fundraising }) => {
 
-    const handleDonateClick = () => {
-        window.open('https://www.sandbox.paypal.com/donate/?campaign_id=4C2UB8ANVY8MG', '_blank');
+    const handleDonateClick = (url) => {
+        window.open(`${url}`, '_blank');
     };
 
     return (
-        <div className={styles["donate-card"]}>
+        <>
+            {fundraising.map((item, index) => (
+                <div className={styles["donate-card"]} key={index}>
 
-            <img src="https://umoloda.kyiv.ua/img/content/i169/169773.jpg" alt="" />
-            
-            <p className={styles["donate-title"]}>Join Us in Making a Difference!</p>
-            <p className={styles["donate-status"]}>Collection started</p>
-            <p className={styles["donate-description"]}>
-                Dear users, <br/>
-                Every child deserves to feel loved, safe, and supported.
-                Sadly, many children in our community are facing difficult challe...
-            </p>
+                    <img src={item.image ? `data:image/jpeg;base64,${item.image}` : ''} alt="Donation Poster" />
+                    
+                    <p className={styles["donate-title"]}>{item.name}</p>
+                    <p className={styles["donate-status"]}>Collection started</p>
+                    <p className={styles["donate-description"]}>
+                        {item.description}
+                    </p>
 
-            <div className={styles["donate-btn"]} onClick={handleDonateClick}>Donate</div>
+                    <div className={styles["donate-btn"]} onClick={() => handleDonateClick(item.fundraisingUrl)}>Donate</div>
 
-        </div>
+                </div>
+            ))}
+        </>
     );
 }
 

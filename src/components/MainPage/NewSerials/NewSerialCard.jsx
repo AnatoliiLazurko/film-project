@@ -50,7 +50,7 @@ const NewSerialCard = ({ serials }) => {
                         </p>
                     </div>
                 </div>
-                <div className={styles["quality"]}>1080p</div>
+                <div className={styles["quality"]}>{serials.quality}p</div>
             </div>
             <div className={styles["serial-title"]}>{serials.title}</div>
         </NavLink>

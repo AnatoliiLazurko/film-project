@@ -124,7 +124,7 @@ const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{anime.quality}p</div>
                         </div>
                         <div className={styles["anime-title"]}>{anime.title}</div>
                     </NavLink>

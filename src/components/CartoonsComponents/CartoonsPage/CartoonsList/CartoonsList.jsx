@@ -131,7 +131,7 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{cartoon.quality}p</div>
                         </div>
                         <div className={styles["cartoon-title"]}>{cartoon.title}</div>
                     </NavLink>

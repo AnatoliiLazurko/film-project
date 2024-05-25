@@ -129,7 +129,7 @@ const SerialsList = ({ serials, setCurrentPage, currentPage, pageSize }) => {
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{serial.quality}p</div>
                         </div>
                         <div className={styles["serial-title"]}>{serial.title}</div>
                     </NavLink>
