@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './RateWindowStyles.module.css';
+import axios from 'axios';
 
-const RateWindow = ({ type, setIsRating }) => {
+const RateWindow = ({ type, media, setIsRating }) => {
 
     const [selectedNumber, setSelectedNumber] = useState(null);
 
@@ -9,8 +10,64 @@ const RateWindow = ({ type, setIsRating }) => {
         setSelectedNumber(number);
     };
 
-    const handleRateClick = () => {
-        console.log(selectedNumber);
+    const handleRateClick = async () => {
+
+        if (selectedNumber) {
+
+            if (type === 'film') {
+                try {
+                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                        params: {    
+                            filmId: media.id,
+                            rate: selectedNumber,
+                        },
+                        withCredentials: true 
+                    });
+                } catch (error) {
+                    console.log('Media rate error: ' + error);
+                }
+            }
+            if (type === 'cartoon') {
+                try {
+                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                        params: {    
+                            cartoonId: media.id,
+                            rate: selectedNumber,
+                        },
+                        withCredentials: true 
+                    });
+                } catch (error) {
+                    console.log('Media rate error: ' + error);
+                }
+            }
+            if (type === 'serial') {
+                try {
+                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                        params: {    
+                            serialId: media.id,
+                            rate: selectedNumber,
+                        },
+                        withCredentials: true 
+                    });
+                } catch (error) {
+                    console.log('Media rate error: ' + error);
+                }
+            }
+            if (type === 'anime') {
+                try {
+                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                        params: {    
+                            animeId: media.id,
+                            rate: selectedNumber,
+                        },
+                        withCredentials: true 
+                    });
+                } catch (error) {
+                    console.log('Media rate error: ' + error);
+                }
+            }
+        }
+
         setIsRating(false);
     };
 

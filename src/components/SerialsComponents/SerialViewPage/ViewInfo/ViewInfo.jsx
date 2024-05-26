@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ViewInfoStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faStar, faBookmark as solidBookMark } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
+import axios from 'axios';
 
 const ViewInfo = ({ serialDetails }) => {
 
@@ -16,9 +17,45 @@ const ViewInfo = ({ serialDetails }) => {
     const [isRating, setIsRating] = useState(false);
     const [isAuthPrompt, setIsAuthPrompt] = useState(false);
 
-    const toSave = () => {
+    const [bookedList, setBookedList] = useState([]);
+
+    useEffect(() => {
+        const fetchBooked = async () => {
+            try {
+                const response = await axios.get('https://localhost:7176/api/BookMarks', { withCredentials: true });
+                setBookedList(response.data);
+            } catch (error) {
+                //console.error('Getting booked list error: ' + error);
+            }
+        };
+
+        if (isAuth) {
+            fetchBooked();
+        }
+    }, [isAuth]);
+
+    useEffect(() => {
+        if (bookedList.length > 0) {
+            const isBookmarked = bookedList.some(media => media.mediaId === serialDetails.id);
+            setSaved(isBookmarked);
+        }
+    }, [bookedList]);
+
+    const toSave = async () => {
         if (isAuth) {
             setSaved(!isSaved);
+
+            try {
+                await axios.post('https://localhost:7176/api/BookMarks', {
+                    mediaId: serialDetails.id,
+                    mediaTypeId: 2
+                }, {
+                    withCredentials: true 
+                });
+            } catch (error) {
+                console.log('Anime book error: ' + error);
+            }
+
         } else {
             setIsAuthPrompt(true);
         }
@@ -71,7 +108,7 @@ const ViewInfo = ({ serialDetails }) => {
                     </div>
                 </div>
             </div>
-            {isRating && <RateWindow type={'serial'} setIsRating={setIsRating} />}
+            {isRating && <RateWindow type={'serial'} media={serialDetails} setIsRating={setIsRating} />}
             {isAuthPrompt && <AuthPrompt closeAlert={setIsAuthPrompt} /> }
         </>
     );

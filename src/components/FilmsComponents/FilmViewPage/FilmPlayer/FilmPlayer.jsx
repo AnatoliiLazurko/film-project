@@ -3,8 +3,12 @@ import styles from './PlayerStyles.module.css';
 import Player from './Player/Player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../../../hooks/useAuth';
+import axios from 'axios';
 
 const FilmPlayer = ({ filmDetails }) => {
+
+    const { isAuth } = useAuth();
 
     const voiceActingArray = ['English'];
 
@@ -34,6 +38,25 @@ const FilmPlayer = ({ filmDetails }) => {
     const handleTrailer = () => {
         setSwitchPlayer(false);
         setVoiceActing('Player');
+    }
+
+    const handleHistory = async () => {
+        if (isAuth) {
+            try {
+                const data = {
+                    MediaWithType: {
+                        mediaId: filmDetails.id, 
+                        mediaTypeId: 1, 
+                    },
+                    partNumber: 0, 
+                    seasonNumber: 0, 
+                };
+
+                await axios.post('https://localhost:7176/api/History', data, { withCredentials: true });
+            } catch (error) {
+                //console.error('Adding history: ' + error);
+            }
+        }
     }
 
     return (
@@ -68,7 +91,7 @@ const FilmPlayer = ({ filmDetails }) => {
                         }
                     </div>
                 </div>
-                <div className={styles["player"]}>
+                <div className={styles["player"]} onClick={handleHistory}>
                     <Player switchPlayer={switchPlayer} voiceActing={voiceActing} filmDetails={filmDetails} />
                 </div>
             </div>
