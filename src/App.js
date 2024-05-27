@@ -26,6 +26,8 @@ import { AuthProvider } from './context/AuthContext';
 import GuestGuard from './guards/GuestGuard';
 import { CookiesProvider } from 'react-cookie';
 import EmailConfirm from '../src/components/Technicall/Email/EmailConfirm';
+import EmailChangeResult from './components/Technicall/Email/EmailChange/EmailChangeResult';
+import ChangePassword from './components/Technicall/Password/ChangePassword/ChangePassword'
 
 function App() {
   return (
@@ -65,6 +67,9 @@ function App() {
               <Route path='/rools/:term' element={<RoolsUse />} />
 
               <Route path="/emailconfirm" element={<EmailConfirm />} />
+              <Route path="/changeemail" element={<EmailChangeResult />} />
+
+              <Route path="/changepassword" element={<ChangePassword />} />
               
               <Route path="*" element={<Status404 />} />
             </Routes>

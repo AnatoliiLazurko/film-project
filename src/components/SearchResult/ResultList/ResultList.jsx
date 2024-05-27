@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleInfoPositioning } from './ResultListScripts';
 
-const ResultList = ({ movies, type }) => {
+const ResultList = ({ media, type }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -22,41 +22,41 @@ const ResultList = ({ movies, type }) => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
+    }, [media]);
 
     return (
         <div className={styles["films-list"]}>
             
-            {movies.map((movie, index) => (
+            {media.map((media, index) => (
                 
-                <NavLink to={`/${type}-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["film-card"]} key={index}>
+                <NavLink to={`/${type}-view/${media.genres[0].name.toLowerCase()}/${media.id}`} className={styles["film-card"]} key={index}>
                     <div className={styles["film-poster"]}>
-                        <img src={movie.Poster} alt="" />
+                        <img src={media.poster ? `data:image/jpeg;base64,${media.poster}` : ''} alt="Poster" />
                         <div className={styles["question-mark"]}>?</div>
                             <div className={styles["film-info"]}>
                                 <div className={styles["name-rate"]}>
-                                    <h1 className={styles["info-title"]}>{movie.Title}</h1>
+                                    <h1 className={styles["info-title"]}>{media.title}</h1>
                                     <div className={styles["info-rate"]}>
-                                        <span><FontAwesomeIcon icon={faStar} /> {movie.imdbRating}/10</span>
+                                        <span><FontAwesomeIcon icon={faStar} /> {media.rating}/10</span>
                                     </div>
                                 </div>
                                 <div className={styles["info"]}>
-                                    <p>Release year: {movie.Year}</p>
-                                    <p>Country: {movie.Country}</p>
-                                    <p>Genre: {movie.Genre}</p>
-                                    <p>Actors: {movie.Actors}</p>
+                                    <p>Release year: {new Date(media.dateOfPublish).getFullYear()}</p>
+                                    <p>Country: {media.country}</p>
+                                    <p>Genre: {media.genres.map(genre => genre.name).join(', ')}</p>
+                                    <p>Actors: {media.actors}</p>
                                 </div>
                                 <div className={styles["info-line"]}></div>
                                 <div className={styles["info-description"]}>
                                 <h1>Description</h1>
                                 <p>
-                                    {movie.Plot}
+                                    {media.description}
                                 </p>
                             </div>
                         </div>
-                        <div className={styles["quality"]}>1080p</div>
+                        <div className={styles["quality"]}>{media.quality}p</div>
                     </div>
-                    <div className={styles["film-title"]}>{movie.Title}</div>
+                    <div className={styles["film-title"]}>{media.title}</div>
                 </NavLink>
 
             ))}

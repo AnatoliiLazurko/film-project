@@ -5,7 +5,7 @@ import box from '../../../../images/subscription/box.png';
 
 const SubscriptionSettings = () => {
 
-    const [isSubscription, setSubscription] = useState(true);
+    const [isSubscription, setSubscription] = useState(false);
 
     return (
         <div>

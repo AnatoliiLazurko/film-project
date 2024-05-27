@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg'
 import useAuth from '../../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const initialValues = {
     name: '',
@@ -25,7 +26,14 @@ const ProfileSettings = () => {
     const fileInputRef = useRef(null);
     const nav = useNavigate();
 
-    const submitHadler = (values, formikBag) => {
+    const submitHadler = async (values, formikBag) => {
+        try {
+            await axios.put(`https://localhost:7176/api/Users/changenusername?username=${values.name}`, null, {
+                withCredentials: true
+            });
+        } catch (error) {
+            console.log("Changing username error: " + error);
+        }
         formikBag.resetForm();
     }
 
@@ -52,6 +60,7 @@ const ProfileSettings = () => {
                 if (img.width > 1000 || img.height > 1000) {
                     setFileEror('The size of the image should not exceed 1000x1000px');
                 } else {
+                    uploadAvatar(file);
                     setSelectedImage(reader.result);
                     setFileEror('');
                 }
@@ -62,6 +71,22 @@ const ProfileSettings = () => {
             reader.readAsDataURL(file);
         }
     };
+
+    const uploadAvatar = async (file) => {
+        try {
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            await axios.put('https://localhost:7176/api/users/avatar', formData, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+        } catch (error) {
+            console.log("Uploading avatar error: " + error);
+        }
+    } 
 
     return (
         <div>
@@ -86,7 +111,7 @@ const ProfileSettings = () => {
                 <div className={styles["edit-avatar-block"]}>
                     <div className={styles["curent-avatar"]}>
                         {selectedImage && <img src={selectedImage} alt="Avatar" />}
-                        {!selectedImage && <img src={user.avatar ? user.avatar : noneUserAvatar} alt="Avatar" />}
+                        {!selectedImage && <img src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : noneUserAvatar} alt="Avatar" />}
                         <p>Max size 1000x1000px</p>
                     </div>
                     
