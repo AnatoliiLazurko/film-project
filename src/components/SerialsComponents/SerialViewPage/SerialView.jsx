@@ -62,7 +62,7 @@ const SerialView = () => {
 
             <OtherSeries serials={serialsData.slice(0, 6)} />
 
-            <Comments />
+            <Comments serialDetails={serialDetails} />
 
         </>
     );

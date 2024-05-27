@@ -68,7 +68,6 @@ function App() {
 
               <Route path="/emailconfirm" element={<EmailConfirm />} />
               <Route path="/changeemail" element={<EmailChangeResult />} />
-
               <Route path="/changepassword" element={<ChangePassword />} />
               
               <Route path="*" element={<Status404 />} />

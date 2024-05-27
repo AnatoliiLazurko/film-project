@@ -61,7 +61,7 @@ const AnimeView = () => {
 
             <OtherAnime anime={animeData} />
 
-            <Comments />
+            <Comments animeDetails={animeDetails} />
 
         </>
     );

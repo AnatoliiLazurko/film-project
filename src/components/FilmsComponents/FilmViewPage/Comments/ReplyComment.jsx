@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
+import axios from 'axios';
 
-const ReplyComment = () => {
+const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -20,6 +21,30 @@ const ReplyComment = () => {
 
     const handleEmojiSelect = (emoji) => {
         setReplyComment(replyComment + emoji);
+    };
+
+    const handleSubmit = () => {
+        if (isAuth) {
+            if (replyComment.trim() !== '') {
+                try {
+                    axios.post('https://localhost:7095/api/Comments', {
+                        FilmId: filmId,
+                        ParentCommentId: commentId,
+                        Text: replyComment
+                    }, {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true
+                    });
+
+                    setReplyComment('');
+                } catch (error) {
+                    console.log("Add comment error: " + error)
+                }
+                setUpdate(!update);
+            }
+        } else {
+            setIsAuthPrompt(true);
+        }
     };
 
     return (
@@ -58,7 +83,7 @@ const ReplyComment = () => {
                         </div>
                         <div>
                             <button className={styles["btn-cancel"]} onClick={() => {setReplyComment('')}}>Cancel</button>
-                            <button className={styles["btn-send"]}>Send</button>
+                            <button className={styles["btn-send"]} onClick={handleSubmit}>Send</button>
                         </div>
                     </div>
                 </div>

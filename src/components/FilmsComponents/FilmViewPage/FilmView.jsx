@@ -62,7 +62,7 @@ const FilmView = () => {
 
             <OtherFilms films={filmsData.slice(0, 6)} />
 
-            <Comments />
+            <Comments filmDetails={filmDetails} />
 
         </>
     );

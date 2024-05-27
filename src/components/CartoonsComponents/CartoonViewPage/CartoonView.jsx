@@ -62,7 +62,7 @@ const CartoonView = () => {
 
             <OtherCartoons cartoons={cartoonsData} />
 
-            <Comments />
+            <Comments cartoonDetails={cartoonDetails} />
 
         </>
     );
