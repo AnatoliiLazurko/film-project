@@ -1,99 +1,51 @@
 import React, { useState } from 'react';
 import styles from './PasswordStyles.module.css';
-import * as Yup from "yup";
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
-const initialValues = {
-    password: '',
-    confirmPassword: ''
-};
-
-const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,100}$/;
-
-const EDIT_PASSWORD_SCHEMA = Yup.object().shape({
-    password: Yup
-        .string()
-        .matches(passwordRules, { message: "Follow the new password rules above" })
-        .required("The field is required"),
-    confirmPassword: Yup
-        .string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-});
+import useAuth from '../../../../hooks/useAuth';
+import axios from 'axios';
+import EmailVerification from '../../../Technicall/Email/EmailVerification';
+import RequestError from '../../../Technicall/Error/RequestError';
 
 const PasswordSettings = () => {
 
-    const [showPassword, setPassword] = useState(false);
-    const [showConfirmPassword, setConfirmPassword] = useState(false);
+    const { user } = useAuth();
+    const [isEmailSent, setEmailSent] = useState(false);
+    const [error, setError] = useState();
 
-    const togglePasswordVisibility = () => {
-        setPassword(!showPassword);
-    };
+    const sendVerification = async () => {
+        try {
+            await axios.post('https://localhost:7176/api/Users/sendemailchangepassword', { email: user.email }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true,
+            });
 
-    const toggleConfirmPasswordVisibility = () => {
-        setConfirmPassword(!showConfirmPassword);
-    };
-
-    const clearFormFields = (formik) => {
-        formik.resetForm();
-    };
-
-    const submitHadler = (values, formikBag) => {
-        formikBag.resetForm();
+            setEmailSent(true);
+        } catch (error) {
+            setError(error.response.data);
+            setTimeout(() => {
+                setError(null);
+            }, 6000);
+        }
     }
 
     return (
-        <div>
-            
-            <h1 className={styles["edit-title"]}>Edit password</h1>
+        <>
+            <div>     
+                <h1 className={styles["edit-title"]}>Edit password</h1>
 
-            <div className={styles["validation-rules"]}>
-                <p>Your password must:</p>
-                <ul>
-                    <li>Have 8+ characters, but less than 100 and no spaces</li>
-                    <li>Use a mix of numbers, uppercase, and lowercase letters</li>
-                </ul>
+                <p className={styles["text"]}>
+                    To change your password, we will send you a link via email. <br /> 
+                    Please check your inbox and follow the instructions in the email to reset your password. <br />
+                    If you do not receive the email within a few minutes, please check your spam folder.
+                </p>
+
+                <div className={styles["send-btn"]} onClick={sendVerification}>Send verification</div>
             </div>
 
-            <Formik
-                initialValues={initialValues}
-                onSubmit={submitHadler}
-                validationSchema={EDIT_PASSWORD_SCHEMA}
-            >
-                {(formik) => (
-                    <Form className={styles["form"]}>
-                        <div className={styles["password-section"]}>
-
-                            <div className={styles["password-field"]}>   
-                                <Field name="password" className={styles["input-password"]} type={showPassword ? "text" : "password"} placeholder="Enter new password..." />
-                                <div className={styles["show-password"]}>
-                                    {!showPassword && <FontAwesomeIcon icon={faEye} onClick={togglePasswordVisibility} />}
-                                    {showPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={togglePasswordVisibility} />}
-                                </div>
-                            </div>
-
-                            <div className={styles["password-field"]}>
-                                <Field name="confirmPassword" className={styles["input-password"]} type={showConfirmPassword ? "text" : "password"} placeholder="Confirm new password..." />
-                                <div className={styles["show-password"]}>
-                                    {!showConfirmPassword && <FontAwesomeIcon icon={faEye} onClick={toggleConfirmPasswordVisibility} />}
-                                    {showConfirmPassword && <FontAwesomeIcon icon={faEyeSlash} onClick={toggleConfirmPasswordVisibility} />}
-                                </div>
-                            </div>
-
-                            <ErrorMessage name='password' component="div" className={styles["error-container"]} />
-                            <ErrorMessage name='confirmPassword' component="div" className={styles["error-container"]} />                   
-                        </div>
-
-                        <div className={styles["btn-section"]}>
-                            <div className={styles["cancel-btn"]} onClick={() => clearFormFields(formik)}>Cancel</div>
-                            <Field className={styles["confirm-btn"]} type="submit" value="Confirm changes"/>
-                        </div>
-                    </Form> 
-                )}
-            </Formik>
-
-        </div>
+            {error && <RequestError errorMessage={error} />}
+            {isEmailSent && <EmailVerification closeModal={setEmailSent} />}
+        </>
     );
 }
 

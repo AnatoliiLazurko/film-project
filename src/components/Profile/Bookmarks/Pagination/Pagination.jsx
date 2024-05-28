@@ -3,10 +3,10 @@ import styles from './PaginationStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const Pagination = ({ movies, setCurrentPage, currentPage }) => {
+const Pagination = ({ bookedList, setCurrentPage, currentPage }) => {
 
     const moviesPerPage = 12;
-    const totalPages = Math.ceil(movies.length / moviesPerPage);
+    const totalPages = Math.ceil(bookedList.length / moviesPerPage);
     const maxPageNumbers = 3;
 
     let startPage = Math.max(1, currentPage - 1);

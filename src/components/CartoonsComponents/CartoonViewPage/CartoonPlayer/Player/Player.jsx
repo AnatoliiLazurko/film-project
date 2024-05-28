@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
-import video from "../../../../../video/Avatar2.mp4";
-import video2 from "../../../../../video/video.mp4";
-import img from "../../../../../video/avatar-poster.jpg";
-import Subscription from '../../../../Subscription/Subscription';
-import PayPalWindow from '../../../../Subscription/PayPalWindow/PayPalWindow';
 
-const Player = ({ switchPlayer, voiceActing, season, episode }) => {
-    const [isSubcribe, setSubcribe] = useState(false);
-
-    const [quality, setQuality] = useState(720);
-    const [checkQuality, setCheckQuality] = useState();
-
-    const [showSub, setShowSub] = useState(false);
-    const [closeSub, setCloseSub] = useState(false);
-
-    const [showPayWindow, setPayWindow] = useState(false);
-
-    const openPayWindow = () => {
-        setCloseSub(true);
-        setShowSub(false);
-        setPayWindow(true);
-    }
+const Player = ({ switchPlayer, season, episode, cartoonDetails }) => {
 
     const controls = [
       'play-large',
@@ -37,59 +17,12 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
       'fullscreen',
     ];
 
-    const videoSources = [
-        {
-            src: video2,
-            type: 'video/mp4',
-            size: 2160,
-        },
-        {
-            src: video,
-            type: 'video/mp4',
-            size: 1080,
-        },
-        {
-            src: video2,
-            type: 'video/mp4',
-            size: 720,
-        },
-        {
-            src: video2, 
-            type: 'video/mp4',
-            size: 480,
-        },
-    ];
-    
-    const handleChangeQuality = (newQuality) => {
-        setCheckQuality(newQuality);
-        if (isSubcribe) {
-            setQuality(newQuality);
-        }
-
-        if (!isSubcribe) {
-            if (checkQuality === 2160) {
-                setShowSub(true);
-            } else {
-                setShowSub(false);
-                setQuality(newQuality);
-            }
-        }
-    };
-
-    useEffect(() => {
-        
-        setCheckQuality(720);
-        setShowSub(false);
-        setCloseSub(false);
-        
-    }, [closeSub]);
-
     const plyrProps = {
         
         source: {
             type: 'video',
-            sources: videoSources.filter(source => source.size === quality),
-            poster: img,
+            sources: 'test',
+            poster: `${cartoonDetails.poster ? `data:image/jpeg;base64,${cartoonDetails.poster}` : ''}`,
         },
         options: {
             controls,
@@ -101,9 +34,8 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
             },
             quality: {
                 default: 720,
-                options: [2160, 1080, 720, 480],
+                options: [720],
                 forced: true,
-                onChange: handleChangeQuality,
             },
         },
         
@@ -116,7 +48,7 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
             type: 'video',
             sources: [
                 {
-                    src: 'https://www.youtube.com/watch?v=E8Qe0vS_I3I',
+                    src: cartoonDetails.trailerUri,
                     provider: 'youtube',
                 },
             ],
@@ -136,10 +68,6 @@ const Player = ({ switchPlayer, voiceActing, season, episode }) => {
     return (
         <>
             <Plyr {...switchProps} />
-            {showSub &&    
-                <Subscription close={setCloseSub} payWindow={openPayWindow} />         
-            }
-            {showPayWindow && <PayPalWindow closeWindow={setPayWindow} />}
         </>
     );
 }

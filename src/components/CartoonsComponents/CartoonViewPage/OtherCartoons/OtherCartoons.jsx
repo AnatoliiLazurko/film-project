@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import styles from './OtherCartoonsStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import { handleCartoonInfoPositioning } from './OtherCartoonsScripts';
-import axios from 'axios';
 
-const OtherCartoons = () => {
-
-    const [movies, setMovies] = useState([]);
-
-    const fetchMovies = async () => {
-
-        try {
-            const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42`);
-            const moviesData = await Promise.all(
-                response.data.Search.slice(0, 6).map(async movie => {
-                    const detailedResponse = await axios.get(
-                        `http://www.omdbapi.com/?i=${movie.imdbID}&apikey=bfec6a42&plot=full`
-                    );
-                    return detailedResponse.data;
-                })
-            );
-            setMovies(moviesData);
-        } catch (error) {
-            console.error('Помилка під час отримання фільмів:', error);
-        }
-    };
+const OtherCartoons = ({ cartoons }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -43,12 +22,7 @@ const OtherCartoons = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [movies]);
-
-    useEffect(() => {
-
-        fetchMovies();
-    }, []);
+    }, [cartoons]);
 
     return (
         <div className={styles["other-section"]}>
@@ -56,35 +30,35 @@ const OtherCartoons = () => {
 
             <div className={styles["list-other-cartoons"]}>
 
-                {movies.map((movie, index) => (
-                    <NavLink to={`/cartoon-view/${movie.Genre.split(',')[0].toLowerCase()}/${movie.imdbID}`} className={styles["cartoon-card"]} key={index}>
+                {cartoons.map((cartoon, index) => (
+                    <NavLink to={`/cartoon-view/${cartoon.genres?.[0]?.name?.toLowerCase() ?? ''}/${cartoon.id}`} className={styles["cartoon-card"]} key={index}>
                         <div className={styles["cartoon-poster"]}>
-                            <img src={movie.Poster} alt="" />
+                            <img src={cartoon.poster ? `data:image/jpeg;base64,${cartoon.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["cartoon-info"]}>
                                     <div className={styles["name-rate"]}>
-                                        <h1 className={styles["info-title"]}>{movie.Title}</h1>
+                                        <h1 className={styles["info-title"]}>{cartoon.title}</h1>
                                         <div className={styles["info-rate"]}>
-                                            <span><FontAwesomeIcon icon={faStar} /> {movie.imdbRating}/10</span>
+                                            <span><FontAwesomeIcon icon={faStar} /> {cartoon.rating}/10</span>
                                         </div>
                                     </div>
                                     <div className={styles["info"]}>
-                                        <p>Release year: {movie.Year}</p>
-                                        <p>Country: {movie.Country}</p>
-                                        <p>Genre: {movie.Genre}</p>
-                                        <p>Actors: {movie.Actors}</p>
+                                        <p>Release year: {new Date(cartoon.dateOfPublish).getFullYear()}</p>
+                                        <p>Country: {cartoon.country}</p>
+                                        <p>Genre: {cartoon.genres?.map(genre => genre.name).join(', ') ?? ''}</p>
+                                        <p>Actors: {cartoon.actors}</p>
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.Plot}
+                                        {cartoon.description}
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{cartoon.quality}p</div>
                         </div>
-                        <div className={styles["cartoon-title"]}>{movie.Title}</div>
+                        <div className={styles["cartoon-title"]}>{cartoon.title}</div>
                     </NavLink>
                 ))}
                 

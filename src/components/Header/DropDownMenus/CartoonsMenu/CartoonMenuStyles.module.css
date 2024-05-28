@@ -11,23 +11,29 @@
     margin-bottom: 20px;
 }
 
-.section-colums {
+.columns-container {
     display: flex;
-    flex-direction: auto;
     gap: 40px;
 }
 
-.section-colums a {
-    display: flex;
+.column {
+    flex: 1;
+}
+
+.row {
     margin-bottom: 14px;
-    color: #F1F1F1;
+}
+
+.columns-container a {
+    display: flex;
     font-family: 'Rubik';
     font-weight: 400;
+    color: #F1F1F1;
     text-decoration: none;
     font-size: 14px;
     transition: 0.4s;
 }
 
-.section-colums a:hover {
+.columns-container a:hover {
     text-shadow: #6D8EEB 0px 0px 6px;
 }

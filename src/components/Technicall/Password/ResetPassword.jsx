@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ResetPasswordStyles.module.css';
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import axios from 'axios';
+import RequestError from '../Error/RequestError';
+import EmailVerification from '../Email/EmailVerification';
 
 const initialValues = {
     email: '',
@@ -13,7 +16,25 @@ const RESET_SCHEMA = Yup.object().shape({
 
 const ResetPassword = () => {
 
-    const submitHadler = (values, formikBag) => {
+    const [isEmailSent, setEmailSent] = useState(false);
+    const [error, setError] = useState();
+
+    const submitHadler = async (values, formikBag) => {
+        try {
+            await axios.post('https://localhost:7176/api/Users/sendemailchangepassword', { email: values.email }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true,
+            });
+
+            setEmailSent(true);
+        } catch (error) {
+            setError(error.response.data);
+            setTimeout(() => {
+                setError(null);
+            }, 6000);
+        }
         formikBag.resetForm();
     }
 
@@ -41,7 +62,9 @@ const ResetPassword = () => {
                     </Form>
                 </Formik>
             </div>
-            <div className={styles["screen-dimming"]}></div>
+
+            {error && <RequestError errorMessage={error} />}
+            {isEmailSent && <EmailVerification closeModal={setEmailSent} />}
         </>
     );
 }

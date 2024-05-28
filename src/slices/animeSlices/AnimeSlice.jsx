@@ -7,29 +7,41 @@ const initialState = {
     error: null
 }
 
+export const fetchAnime = createAsyncThunk(
+    'fetchAnime',
+    async (payload) => {
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios } = payload;
+    
+        const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
+            Genres: genres,
+            Studios: studios
+        },  {
+            params: {    
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                sortByDate: sortByDate,
+                sortByPopularity: sortByPopularity
+            },
+        });
+        return response.data;
+    }
+);
+
 // export const fetchAnime = createAsyncThunk(
 //     'fetchAnime',
 //     async () => {
-//         const res = await axios.get("http://localhost:4000/api/Anime");
-//         return res.data;
+//         const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42&page=3`);
+//         const animeData = await Promise.all(
+//             response.data.Search.map(async anime => {
+//                 const detailedResponse = await axios.get(
+//                 `http://www.omdbapi.com/?i=${anime.imdbID}&apikey=bfec6a42&plot=full`
+//                 );
+//                 return detailedResponse.data;
+//             })
+//         );
+//         return animeData;
 //     }
 // );
-
-export const fetchAnime = createAsyncThunk(
-    'fetchAnime',
-    async () => {
-        const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42&page=3`);
-        const animeData = await Promise.all(
-            response.data.Search.map(async anime => {
-                const detailedResponse = await axios.get(
-                `http://www.omdbapi.com/?i=${anime.imdbID}&apikey=bfec6a42&plot=full`
-                );
-                return detailedResponse.data;
-            })
-        );
-        return animeData;
-    }
-);
 
 
 export const animeSlice = createSlice({

@@ -3,10 +3,14 @@ import Player from './Player/Player';
 import styles from './PlayerStyles.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../../../hooks/useAuth';
+import axios from 'axios';
 
-const CartoonPlayer = () => {
+const CartoonPlayer = ({ cartoonDetails }) => {
 
-    const voiceActingArray = ['English', 'Ukrainian'];
+    const { isAuth } = useAuth();
+
+    const voiceActingArray = ['English'];
     const seasonArray = ['Season 1', 'Season 2', 'Season 3']
     const episodesData = {
         "Season 1": ["Episode 1", "Episode 2", "Episode 3", "Episode 4", "Episode 5"],
@@ -74,6 +78,25 @@ const CartoonPlayer = () => {
     const handleTrailer = () => {
         setSwitchPlayer(false);
         setVoiceActing('Player');
+    }
+
+    const handleHistory = async () => {
+        if (isAuth) {
+            try {
+                const data = {
+                    MediaWithType: {
+                        mediaId: cartoonDetails.id, 
+                        mediaTypeId: 3, 
+                    },
+                    partNumber: episode, 
+                    seasonNumber: season, 
+                };
+
+                await axios.post('https://localhost:7176/api/History', data, { withCredentials: true });
+            } catch (error) {
+                console.error('Adding history: ' + error);
+            }
+        }
     }
 
     return (
@@ -163,8 +186,14 @@ const CartoonPlayer = () => {
                     </div>
 
                 </div>
-                <div className={styles["player"]}>
-                    <Player switchPlayer={switchPlayer} voiceActing={voiceActing} season={season} episode={episode} />
+                <div className={styles["player"]} onClick={handleHistory}>
+                    <Player
+                        switchPlayer={switchPlayer}
+                        voiceActing={voiceActing}
+                        season={season}
+                        episode={episode}
+                        cartoonDetails={cartoonDetails}
+                    />
                 </div>
             </div>
         </div>

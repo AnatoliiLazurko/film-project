@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import styles from './OtherSerialsStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import { handleSerialInfoPositioning } from './OtherSerialsScripts';
-import axios from 'axios';
 
-const OtherSerials = () => {
-
-    const [series, setSeries] = useState([]);
-
-    const fetchSeries = async () => {
-
-        try {
-            const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=series&apikey=bfec6a42`);
-            const moviesData = await Promise.all(
-                response.data.Search.slice(0, 6).map(async serial => {
-                    const detailedResponse = await axios.get(
-                        `http://www.omdbapi.com/?i=${serial.imdbID}&apikey=bfec6a42&plot=full`
-                    );
-                    return detailedResponse.data;
-                })
-            );
-            setSeries(moviesData);
-        } catch (error) {
-            console.error('Помилка під час отримання фільмів:', error);
-        }
-    };
+const OtherSerials = ({ serials }) => {
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -43,11 +22,7 @@ const OtherSerials = () => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, [series]);
-
-    useEffect(() => {
-        fetchSeries();
-    }, []);
+    }, [serials]);
 
     return (
         <div className={styles["other-section"]}>
@@ -55,35 +30,35 @@ const OtherSerials = () => {
 
             <div className={styles["list-other-serials"]}>
 
-                {series.map((serial, index) => (
-                    <NavLink to={`/serial-view/${serial.Genre.split(',')[0].toLowerCase()}/${serial.imdbID}`} className={styles["serial-card"]} key={index}>
+                {serials.map((serial, index) => (
+                    <NavLink to={`/serial-view/${serial.genres?.[0]?.name?.toLowerCase() ?? ''}/${serial.id}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
-                            <img src={serial.Poster} alt="" />
+                            <img src={serial.poster ? `data:image/jpeg;base64,${serial.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
                                 <div className={styles["serial-info"]}>
                                     <div className={styles["name-rate"]}>
-                                        <h1 className={styles["info-title"]}>{serial.Title}</h1>
+                                        <h1 className={styles["info-title"]}>{serial.title}</h1>
                                         <div className={styles["info-rate"]}>
-                                            <span><FontAwesomeIcon icon={faStar} /> {serial.imdbRating}/10</span>
+                                            <span><FontAwesomeIcon icon={faStar} /> {serial.rating}/10</span>
                                         </div>
                                     </div>
                                     <div className={styles["info"]}>
-                                        <p>Release year: {serial.Year}</p>
-                                        <p>Country: {serial.Country}</p>
-                                        <p>Genre: {serial.Genre}</p>
-                                        <p>Actors: {serial.Actors}</p>
+                                        <p>Release year: {new Date(serial.dateOfPublish).getFullYear()}</p>
+                                        <p>Country: {serial.country}</p>
+                                        <p>Genre: {serial.genres?.map(genre => genre.name).join(', ') ?? ''}</p>
+                                        <p>Actors: {serial.actors}</p>
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {serial.Plot}
+                                        {serial.description}
                                     </p>
                                 </div>
                             </div>
-                            <div className={styles["quality"]}>1080p</div>
+                            <div className={styles["quality"]}>{serial.quality}p</div>
                         </div>
-                        <div className={styles["serial-title"]}>{serial.Title}</div>
+                        <div className={styles["serial-title"]}>{serial.title}</div>
                     </NavLink>
                 ))}
                 

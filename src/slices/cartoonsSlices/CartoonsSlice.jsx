@@ -7,30 +7,42 @@ const initialState = {
     error: null
 }
 
+export const fetchCartoons = createAsyncThunk(
+    'fetchCartoons',
+    async (payload) => {
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, categories, studios } = payload;
+    
+        const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
+            Genres: categories,
+            Studios: studios
+        },  {
+            params: {    
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                sortByDate: sortByDate,
+                sortByPopularity: sortByPopularity
+            },
+        });
+        return response.data;
+    }
+);
+
 // export const fetchCartoons = createAsyncThunk(
 //     'fetchCartoons',
 //     async () => {
-//         const res = await axios.get("http://localhost:4000/api/Cartoons");
-//         return res.data;
+//         const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42&page=2`);
+//         const cartoonsData = await Promise.all(
+//             response.data.Search.map(async cartoon => {
+//                 const detailedResponse = await axios.get(
+//                 `http://www.omdbapi.com/?i=${cartoon.imdbID}&apikey=bfec6a42&plot=full`
+//                 );
+//                 return detailedResponse.data;
+//             })
+//         );
+
+//         return cartoonsData;
 //     }
 // );
-
-export const fetchCartoons = createAsyncThunk(
-    'fetchCartoons',
-    async () => {
-        const response = await axios.get(`http://www.omdbapi.com/?s=avengers&type=movie&apikey=bfec6a42&page=2`);
-        const cartoonsData = await Promise.all(
-            response.data.Search.map(async cartoon => {
-                const detailedResponse = await axios.get(
-                `http://www.omdbapi.com/?i=${cartoon.imdbID}&apikey=bfec6a42&plot=full`
-                );
-                return detailedResponse.data;
-            })
-        );
-
-        return cartoonsData;
-    }
-);
 
 
 export const cartoonsSlice = createSlice({

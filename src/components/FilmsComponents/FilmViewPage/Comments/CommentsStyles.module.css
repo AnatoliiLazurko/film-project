@@ -136,6 +136,20 @@
     color: #FFFFFF;
 }
 
+.inputed-message {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #514F5A;
+    padding: 0;
+    padding-bottom: 12px;
+    color: #FFFFFF;
+    background-color: #2F2E34;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Rubik';
+    font-weight: 400;
+}
+
 .under-input-section {
     margin: 0;
     margin-top: 16px;
@@ -378,7 +392,7 @@
 
 .subcomment {
     width: 100%;
-    min-height: 153px;
+    min-height: auto;
     margin: 0;
     margin-top: 16px;
     margin-bottom: 32px;

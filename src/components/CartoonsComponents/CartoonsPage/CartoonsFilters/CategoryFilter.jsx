@@ -3,17 +3,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import styles from '../CartoonsPageStyles.module.css';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const CategoryFilter = ({ isClean, setIsClean }) => {
+const CategoryFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
-    const optionsCategory = ['3D', '2D', 'Clay animation', 'Stop-motion animation'];
     const [selectedFilter, setSelectedFilter] = useState('By Categories');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlCategory, setUrlCategory] = useState('');
-    const { category, date, popular, page } = useParams();
+    const { category, animation, studio, date, popular } = useParams();
     const selectRef = useRef(null);
     const navigate = useNavigate();
     
+    // CATEGORIES
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching genres:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleFilter = (selectedOption) => {
         setSelectedFilter(selectedOption);
@@ -21,11 +37,14 @@ const CategoryFilter = ({ isClean, setIsClean }) => {
         setUrlCategory('');
 
         const categoryUrl = selectedOption.toLowerCase().replace(/ /g, '_');
+        const animationUrl = typeof date === 'undefined' ? `animation=u` : animation;
+        const studioUrl = typeof date === 'undefined' ? `studio=u` : studio;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
-        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
+        const pageUrl = 1;
 
-        const newPath = `/cartoons/${categoryUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        const newPath = `/cartoons/${categoryUrl}/${animationUrl}/${studioUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        setCurrentPage(1);
         navigate(newPath);
     }
 
@@ -68,24 +87,24 @@ const CategoryFilter = ({ isClean, setIsClean }) => {
             </div>
             {isFilterOpen && 
                 <div className={styles["list-options"]}>
-                    {optionsCategory.map((option, index) => (
+                    {categories.map((option, index) => (
                         <span key={index}>
                             {!urlCategory && 
                                 <p
                                     key={index}
-                                    className={`${option === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    onClick={() => handleFilter(option)}
+                                    className={`${option.name === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    onClick={() => handleFilter(option.name)}
                                 >
-                                    {option}
+                                    {option.name}
                                 </p>
                             }
                             {urlCategory && 
                                 <p
                                     key={index}
-                                    className={`${option.toLowerCase() === urlCategory.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    onClick={() => handleFilter(option)}
+                                    className={`${option.name.toLowerCase() === urlCategory.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    onClick={() => handleFilter(option.name)}
                                 >
-                                    {option}
+                                    {option.name}
                                 </p>
                             }
                         </span>

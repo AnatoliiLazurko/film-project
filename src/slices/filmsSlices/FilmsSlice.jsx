@@ -7,53 +7,66 @@ const initialState = {
     error: null
 }
 
-// export const fetchFilms = createAsyncThunk(
-//     'fetchFilms',
-//     async () => {
-//         const res = await axios.get("http://localhost:4000/api/Films");
-//         return res.data;
-//     }
-// );
-
 export const fetchFilms = createAsyncThunk(
     'fetchFilms',
-    async (pageCount) => {
-        const countOfPage = pageCount; 
-        let fetchedMovies = [];
-
-        for (let page = 1; page <= countOfPage; page++) {
-            const response = await axios.get('http://www.omdbapi.com/', {
-                params: {
-                    apikey: 'bfec6a42',
-                    s: 'movie',
-                    type: 'movie',
-                    r: 'json',
-                    page: page,
-                    pageSize: 10
-                }
-            });
-
-            if (response.data.Search) {
-                fetchedMovies = fetchedMovies.concat(response.data.Search);
-            }
-        }
-
-        const moviesWithDetails = await Promise.all(
-            fetchedMovies.map(async movie => {
-                const detailsResponse = await axios.get('http://www.omdbapi.com/', {
-                    params: {
-                        apikey: 'bfec6a42',
-                        i: movie.imdbID,
-                        r: 'json'
-                    }
-                });
-                return detailsResponse.data;
-            })
-        );
-
-        return moviesWithDetails;
+    async (payload) => {
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios, selections } = payload;
+    
+        const response = await axios.post('http://13.79.114.101:80/api/Films/byfiltersandsorting', {
+            Genres: genres,
+            Studios: studios,
+            Selections: selections,
+        },  {
+            params: {    
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                sortByDate: sortByDate,
+                sortByPopularity: sortByPopularity
+            },
+        });
+        return response.data;
     }
 );
+
+// export const fetchFilms = createAsyncThunk(
+//     'fetchFilms',
+//     async (pageCount) => {
+//         const countOfPage = pageCount; 
+//         let fetchedMovies = [];
+
+//         for (let page = 1; page <= countOfPage; page++) {
+//             const response = await axios.get('http://www.omdbapi.com/', {
+//                 params: {
+//                     apikey: 'bfec6a42',
+//                     s: 'movie',
+//                     type: 'movie',
+//                     r: 'json',
+//                     page: page,
+//                     pageSize: 10
+//                 }
+//             });
+
+//             if (response.data.Search) {
+//                 fetchedMovies = fetchedMovies.concat(response.data.Search);
+//             }
+//         }
+
+//         const moviesWithDetails = await Promise.all(
+//             fetchedMovies.map(async movie => {
+//                 const detailsResponse = await axios.get('http://www.omdbapi.com/', {
+//                     params: {
+//                         apikey: 'bfec6a42',
+//                         i: movie.imdbID,
+//                         r: 'json'
+//                     }
+//                 });
+//                 return detailsResponse.data;
+//             })
+//         );
+
+//         return moviesWithDetails;
+//     }
+// );
 
 export const filmsSlice = createSlice({
     name: 'films',

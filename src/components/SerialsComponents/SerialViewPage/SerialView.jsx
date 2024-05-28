@@ -6,27 +6,51 @@ import SerialPlayer from './SerialPlayer/SerialPlayer';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSerialDetails } from '../../../slices/serialsSlices/SerialDetailsSlice';
+import { fetchSerials } from '../../../slices/serialsSlices/SerialsSlice';
 import Spinner from '../../Technicall/Spinner/Spinner';
 
 const SerialView = () => {
 
-    const { id } = useParams();
+    const { genre, id } = useParams();
     const dispatch = useDispatch();
+    const genreFilter = [];
 
     useEffect(() => {
+        if (genre !== 'genre=u') {
+            genreFilter.push(genre.replace(/_/g, ' '));
+        }
+
         dispatch(fetchSerialDetails(id));
-    }, [id, dispatch])
+        dispatch(fetchSerials(
+            {
+                pageNumber: 1,
+                pageSize: 6,
+                genres: genreFilter,
+            }
+        ));
+
+    }, [dispatch, genre, id])
 
     const serialDetails = useSelector((state) => state.serialDetails.serialDetails); 
     const isLoading = useSelector((state) => state.serialDetails.isLoading);
     const error = useSelector((state) => state.serialDetails.error)
 
-    if (isLoading) {
-        return <Spinner />;
-    }
-
     if (error) {
         console.log("Serial details error: " + error);
+    }
+
+    // OTHER SERIALS
+
+    const serialsData = useSelector((state) => state.serials.serials); 
+    const isLoadingSerials = useSelector((state) => state.serials.isLoading);
+    const serialsError = useSelector((state) => state.serials.error)
+
+    if (serialsError) {
+        console.log('Serials error: ' + serialsError);
+    }
+
+    if (isLoading && isLoadingSerials) {
+        return <Spinner />;
     }
 
     return (
@@ -34,11 +58,11 @@ const SerialView = () => {
             
             <ViewInfo serialDetails={serialDetails} />
 
-            <SerialPlayer />
+            <SerialPlayer serialDetails={serialDetails} />
 
-            <OtherSeries />
+            <OtherSeries serials={serialsData.slice(0, 6)} />
 
-            <Comments />
+            <Comments serialDetails={serialDetails} />
 
         </>
     );

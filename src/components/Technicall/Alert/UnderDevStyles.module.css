@@ -6,7 +6,7 @@
     transform: translate(-50%, -50%);
     z-index: 7;
     width: 632px;
-    height: auto;
+    height: 459px;
     border-radius: 20px;
     padding: 46px 82px;
     background-color: #FFFFFF;
@@ -25,6 +25,36 @@
     }
 }
 
+.alert h1 {
+    margin: 0;
+    font-family: 'Madimi One';
+    font-weight: 400;
+    font-size: 20px;
+    color: #151518;
+    text-align: center;
+}
+
+.alert img {
+    margin-top: 20px;
+    width: 100%;
+    height: 265px;
+}
+
+.btn-okay {
+    width: 100%;
+    height: 33px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: #6D8EEB;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
 
 .screen-dimming {
     position: fixed;

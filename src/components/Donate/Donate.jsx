@@ -1,17 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './DonateStyles.module.css';
 import DonateCard from './DonateCard';
 import Pagination from './Pagination/Pagination';
+import { fetchDonations } from '../../slices/donationsSlices/DonatiosSlice';
+import Spinner from '../Technicall/Spinner/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Donate = () => {
 
-    const repetitions = Array.from({ length: 10 });
+    const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const DonatePerPage = 8;
-    const indexOfLastDonate = currentPage * DonatePerPage;
-    const indexOfFirstDonate = indexOfLastDonate - DonatePerPage;
-    const currentDonates = repetitions.slice(indexOfFirstDonate, indexOfLastDonate);
+    const dispatch = useDispatch();
+    const pageSize = 8;
+
+    useEffect(() => {
+        
+        const fetchTotalPages = async () => {
+            try {
+                const response = await axios.get("https://localhost:7288/api/Fundraising/countpages", {
+                    params: {    
+                        pageSize: pageSize,
+                    }
+                });
+
+                setTotalPages(response.data);
+            } catch (error) {
+                console.log('Count donations page error: ' + error);
+            }
+
+        }
+        
+        fetchTotalPages();
+    }, []);
+
+    useEffect(() => {
+        dispatch(fetchDonations({ pageNumber: currentPage, pageSize: pageSize, }))
+    }, [dispatch, currentPage]);
+
+    const fundraisingData = useSelector((state) => state.donations.donations); 
+    const isLoadingFundraising = useSelector((state) => state.donations.isLoading);
+    const fundraisingError = useSelector((state) => state.donations.error)
+
+    if (isLoadingFundraising) {
+        return <Spinner />;
+    }
+
+    if (fundraisingError) {
+        console.log('Fundraising error: ' + fundraisingError);
+    }
 
     return (
         <div className={styles["donate-page"]}>
@@ -25,13 +63,11 @@ const Donate = () => {
 
             <div className={styles["donations-list"]}>
 
-                {currentDonates.map((_, index) => (
-                    <DonateCard key={index}/>
-                ))}
+                <DonateCard fundraising={fundraisingData} />
                 
             </div>
 
-            <Pagination donates={repetitions} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} setCurrentPage={setCurrentPage} currentPage={currentPage} />
 
         </div>
     );

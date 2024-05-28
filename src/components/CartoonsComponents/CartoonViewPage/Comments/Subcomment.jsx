@@ -1,101 +1,127 @@
 import React, { useState } from 'react';
 import styles from './CommentsStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as solidHeart, faHeartCrack, faEllipsis, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as solidHeart, faHeartCrack, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import ReplyComment from './ReplyComment';
+import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
+import axios from 'axios';
+import useAuth from '../../../../hooks/useAuth';
+import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 
-const Subcomment = () => {
+const Subcomment = ({ commentId, comments }) => {
 
-    const [isLiked, setLiked] = useState(false);
-    const [isDisLiked, setDisLiked] = useState(false);
+    const { isAuth } = useAuth();
 
-    const [likeCount, setLikeCount] = useState(0);
-    const [disLikeCount, setDisLikeCount] = useState(0);
+    const [isAuthPrompt, setIsAuthPrompt] = useState(false);
+    
+    const subComments = comments.filter(comment => comment.parentCommentId === commentId);
 
-    const [isReply, setReply] = useState(false);
+    //LIKE AND DISLIKE
 
-    const toLike = () => {
-        if (!isLiked) {
-            setLiked(!isLiked);
-            setDisLiked(false);
-            setLikeCount(likeCount + 1);
-
-            if (isDisLiked) {
-                setDisLikeCount(disLikeCount - 1);
+    const toLike = async (commentId, isDisliked) => {  
+        if (isAuth) {
+            try {
+                await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                    withCredentials: true
+                });
+            } catch (error) {
+                console.error('Error liking comment:', error);
             }
+            if (isDisliked) {
+                try {
+                    await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                        withCredentials: true
+                    });
+                } catch (error) {
+                    console.error('Error disliking comment:', error);
+                }
+            }
+        } else {
+            setIsAuthPrompt(true);
         }
-        
-        if (isLiked) {
-            setLiked(!isLiked);
-            setLikeCount(likeCount - 1);
-        }   
     };
 
-    const toDisLike = () => {
-
-        if (!isDisLiked) {
-            setDisLiked(!isDisLiked);
-            setLiked(false);
-            setDisLikeCount(disLikeCount + 1);
-
+    const toDisLike = async (commentId, isLiked) => {
+        if (isAuth) {
+            try {
+                await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                    withCredentials: true
+                });
+            } catch (error) {
+                console.error('Error disliking comment:', error);
+            }
             if (isLiked) {
-                setLikeCount(likeCount - 1);
+                try {
+                    await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                        withCredentials: true
+                    });
+                } catch (error) {
+                    console.error('Error liking comment:', error);
+                }
             }
+        } else {
+            setIsAuthPrompt(true);
         }
-
-        if (isDisLiked) {
-            setDisLiked(!isDisLiked);
-            setDisLikeCount(disLikeCount - 1);
-        } 
     };
 
-    const replyComment = () => {
-        setReply(!isReply);
+    // TIME
+
+    const getTimeDifference = (timestamp) => {
+        const commentTimestamp = new Date(timestamp);
+        const currentTimestamp = new Date();
+        const difference = currentTimestamp - commentTimestamp;
+
+        if (difference < (1000 * 60)) {
+            const secondsDifference = Math.floor(difference / 1000);
+            return `${secondsDifference} seconds ago`;
+        } else if (difference < (1000 * 60 * 60)) {
+            const minutesDifference = Math.floor(difference / (1000 * 60));
+            return `${minutesDifference} minutes ago`;
+        } else if (difference < (1000 * 60 * 60 * 24)) {
+            const hoursDifference = Math.floor(difference / (1000 * 60 * 60));
+            return `${hoursDifference} hours ago`;
+        } else {
+            const daysDifference = Math.floor(difference / (1000 * 60 * 60 * 24));
+            return `${daysDifference} days ago`;
+        }
     }
 
     return (
         <>
-            <div className={styles["subcomment"]}>
-                <div className={styles["commnet-avatar"]}>
-                    <img src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg" alt="" />
-                </div>
-                <div className={styles["comment-content"]}>
-                    <div className={styles["top-section"]}>
-                        <p className={styles["username"]}>Username <span>2 hours ago</span></p>
-                        <FontAwesomeIcon icon={faEllipsis} />
+            {subComments.map((subComment, index) => (
+                <div className={styles["subcomment"]} key={index}>
+                    <div className={styles["commnet-avatar"]}>
+                        {subComment.user.avatar && <img src={`data:image/jpeg;base64,${subComment.user.avatar}`} alt="User Avatar" />}
+                        {!subComment.user.avatar && <img src={noneUserAvatar} alt="User Avatar" />}
                     </div>
-                    <div className={styles["comment"]}>                     
-                        Lorem ipsum dolor sit amet consectetur. Euismod nulla viverra a sapien a adipiscing ut eget.
-                        At in orci nulla suspendisse sem vestibulum vitae imperdiet diam. Varius ultricies
-                        commodo netus vel pellentesque morbi. Mauris id pretium vitae magnis varius rhoncus
-                        morbi ullamcorper. Lorem aliquam duis sed turpis laoreet odio. Lobortis proin integer
-                        eget fermentum lorem amet. In sed non tortor eget dui quis dictum elementum phasellus. Commodo
-                    </div>
-                    <div className={styles["under-comment-section"]}>
-                        <div className={styles["left-section"]}>
-                            <p className={styles["like"]}>
-                                {isLiked && <FontAwesomeIcon icon={solidHeart} onClick={toLike} />}
-                                {!isLiked && <FontAwesomeIcon icon={regularHeart} onClick={toLike} />}
-                                {likeCount}
-                            </p>
-                            <p className={styles["dislike"]}>
-                                {isDisLiked && <FontAwesomeIcon icon={faHeartCrack} onClick={toDisLike} />}
-                                {!isDisLiked && <FontAwesomeIcon icon={regularHeart} onClick={toDisLike} />}
-                                {disLikeCount}
-                            </p>
-                            <p className={styles["see-comments"]}>
-                                <FontAwesomeIcon icon={faCommentDots} />
-                                0
-                            </p>
+                    <div className={styles["comment-content"]}>
+                        <div className={styles["top-section"]}>
+                            <p className={styles["username"]}>{subComment.user.userName} <span>{getTimeDifference(subComment.date)}</span></p>
+                            <FontAwesomeIcon icon={faEllipsis} />
                         </div>
-                        <button className={styles["btn-comment"]} onClick={replyComment}>Comment</button>
+                        <div className={styles["comment"]}>                     
+                            {subComment.text}
+                        </div>
+                        <div className={styles["under-comment-section"]}>
+                            <div className={styles["left-section"]}>
+                                <p className={styles["like"]}>
+                                    {subComment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(subComment.id, subComment.isDisliked)} />}
+                                    {!subComment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(subComment.id, subComment.isDisliked)} />}
+                                    {subComment.countLikes}
+                                </p>
+                                <p className={styles["dislike"]}>
+                                    {subComment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(subComment.id, subComment.isLiked)} />}
+                                    {!subComment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(subComment.id, subComment.isLiked)} />}
+                                    {subComment.countDislikes}
+                                </p>
+                            </div> 
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
+            ))}
 
-            {isReply && <ReplyComment />}
+            {isAuthPrompt && <AuthPrompt closeAlert={setIsAuthPrompt} /> }
         </>
     );
 }

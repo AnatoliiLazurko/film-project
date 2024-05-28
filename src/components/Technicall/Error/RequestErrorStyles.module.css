@@ -1,0 +1,33 @@
+
+.error-container {
+    position: fixed;
+    top: 95px;
+    right: 20px;
+    width: auto;
+    height: 39px;
+    background-color: hsl(2, 80%, 64%, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    border-radius: 16px;
+    border: 1px solid #ED5F5B;
+    font-family: 'Rubik';
+    font-family: 400;
+    font-size: 16px;
+    color: #ED5F5B;
+    z-index: 20;
+    animation: showErorMessage 0.7s ease-in-out forwards;
+}
+
+@keyframes showErorMessage {
+    from {
+        opacity: 0;
+        right: 0;
+    }
+
+    to {
+        opacity: 1;
+        right: 20px;
+    }
+}

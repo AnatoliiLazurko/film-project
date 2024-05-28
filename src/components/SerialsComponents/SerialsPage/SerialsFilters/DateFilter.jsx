@@ -4,14 +4,14 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import styles from '../SerialsPageStyles.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const DateFilter = ({ isClean, setIsClean }) => {
+const DateFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
     const optionsDate = ['From old to new', 'From new to old'];
     const [selectedFilter, setSelectedFilter] = useState('By date');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlDate, setUrlDate] = useState('');
     const selectRef = useRef(null);
-    const { genre, date, popular, page } = useParams();
+    const { genre, studio, date, popular } = useParams();
     const navigate = useNavigate();
     
     const handleFilter = (selectedOption) => {
@@ -21,10 +21,12 @@ const DateFilter = ({ isClean, setIsClean }) => {
 
         const dateUrl = selectedOption.toLowerCase().replace(/ /g, '_');
         const genreUrl = typeof genre === 'undefined' ? `genre=u` : genre;
+        const studioUrl = typeof studio === 'undefined' ? `studio=u` : studio;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
-        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
+        const pageUrl = 1;
 
-        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        const newPath = `/serials/${genreUrl}/${studioUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        setCurrentPage(1);
         navigate(newPath);
     }
 

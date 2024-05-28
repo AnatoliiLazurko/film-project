@@ -25,34 +25,34 @@ const NewFilmCard = ({ films }) => {
     }, []);
 
     return (
-        <NavLink to={`/film-view/${films.Genre.split(',')[0].toLowerCase()}/${films.imdbID}`} className={styles["film-card"]}>
+        <NavLink to={`/film-view/${films.genres[0].name.toLowerCase()}/${films.id}`} className={styles["film-card"]}>
             <div className={styles["film-poster"]}>
-                <img src={films.Poster} alt="" />
+                <img src={films.poster ? `data:image/jpeg;base64,${films.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
                     <div className={styles["film-info"]}>
                         <div className={styles["name-rate"]}>
-                            <h1 className={styles["info-title"]}>{films.Title}</h1>
+                            <h1 className={styles["info-title"]}>{films.title}</h1>
                             <div className={styles["info-rate"]}>
-                                <span><FontAwesomeIcon icon={faStar} /> {films.imdbRating}/10</span>
+                                <span><FontAwesomeIcon icon={faStar} /> {films.rating}/10</span>
                             </div>
                         </div>
                         <div className={styles["info"]}>
-                            <p>Release year: {films.Year}</p>
-                            <p>Country: {films.Country}</p>
-                            <p>Genre: {films.Genre}</p>
-                            <p>Actors: {films.Actors}</p>
+                            <p>Release year: {new Date(films.dateOfPublish).getFullYear()}</p>
+                            <p>Country: {films.country}</p>
+                            <p>Genre: {films.genres.map(genre => genre.name).join(', ')}</p>
+                            <p>Actors: {films.actors}</p>
                         </div>
                         <div className={styles["info-line"]}></div>
                         <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {films.Plot}
+                            {films.description}
                         </p>
                     </div>
                 </div>
-                <div className={styles["quality"]}>1080p</div>
+                <div className={styles["quality"]}>{films.quality}p</div>
             </div>
-            <div className={styles["film-title"]}>{films.Title}</div>
+            <div className={styles["film-title"]}>{films.title}</div>
         </NavLink>
     );
 }

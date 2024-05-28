@@ -11,16 +11,18 @@ import { fetchFilms } from '../../slices/filmsSlices/FilmsSlice';
 import { fetchSerials } from '../../slices/serialsSlices/SerialsSlice';
 import { fetchCartoons } from '../../slices/cartoonsSlices/CartoonsSlice';
 import { fetchAnime } from '../../slices/animeSlices/AnimeSlice';
+import useAuth from '../../hooks/useAuth';
+import { useCookies } from 'react-cookie';
 
 const MainPage = () => {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchFilms(1));
-        dispatch(fetchSerials(1));
-        dispatch(fetchCartoons());
-        dispatch(fetchAnime());
+        dispatch(fetchFilms({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
+        dispatch(fetchSerials({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
+        dispatch(fetchCartoons({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
+        dispatch(fetchAnime({ pageNumber: 1, pageSize: 18, sortByDate: 'desc', }));
     }, [dispatch])
 
     // FILMS 

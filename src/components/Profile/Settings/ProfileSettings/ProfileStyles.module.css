@@ -123,7 +123,7 @@
     cursor: pointer;
 }
 
-.delete-btn {
+.logout-btn {
     position: absolute;
     right: calc(50% - 130px);
     bottom: 46px;

@@ -3,16 +3,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import styles from '../SerialsPageStyles.module.css';
+import axios from 'axios';
 
-const GenreFilter = ({ isClean, setIsClean }) => {
+const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
-    const optionsGenre = ['Dramas', 'Family', 'Korean'];
     const [selectedFilter, setSelectedFilter] = useState('By genres');
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [urlGenre, setUrlGenre] = useState('');
-    const { genre, date, popular, page } = useParams();
+    const { genre, studio, date, popular } = useParams();
     const selectRef = useRef(null);
     const navigate = useNavigate();
+
+    // GENRES
+
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                setGenres(response.data);
+            } catch (error) {
+                console.error('Error fetching genres:', error);
+            }
+        };
+
+        fetchGenres();
+    }, []);
 
     const handleFilter = (selectedOption) => {
         setSelectedFilter(selectedOption);
@@ -20,11 +37,13 @@ const GenreFilter = ({ isClean, setIsClean }) => {
         setUrlGenre('');
 
         const genreUrl = selectedOption.toLowerCase().replace(/ /g, '_');
+        const studioUrl = typeof studio === 'undefined' ? `studio=u` : studio;
         const dateUrl = typeof date === 'undefined' ? `date=u` : date;
         const popularUrl = typeof popular === 'undefined' ? 'popular=u' : popular;
-        const pageUrl = typeof page === 'undefined' ? 'page=u' : page;
+        const pageUrl = 1;
 
-        const newPath = `/serials/${genreUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        const newPath = `/serials/${genreUrl}/${studioUrl}/${dateUrl}/${popularUrl}/${pageUrl}`;
+        setCurrentPage(1);
         navigate(newPath);
     }
 
@@ -66,24 +85,24 @@ const GenreFilter = ({ isClean, setIsClean }) => {
             </div>
             {isFilterOpen && 
                 <div className={styles["list-options"]}>
-                    {optionsGenre.map((option, index) => (
+                    {genres.map((option, index) => (
                         <span key={index}>
                             {!urlGenre && 
                                 <p
                                     key={index}
-                                    className={`${option === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    onClick={() => handleFilter(option)}
+                                    className={`${option.name === selectedFilter ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    onClick={() => handleFilter(option.name)}
                                 >
-                                    {option}
+                                    {option.name}
                                 </p>
                             }
                             {urlGenre && 
                                 <p
                                     key={index}
-                                    className={`${option.toLowerCase() === urlGenre.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    onClick={() => handleFilter(option)}
+                                    className={`${option.name.toLowerCase() === urlGenre.replace(/_/g, ' ') ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                    onClick={() => handleFilter(option.name)}
                                 >
-                                    {option}
+                                    {option.name}
                                 </p>
                             }
                         </span>
