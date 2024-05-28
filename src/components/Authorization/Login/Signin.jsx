@@ -88,7 +88,7 @@ const Signin = ({ closeModal, openSignUp }) => {
                         </div>
 
                         <div className={styles["forgot-password"]}>
-                            <Link>Forgot password?</Link>
+                            <Link to={'/reset-password'} onClick={() => {closeModal();}}>Forgot password?</Link>
                         </div>
 
                         <div className={styles["btn-section"]}>

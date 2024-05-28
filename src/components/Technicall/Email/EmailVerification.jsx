@@ -1,7 +1,10 @@
 import React from 'react';
 import styles from './EmailVerificationStyles.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const EmailVerification = ({ closeModal }) => {
+
+    const nav = useNavigate();
 
     return (
         <>
@@ -11,7 +14,7 @@ const EmailVerification = ({ closeModal }) => {
                     Please check your email for a verification message.<br />
                     <span>(It can be in the spam folder)</span>
                 </p>
-                <div className={styles["btn-okay"]} onClick={() => { closeModal(false); }}>Okay</div>
+                <div className={styles["btn-okay"]} onClick={() => { closeModal(false); nav('/'); }}>Okay</div>
             </div>
             <div className={styles["screen-dimming"]}></div>
         </>

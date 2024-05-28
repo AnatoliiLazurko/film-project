@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import RequestError from '../components/Technicall/Error/RequestError';
 import EmailVerification from "../components/Technicall/Email/EmailVerification";
 import Spinner from "../components/Technicall/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
     isAuth: false,
@@ -68,6 +69,8 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [isEmailVerifi, setEmailVerifi] = useState(false);
 
+    const navigate = useNavigate();
+
     const login = async ({ email, password }) => {
         dispatchLoading({ type: 'LOADING' })
         try {
@@ -111,16 +114,22 @@ export const AuthProvider = ({ children }) => {
     const authWithGoogle = async (googleToken) => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            await axios.post('https://localhost:7176/api/Auth/google', { token: googleToken }, {
+            const response = await axios.post('https://localhost:7176/api/Auth/google', { token: googleToken }, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 }
             );
             
-            removeCookie('authenticated');
-            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
+            if (response.data) {       
+                navigate(`/migrate?token=${response.data}`);
+            } else {
+                
+                removeCookie('authenticated');
+                setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
 
-            await getUser();
+                await getUser();
+            }
+
         }
         catch (error) { 
             //console.log('Login with Google error:' + error);

@@ -3,11 +3,13 @@ import styles from './PasswordStyles.module.css';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import EmailVerification from '../../../Technicall/Email/EmailVerification';
+import RequestError from '../../../Technicall/Error/RequestError';
 
 const PasswordSettings = () => {
 
     const { user } = useAuth();
     const [isEmailSent, setEmailSent] = useState(false);
+    const [error, setError] = useState();
 
     const sendVerification = async () => {
         try {
@@ -20,7 +22,10 @@ const PasswordSettings = () => {
 
             setEmailSent(true);
         } catch (error) {
-            console.log(error);
+            setError(error.response.data);
+            setTimeout(() => {
+                setError(null);
+            }, 6000);
         }
     }
 
@@ -38,6 +43,7 @@ const PasswordSettings = () => {
                 <div className={styles["send-btn"]} onClick={sendVerification}>Send verification</div>
             </div>
 
+            {error && <RequestError errorMessage={error} />}
             {isEmailSent && <EmailVerification closeModal={setEmailSent} />}
         </>
     );

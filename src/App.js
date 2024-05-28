@@ -28,6 +28,8 @@ import { CookiesProvider } from 'react-cookie';
 import EmailConfirm from '../src/components/Technicall/Email/EmailConfirm';
 import EmailChangeResult from './components/Technicall/Email/EmailChange/EmailChangeResult';
 import ChangePassword from './components/Technicall/Password/ChangePassword/ChangePassword'
+import ResetPassword from './components/Technicall/Password/ResetPassword';
+import EmailWarning from './components/Technicall/Email/EmailWarning';
 
 function App() {
   return (
@@ -69,6 +71,8 @@ function App() {
               <Route path="/emailconfirm" element={<EmailConfirm />} />
               <Route path="/changeemail" element={<EmailChangeResult />} />
               <Route path="/changepassword" element={<ChangePassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/migrate" element={<EmailWarning />} />
               
               <Route path="*" element={<Status404 />} />
             </Routes>
