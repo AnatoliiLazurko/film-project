@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/film-project/static/css/main.ba62dd99.css",
+    "main.js": "/film-project/static/js/main.ba46a73a.js",
+    "static/js/453.818c7354.chunk.js": "/film-project/static/js/453.818c7354.chunk.js",
+    "static/media/instagram.png": "/film-project/static/media/instagram.5f0d401adf40556e116f.png",
+    "static/media/google.png": "/film-project/static/media/google.fe956fe51c50b55253de.png",
+    "static/media/facebook.png": "/film-project/static/media/facebook.f4b708758617a69ea419.png",
+    "static/media/404.png": "/film-project/static/media/404.801427f975f13dee9657.png",
+    "static/media/logo.png": "/film-project/static/media/logo.ce6b86d629a24ac7aa3f.png",
+    "static/media/jar.png": "/film-project/static/media/jar.a0b1cd32f71f5a2b0cda.png",
+    "static/media/box.png": "/film-project/static/media/box.44514fc36dc5450d89d3.png",
+    "static/media/subscription_icon.png": "/film-project/static/media/subscription_icon.6322a983995946dab42e.png",
+    "static/media/developing.png": "/film-project/static/media/developing.97dabad41a0c3a074a1d.png",
+    "index.html": "/film-project/index.html",
+    "main.ba62dd99.css.map": "/film-project/static/css/main.ba62dd99.css.map",
+    "main.ba46a73a.js.map": "/film-project/static/js/main.ba46a73a.js.map",
+    "453.818c7354.chunk.js.map": "/film-project/static/js/453.818c7354.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba62dd99.css",
+    "static/js/main.ba46a73a.js"
+  ]
+}
