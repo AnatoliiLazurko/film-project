@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -20,7 +21,7 @@ const EmailChangeResult = () => {
         if (token) {   
             const fetchEmailConfirm = async () => {
                 try {
-                    await axios.put(`https://localhost:7176/api/Users/changeemail?token=${token}`);
+                    await axios.put(`${USER_ENDPOINTS.changeEmail}?token=${token}`);
                 } catch (error) {
                     console.error('Error email changing: ', error);
                     setError(error.response.data);

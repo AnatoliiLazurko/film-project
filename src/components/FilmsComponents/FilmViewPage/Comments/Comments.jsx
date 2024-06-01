@@ -10,6 +10,8 @@ import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
 import Spinner from '../../../Technicall/Spinner/Spinner';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const Comments = ({ filmDetails }) => {
 
@@ -47,7 +49,7 @@ const Comments = ({ filmDetails }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`https://localhost:7095/api/Comments?filmId=${filmDetails.id}`, {
+                const response = await axios.get(`${FILM_ENDPOINTS.getComments}?filmId=${filmDetails.id}`, {
                     withCredentials: true
                 });
 
@@ -55,7 +57,7 @@ const Comments = ({ filmDetails }) => {
 
                 const userIds = comments.map(comment => comment.userId);
 
-                const usersResponse = await axios.post('https://localhost:7176/api/Users/byids',  userIds);
+                const usersResponse = await axios.post(USER_ENDPOINTS.getUsersByIds,  userIds);
                 const usersData = usersResponse.data;
 
                 const usersMap = {};
@@ -85,7 +87,7 @@ const Comments = ({ filmDetails }) => {
     const toLike = async (commentId, isDisliked) => {  
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                await axios.post(`${FILM_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -93,7 +95,7 @@ const Comments = ({ filmDetails }) => {
             }
             if (isDisliked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                    await axios.post(`${FILM_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {
@@ -109,7 +111,7 @@ const Comments = ({ filmDetails }) => {
     const toDisLike = async (commentId, isLiked) => {
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                await axios.post(`${FILM_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -117,7 +119,7 @@ const Comments = ({ filmDetails }) => {
             }
             if (isLiked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                    await axios.post(`${FILM_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {
@@ -140,12 +142,11 @@ const Comments = ({ filmDetails }) => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    axios.post(FILM_ENDPOINTS.createComment, {
                         FilmId: filmDetails.id,
                         ParentCommentId: null,
                         Text: comment
                     }, {
-                        headers: { 'Content-Type': 'application/json' },
                         withCredentials: true
                     });
 

@@ -6,6 +6,7 @@ import { fetchDonations } from '../../slices/donationsSlices/DonatiosSlice';
 import Spinner from '../Technicall/Spinner/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { TRANSACTION_ENDPOINTS } from '../../constants/transactionEndpoints';
 
 const Donate = () => {
 
@@ -19,7 +20,7 @@ const Donate = () => {
         
         const fetchTotalPages = async () => {
             try {
-                const response = await axios.get("https://localhost:7288/api/Fundraising/countpages", {
+                const response = await axios.get(TRANSACTION_ENDPOINTS.countPages, {
                     params: {    
                         pageSize: pageSize,
                     }

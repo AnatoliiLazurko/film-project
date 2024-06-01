@@ -6,6 +6,7 @@ import noneUserAvatar from '../../../../images/profile/user_avatar.jpg'
 import useAuth from '../../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const initialValues = {
     name: '',
@@ -28,7 +29,7 @@ const ProfileSettings = () => {
 
     const submitHadler = async (values, formikBag) => {
         try {
-            await axios.put(`https://localhost:7176/api/Users/changenusername?username=${values.name}`, null, {
+            await axios.put(`${USER_ENDPOINTS.changeUserName}?username=${values.name}`, null, {
                 withCredentials: true
             });
         } catch (error) {
@@ -77,7 +78,7 @@ const ProfileSettings = () => {
             const formData = new FormData();
             formData.append('avatar', file);
 
-            await axios.put('https://localhost:7176/api/users/avatar', formData, {
+            await axios.put(USER_ENDPOINTS.changeVatar, formData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data'

@@ -12,7 +12,7 @@ const FilmMenu = () => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                const response = await axios.get('https://blahofilm.northeurope.cloudapp.azure.com:444/api/Films/genres');
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);
@@ -35,7 +35,7 @@ const FilmMenu = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/studios ');
+                const response = await axios.get('https://blahofilm.northeurope.cloudapp.azure.com:444/api/Films/studios ');
                 setStudios(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);

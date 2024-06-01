@@ -7,6 +7,14 @@ import { NavLink } from 'react-router-dom';
 
 const NewAnimeCard = ({ anime }) => {
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     useEffect(() => {
         const handleMouseEnter = (event) => {
             handleAnimeInfoPositioning(event, styles);
@@ -22,7 +30,7 @@ const NewAnimeCard = ({ anime }) => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, []);
+    }, [anime]);
 
     return (
         <NavLink to={`/anime-view/${anime.genres[0].name.toLowerCase()}/${anime.id}`} className={styles["anime-card"]}>
@@ -46,7 +54,7 @@ const NewAnimeCard = ({ anime }) => {
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {anime.description}
+                            {truncateDescription(anime.description, 300)}
                         </p>
                     </div>
                 </div>

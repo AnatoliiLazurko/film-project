@@ -8,6 +8,7 @@ import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const ViewInfo = ({ filmDetails }) => {
 
@@ -22,7 +23,9 @@ const ViewInfo = ({ filmDetails }) => {
     useEffect(() => {
         const fetchBooked = async () => {
             try {
-                const response = await axios.get('https://localhost:7176/api/BookMarks', { withCredentials: true });
+                const response = await axios.get(USER_ENDPOINTS.isBooked, {
+                    withCredentials: true
+                });
                 setBookedList(response.data);
             } catch (error) {
                 //console.error('Getting booked list error: ' + error);
@@ -46,11 +49,11 @@ const ViewInfo = ({ filmDetails }) => {
             setSaved(!isSaved);
 
             try {
-                await axios.post('https://localhost:7176/api/BookMarks', {
+                await axios.post(USER_ENDPOINTS.makeBook, {
                     mediaId: filmDetails.id,
                     mediaTypeId: 1
                 }, {
-                    withCredentials: true 
+                    withCredentials: true
                 });
             } catch (error) {
                 console.log('Anime book error: ' + error);

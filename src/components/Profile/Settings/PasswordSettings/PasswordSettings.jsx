@@ -4,6 +4,7 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import EmailVerification from '../../../Technicall/Email/EmailVerification';
 import RequestError from '../../../Technicall/Error/RequestError';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const PasswordSettings = () => {
 
@@ -13,7 +14,7 @@ const PasswordSettings = () => {
 
     const sendVerification = async () => {
         try {
-            await axios.post('https://localhost:7176/api/Users/sendemailchangepassword', { email: user.email }, {
+            await axios.post(USER_ENDPOINTS.sendPasswordChange, { email: user.email }, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

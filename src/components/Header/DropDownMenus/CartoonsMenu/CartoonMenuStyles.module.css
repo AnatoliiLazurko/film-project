@@ -3,6 +3,7 @@
     flex-direction: column column column;
     gap: 60px;
     color: #F1F1F1;
+    overflow: auto;
 }
 
 .section-title {

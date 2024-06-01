@@ -24,6 +24,14 @@ const OtherAnime = ({ anime }) => {
         };
     }, [anime]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <div className={styles["other-section"]}>
             <p className={styles["other-txt"]}>Other anime</p>
@@ -52,7 +60,7 @@ const OtherAnime = ({ anime }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {anime.description}
+                                        {truncateDescription(anime.description)}
                                     </p>
                                 </div>
                             </div>

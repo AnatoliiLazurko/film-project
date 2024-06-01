@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styles from './RateWindowStyles.module.css';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../constants/filmEndpoints';
+import { CARTOON_ENDPOINTS } from '../../../constants/cartoonEndpoints';
+import { SERIAL_ENDPOINTS } from '../../../constants/serialEndpoints';
+import { ANIME_ENDPOINTS } from '../../../constants/animeEndpoints';
 
 const RateWindow = ({ type, media, setIsRating }) => {
 
@@ -16,7 +20,7 @@ const RateWindow = ({ type, media, setIsRating }) => {
 
             if (type === 'film') {
                 try {
-                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                    await axios.post(FILM_ENDPOINTS.rateFilm, {}, {
                         params: {    
                             filmId: media.id,
                             rate: selectedNumber,
@@ -29,7 +33,7 @@ const RateWindow = ({ type, media, setIsRating }) => {
             }
             if (type === 'cartoon') {
                 try {
-                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                    await axios.post(CARTOON_ENDPOINTS.rateCartoon, {}, {
                         params: {    
                             cartoonId: media.id,
                             rate: selectedNumber,
@@ -42,7 +46,7 @@ const RateWindow = ({ type, media, setIsRating }) => {
             }
             if (type === 'serial') {
                 try {
-                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                    await axios.post(SERIAL_ENDPOINTS.rateSerial, {}, {
                         params: {    
                             serialId: media.id,
                             rate: selectedNumber,
@@ -55,7 +59,7 @@ const RateWindow = ({ type, media, setIsRating }) => {
             }
             if (type === 'anime') {
                 try {
-                    await axios.post('https://localhost:7095/api/Rating', {}, {
+                    await axios.post(ANIME_ENDPOINTS.rateAnime, {}, {
                         params: {    
                             animeId: media.id,
                             rate: selectedNumber,

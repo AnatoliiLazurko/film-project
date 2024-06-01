@@ -3,8 +3,26 @@ import styles from './PayPalStyles.module.css';
 import { PayPalScriptProvider, PayPalButtons, } from '@paypal/react-paypal-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { TRANSACTION_ENDPOINTS } from '../../../constants/transactionEndpoints';
 
-const PayPalWindow = ({ closeWindow}) => {
+const PayPalWindow = ({ closeWindow }) => {
+
+    const createSubscription = async (orderId, subscriptionId) => {
+        try {
+
+            await axios.post(TRANSACTION_ENDPOINTS.subscribe, {
+                OrderId: orderId,
+                SubscriptionId: subscriptionId
+            }, {
+                withCredentials: true
+            });
+
+            closeWindow(false);
+        } catch (error) {
+            console.error('Error creating subscription:' + error);
+        }
+    };
 
     return (
         <>
@@ -29,7 +47,7 @@ const PayPalWindow = ({ closeWindow}) => {
                             });
                         }}
                         onApprove={(data, actions) => {
-                            console.log('Subscription approved:', data.subscriptionID);
+                            createSubscription(data.orderID, data.subscriptionID);
                         }}
                         style={{
                             label: "subscribe",

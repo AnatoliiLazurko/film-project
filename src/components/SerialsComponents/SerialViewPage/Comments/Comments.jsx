@@ -10,6 +10,8 @@ import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
 import Spinner from '../../../Technicall/Spinner/Spinner';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
+import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
 const Comments = ({ serialDetails }) => {
 
@@ -47,7 +49,7 @@ const Comments = ({ serialDetails }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`https://localhost:7095/api/Comments?filmId=${serialDetails.id}`, {
+                const response = await axios.get(`${SERIAL_ENDPOINTS.getComments}?serialId=${serialDetails.id}`, {
                     withCredentials: true
                 });
 
@@ -55,7 +57,7 @@ const Comments = ({ serialDetails }) => {
 
                 const userIds = comments.map(comment => comment.userId);
 
-                const usersResponse = await axios.post('https://localhost:7176/api/Users/byids',  userIds);
+                const usersResponse = await axios.post(USER_ENDPOINTS.getUsersByIds,  userIds);
                 const usersData = usersResponse.data;
 
                 const usersMap = {};
@@ -85,7 +87,7 @@ const Comments = ({ serialDetails }) => {
     const toLike = async (commentId, isDisliked) => {  
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                await axios.post(`${SERIAL_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -93,7 +95,7 @@ const Comments = ({ serialDetails }) => {
             }
             if (isDisliked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                    await axios.post(`${SERIAL_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {
@@ -109,7 +111,7 @@ const Comments = ({ serialDetails }) => {
     const toDisLike = async (commentId, isLiked) => {
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                await axios.post(`${SERIAL_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -117,7 +119,7 @@ const Comments = ({ serialDetails }) => {
             }
             if (isLiked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                    await axios.post(`${SERIAL_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {
@@ -140,7 +142,7 @@ const Comments = ({ serialDetails }) => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    axios.post(SERIAL_ENDPOINTS.createComment, {
                         FilmId: serialDetails.id,
                         ParentCommentId: null,
                         Text: comment

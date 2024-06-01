@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { FILM_ENDPOINTS } from '../../constants/filmEndpoints';
 
 const initialState = {
     films: [],
@@ -12,7 +13,7 @@ export const fetchFilms = createAsyncThunk(
     async (payload) => {
         const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios, selections } = payload;
     
-        const response = await axios.post('http://13.79.114.101:80/api/Films/byfiltersandsorting', {
+        const response = await axios.post(FILM_ENDPOINTS.films, {
             Genres: genres,
             Studios: studios,
             Selections: selections,

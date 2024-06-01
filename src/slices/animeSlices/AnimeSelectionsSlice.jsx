@@ -10,7 +10,7 @@ const initialState = {
 export const fetchAnimeSelections = createAsyncThunk(
     'fetchAnimeSelections',
     async () => {  
-        const res = await axios.get("https://localhost:7095/api/films/selections");
+        const res = await axios.get("https://blahofilm.northeurope.cloudapp.azure.com:445/api/anime/selections");
         return res.data;
     }
 );

@@ -21,7 +21,7 @@ const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                const response = await axios.get('http://13.79.114.101:80/api/Films/genres');
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);
@@ -77,7 +77,7 @@ const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
         <div className={styles["select-container"]} onClick={() => setFilterOpen(!isFilterOpen)} ref={selectRef} key={1}>
             <div className={styles["custom-select"]}>
                 <span>
-                    {urlGenre && urlGenre !== 'genre=u' && urlGenre.charAt(0).toUpperCase() + urlGenre.slice(1).replace(/_/g, ' ')}
+                    {urlGenre && urlGenre !== 'genre=u' && urlGenre.charAt(0).toUpperCase().replace(/_/g, ' ') + urlGenre.slice(1).replace(/_/g, ' ')}
                     {urlGenre === 'genre=u' && selectedFilter}
                     {!urlGenre && selectedFilter}
                 </span>

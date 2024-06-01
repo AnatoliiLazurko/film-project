@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { FILM_ENDPOINTS } from '../../constants/filmEndpoints';
 
 const initialState = {
     filmsSelections: [],
@@ -10,7 +11,7 @@ const initialState = {
 export const fetchFilmsSelections = createAsyncThunk(
     'fetchFilmsSelections',
     async () => {  
-        const res = await axios.get("https://localhost:7095/api/films/selections");
+        const res = await axios.get(FILM_ENDPOINTS.filmSelections);
         return res.data;
     }
 );

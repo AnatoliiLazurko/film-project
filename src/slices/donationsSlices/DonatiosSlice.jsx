@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { TRANSACTION_ENDPOINTS } from '../../constants/transactionEndpoints';
 
 const initialState = {
     donations: [],
@@ -12,7 +13,7 @@ export const fetchDonations = createAsyncThunk(
     async (payload) => {
         const { pageNumber, pageSize } = payload;
     
-        const response = await axios.get("https://localhost:7288/api/Fundraising", {
+        const response = await axios.get(TRANSACTION_ENDPOINTS.getFundraising, {
             params: {    
                 pageNumber: pageNumber, 
                 pageSize: pageSize,

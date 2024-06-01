@@ -24,6 +24,14 @@ const OtherSerials = ({ serials }) => {
         };
     }, [serials]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <div className={styles["other-section"]}>
             <p className={styles["other-txt"]}>Other serials</p>
@@ -52,7 +60,7 @@ const OtherSerials = ({ serials }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {serial.description}
+                                        {truncateDescription(serial.description, 300)}
                                     </p>
                                 </div>
                             </div>

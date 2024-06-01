@@ -10,7 +10,7 @@ const initialState = {
 export const fetchAnimeDetails = createAsyncThunk(
     'fetchAnimeDetails',
     async (id) => {
-        const response = await axios.get("https://localhost:7095/api/Films/byid", {
+        const response = await axios.get("https://blahofilm.northeurope.cloudapp.azure.com:445/api/Anime/byid", {
             params: {    
                 id: id,
             }

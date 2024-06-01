@@ -71,9 +71,12 @@ const MainPage = () => {
         return <Spinner />;
     }
 
+    // console.log(filmsData);
+    //console.log(animeData);
+
     return (
         <>
-            <Carousel films={filmsData.slice(0, 6)} />
+            <Carousel films={filmsData} />
 
             <JarDonate />
             

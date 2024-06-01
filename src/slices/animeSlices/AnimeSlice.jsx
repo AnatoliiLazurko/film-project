@@ -10,11 +10,10 @@ const initialState = {
 export const fetchAnime = createAsyncThunk(
     'fetchAnime',
     async (payload) => {
-        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios } = payload;
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres } = payload;
     
-        const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
+        const response = await axios.post('https://blahofilm.northeurope.cloudapp.azure.com:445/api/Anime/byfiltersandsorting', {
             Genres: genres,
-            Studios: studios
         },  {
             params: {    
                 pageNumber: pageNumber,

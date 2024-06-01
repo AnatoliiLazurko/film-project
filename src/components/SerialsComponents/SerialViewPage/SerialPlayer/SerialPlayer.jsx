@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const SerialPlayer = ({ serialDetails }) => {
 
@@ -92,7 +93,7 @@ const SerialPlayer = ({ serialDetails }) => {
                     seasonNumber: season, 
                 };
 
-                await axios.post('https://localhost:7176/api/History', data, { withCredentials: true });
+                await axios.post(USER_ENDPOINTS.addHistory, data, { withCredentials: true });
             } catch (error) {
                 console.error('Adding history: ' + error);
             }

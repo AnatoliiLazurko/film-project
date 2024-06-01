@@ -6,6 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleFilmInfoPositioning } from './FilmsListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
 const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
 
@@ -51,7 +52,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
 
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(FILM_ENDPOINTS.countPages, {
                     Genres: genreFilter,
                     Studios: studioFilter
                 }, {
@@ -99,6 +100,14 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [films]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["films-list"]}>
@@ -126,7 +135,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {film.description}
+                                        {truncateDescription(film.description, 300)}
                                     </p>
                                 </div>
                             </div>

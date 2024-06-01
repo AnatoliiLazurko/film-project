@@ -5,6 +5,7 @@ import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
 const ReplyComment = ({ serialId, commentId, setIsAuthPrompt, update, setUpdate }) => {
 
@@ -27,7 +28,7 @@ const ReplyComment = ({ serialId, commentId, setIsAuthPrompt, update, setUpdate 
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    axios.post(SERIAL_ENDPOINTS.createComment, {
                         serialId: serialId,
                         ParentCommentId: commentId,
                         Text: replyComment

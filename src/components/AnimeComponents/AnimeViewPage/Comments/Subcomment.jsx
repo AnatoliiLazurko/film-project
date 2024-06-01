@@ -7,6 +7,7 @@ import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import axios from 'axios';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
+import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 
 const Subcomment = ({ commentId, comments }) => {
 
@@ -21,7 +22,7 @@ const Subcomment = ({ commentId, comments }) => {
     const toLike = async (commentId, isDisliked) => {  
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                await axios.post(`${ANIME_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -29,7 +30,7 @@ const Subcomment = ({ commentId, comments }) => {
             }
             if (isDisliked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                    await axios.post(`${ANIME_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {
@@ -44,7 +45,7 @@ const Subcomment = ({ commentId, comments }) => {
     const toDisLike = async (commentId, isLiked) => {
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                await axios.post(`${ANIME_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
@@ -52,7 +53,7 @@ const Subcomment = ({ commentId, comments }) => {
             }
             if (isLiked) {
                 try {
-                    await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                    await axios.post(`${ANIME_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                         withCredentials: true
                     });
                 } catch (error) {

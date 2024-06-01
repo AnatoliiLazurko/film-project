@@ -17,7 +17,6 @@ const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) =>
       'fullscreen',
     ];
 
-
     const plyrProps = {
         
         source: {

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const initialValues = {
     password: '',
@@ -54,7 +55,7 @@ const ChangePassword = () => {
     const submitHadler = async (values, formikBag) => {
         if (token) {   
             try {
-                await axios.put(`https://localhost:7176/api/Users/changepassword?token=${token}`, { password: values.password }, {
+                await axios.put(`${USER_ENDPOINTS.changePassword}?token=${token}`, { password: values.password }, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },

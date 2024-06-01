@@ -102,6 +102,14 @@ const Selected = () => {
         navigate(newPath);
     };
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <div className={styles["selection-page"]}>
 
@@ -132,7 +140,7 @@ const Selected = () => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.description}
+                                        {truncateDescription(movie.description, 300)}
                                     </p>
                                 </div>
                             </div>

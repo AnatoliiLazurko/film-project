@@ -5,6 +5,7 @@ import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
 const ReplyComment = ({ cartoonId, commentId, setIsAuthPrompt, update, setUpdate }) => {
 
@@ -27,7 +28,7 @@ const ReplyComment = ({ cartoonId, commentId, setIsAuthPrompt, update, setUpdate
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    axios.post(CARTOON_ENDPOINTS.createComment, {
                         cartoonId: cartoonId,
                         ParentCommentId: commentId,
                         Text: replyComment

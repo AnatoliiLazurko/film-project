@@ -7,6 +7,14 @@ import { NavLink } from 'react-router-dom';
 
 const NewCartoonCard = ({ cartoons }) => {
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     useEffect(() => {
         const handleMouseEnter = (event) => {
             handleCartoonInfoPositioning(event, styles);
@@ -22,7 +30,7 @@ const NewCartoonCard = ({ cartoons }) => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, []);
+    }, [cartoons]);
 
     return (
         <NavLink to={`/cartoon-view/${cartoons.genres[0].name.toLowerCase()}/${cartoons.id}`} className={styles["cartoon-card"]}>
@@ -46,7 +54,7 @@ const NewCartoonCard = ({ cartoons }) => {
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {cartoons.description}
+                            {truncateDescription(cartoons.description, 300)}
                         </p>
                     </div>
                 </div>

@@ -6,7 +6,8 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleAnimeInfoPositioning } from './AnimeListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
-
+import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
+ 
 const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
 
     const { genre, date, popular} = useParams();
@@ -46,7 +47,7 @@ const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
 
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(ANIME_ENDPOINTS.countPages, {
                     Genres: genreFilter,
                     Studios: []
                 }, {
@@ -93,6 +94,14 @@ const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [anime]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["anime-list"]}>
@@ -120,7 +129,7 @@ const AnimeList = ({ anime, setCurrentPage, currentPage, pageSize }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {anime.description}
+                                        {truncateDescription(anime.description, 300)}
                                     </p>
                                 </div>
                             </div>

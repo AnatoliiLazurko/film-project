@@ -46,6 +46,13 @@ const BrowsingHistory = ({ historyList, loading, sortHistory, setSortHistory }) 
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
     const currentMovies = historyList.slice(indexOfFirstMovie, indexOfLastMovie);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
 
     return (
         <>
@@ -84,7 +91,7 @@ const BrowsingHistory = ({ historyList, loading, sortHistory, setSortHistory }) 
                                         <div className={styles["info-description"]}>
                                             <h1>Description</h1>
                                             <p>
-                                                {movie.description}
+                                                {truncateDescription(movie.description, 300)}
                                             </p>
                                         </div>
                                     </div>

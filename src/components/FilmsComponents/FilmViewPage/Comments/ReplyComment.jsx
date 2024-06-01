@@ -5,6 +5,7 @@ import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
 const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate }) => {
 
@@ -27,12 +28,11 @@ const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate })
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    axios.post(FILM_ENDPOINTS.createComment, {
                         FilmId: filmId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {
-                        headers: { 'Content-Type': 'application/json' },
                         withCredentials: true
                     });
 

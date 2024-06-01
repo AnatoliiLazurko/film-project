@@ -6,6 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleCartoonInfoPositioning } from './CartoonsListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
 const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
 
@@ -51,7 +52,7 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
 
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(CARTOON_ENDPOINTS.countPages, {
                     Genres: categoryFilter,
                     Studios: studioFilter
                 }, {
@@ -100,6 +101,14 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [cartoons]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["cartoons-list"]}>
@@ -127,7 +136,7 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {cartoon.description}
+                                        {truncateDescription(cartoon.description, 300)}
                                     </p>
                                 </div>
                             </div>
