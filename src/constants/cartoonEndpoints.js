@@ -14,8 +14,14 @@ export const CARTOON_ENDPOINTS = {
     commentLike: `${CARTOON_URL}/api/Comments/like`,
     commentDislike: `${CARTOON_URL}/api/Comments/dislike`,
     rateCartoon: `${CARTOON_URL}/api/Rating`,
+    getCartoonParts: `${CARTOON_URL}/api/CartoonPart/getbycartoonid`,
+    getPartById: `${CARTOON_URL}/api/CartoonPart/getbyid`,
 
     getCartoonsByIds: `${CARTOON_URL}/api/Cartoons/byids`,
     countPages: `${CARTOON_URL}/api/Cartoons/countpagesbyfiltersandsorting`,
     cartoonsByTitle: `${CARTOON_URL}/api/Cartoons/bytitle`,
+
+    getCategories: `${CARTOON_URL}/api/Cartoons/categories`,
+    getAnimations: `${CARTOON_URL}/api/Cartoons/animations`,
+    getStudios: `${CARTOON_URL}/api/Cartoons/studios`,
 };

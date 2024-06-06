@@ -1,8 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
+import axios from 'axios';
+import { ANIME_ENDPOINTS } from '../../../../../constants/animeEndpoints';
 
-const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) => {
+const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails }) => {
+
+    const [partData, setPartData] = useState([]);
+    const [sasToken, setSasToken] = useState();
+    
+    useEffect(() => {      
+        const fetchEpisod = async () => {
+            try {
+                const response = await axios.get(ANIME_ENDPOINTS.getPartById, {
+                    params: {
+                        Id: episodeId,
+                    }
+                });
+
+                setPartData(response.data);
+            } catch (error) {
+                console.log("Fetch episod error: " + error);
+            }
+        }
+        
+        fetchEpisod();
+    }, [episodeId]);
+
+    useEffect(() => {    
+        const fetchSasToken = async () => {
+            try {
+                const response = await axios.get(`${ANIME_ENDPOINTS.getSasToken}?blobName=${partData.fileName}`);
+
+                setSasToken(response.data);
+            } catch (error) {
+                console.log("Fetch sastoken error: " + error);
+            }
+        }
+        
+        fetchSasToken();
+    }, [partData]);
 
     const controls = [
       'play-large',
@@ -21,7 +58,7 @@ const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) =>
         
         source: {
             type: 'video',
-            sources: 'd',
+            sources: `${partData.fileUri}?${sasToken}`,
             poster: `${animeDetails.poster ? `data:image/jpeg;base64,${animeDetails.poster}` : ''}`,
         },
         options: {

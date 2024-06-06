@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERIAL_ENDPOINTS } from '../../constants/serialEndpoints';
 
 const initialState = {
     serials: [],
@@ -10,11 +11,12 @@ const initialState = {
 export const fetchSerials = createAsyncThunk(
     'fetchSerials',
     async (payload) => {
-        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios } = payload;
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios, selections } = payload;
     
-        const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
+        const response = await axios.post(SERIAL_ENDPOINTS.serials, {
             Genres: genres,
-            Studios: studios
+            Studios: studios,
+            Selections: selections,
         },  {
             params: {    
                 pageNumber: pageNumber,

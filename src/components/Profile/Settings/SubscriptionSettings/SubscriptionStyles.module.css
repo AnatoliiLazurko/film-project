@@ -89,6 +89,21 @@
     cursor: pointer;
 }
 
+.activate-btn {
+    width: 95px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #6D8EEB;
+    font-family: 'Rubik';
+    font-weight: 400;
+    font-size: 16px;
+    color: #F1F1F1;
+    cursor: pointer;
+}
+
 .none-subscription {
     position: absolute;
     left: 50%;

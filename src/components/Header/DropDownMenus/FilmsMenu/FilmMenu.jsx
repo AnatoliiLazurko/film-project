@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "./FilmMenuStyles.module.css";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
 const FilmMenu = () => {
 
@@ -12,7 +13,7 @@ const FilmMenu = () => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://blahofilm.northeurope.cloudapp.azure.com:444/api/Films/genres');
+                const response = await axios.get(FILM_ENDPOINTS.getGenres);
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);
@@ -35,7 +36,7 @@ const FilmMenu = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const response = await axios.get('https://blahofilm.northeurope.cloudapp.azure.com:444/api/Films/studios ');
+                const response = await axios.get(FILM_ENDPOINTS.getStudios);
                 setStudios(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);

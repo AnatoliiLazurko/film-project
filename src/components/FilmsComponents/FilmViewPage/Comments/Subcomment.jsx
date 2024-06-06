@@ -19,7 +19,7 @@ const Subcomment = ({ commentId, comments }) => {
 
     //LIKE AND DISLIKE
 
-    const toLike = async (commentId, isDisliked) => {  
+    const toLike = async (commentId) => {  
         if (isAuth) {
             try {
                 await axios.post(`${FILM_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
@@ -28,21 +28,12 @@ const Subcomment = ({ commentId, comments }) => {
             } catch (error) {
                 console.error('Error liking comment:', error);
             }
-            if (isDisliked) {
-                try {
-                    await axios.post(`${FILM_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error disliking comment:', error);
-                }
-            }
         } else {
             setIsAuthPrompt(true);
         }
     };
 
-    const toDisLike = async (commentId, isLiked) => {
+    const toDisLike = async (commentId) => {
         if (isAuth) {
             try {
                 await axios.post(`${FILM_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
@@ -50,15 +41,6 @@ const Subcomment = ({ commentId, comments }) => {
                 });
             } catch (error) {
                 console.error('Error disliking comment:', error);
-            }
-            if (isLiked) {
-                try {
-                    await axios.post(`${FILM_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error liking comment:', error);
-                }
             }
         } else {
             setIsAuthPrompt(true);
@@ -106,13 +88,13 @@ const Subcomment = ({ commentId, comments }) => {
                         <div className={styles["under-comment-section"]}>
                             <div className={styles["left-section"]}>
                                 <p className={styles["like"]}>
-                                    {subComment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(subComment.id, subComment.isDisliked)} />}
-                                    {!subComment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(subComment.id, subComment.isDisliked)} />}
+                                    {subComment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(subComment.id)} />}
+                                    {!subComment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(subComment.id)} />}
                                     {subComment.countLikes}
                                 </p>
                                 <p className={styles["dislike"]}>
-                                    {subComment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(subComment.id, subComment.isLiked)} />}
-                                    {!subComment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(subComment.id, subComment.isLiked)} />}
+                                    {subComment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(subComment.id)} />}
+                                    {!subComment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(subComment.id)} />}
                                     {subComment.countDislikes}
                                 </p>
                             </div> 

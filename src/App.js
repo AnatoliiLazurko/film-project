@@ -14,7 +14,6 @@ import AnimeView from './components/AnimeComponents/AnimeViewPage/AnimeView';
 import Selections from './components/Selections/Selections';
 import Status404 from './components/StatusComponents/Status404';
 import Donate from './components/Donate/Donate';
-import Selected from './components/Selections/Selected/Selected';
 import SearchResult from './components/SearchResult/SearchResult';
 import Settings from './components/Profile/Settings/Settings';
 import Profile from './components/Profile/Profile';
@@ -30,6 +29,10 @@ import EmailChangeResult from './components/Technicall/Email/EmailChange/EmailCh
 import ChangePassword from './components/Technicall/Password/ChangePassword/ChangePassword'
 import ResetPassword from './components/Technicall/Password/ResetPassword';
 import EmailWarning from './components/Technicall/Email/EmailWarning';
+import SelectedFilms from './components/Selections/Selected/SelectedFilms';
+import SelectedCartoons from './components/Selections/Selected/SelectedCartoons';
+import SelectedSerials from './components/Selections/Selected/SelectedSerials';
+import SelectedAnime from './components/Selections/Selected/SelectedAnime';
 
 function App() {
   return (
@@ -44,8 +47,6 @@ function App() {
 
               <Route path='/profile' element={<GuestGuard><Profile /></GuestGuard>} />
               <Route path='/settings/:option' element={<GuestGuard><Settings /></GuestGuard>} />
-              {/* <Route path='/profile' element={<Profile />} />
-              <Route path='/settings/:option' element={<Settings />} /> */}
 
               <Route path='/search/:query?' element={<SearchResult />} />
 
@@ -62,7 +63,10 @@ function App() {
               <Route path="/anime-view/:genre/:id" element={<AnimeView />} /> 
 
               <Route path='/selections/:selection' element={<Selections />} />
-              <Route path='/selection/:type/:selected/:page' element={<Selected />} />
+              <Route path='/selection/films/:selected/:page' element={<SelectedFilms />} />
+              <Route path='/selection/cartoons/:selected/:page' element={<SelectedCartoons />} />
+              <Route path='/selection/serials/:selected/:page' element={<SelectedSerials />} />
+              <Route path='/selection/anime/:selected/:page' element={<SelectedAnime />} />
 
               <Route path='/donate' element={<Donate />} />
 

@@ -5,18 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleInfoPositioning } from './SelectedScripts';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilms } from '../../../slices/filmsSlices/FilmsSlice';
 import Spinner from '../../Technicall/Spinner/Spinner';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { fetchCartoons } from '../../../slices/cartoonsSlices/CartoonsSlice';
+import { CARTOON_ENDPOINTS } from '../../../constants/cartoonEndpoints';
 
-const Selected = () => {
+const SelectedCartoons = () => {
 
     const [totalPages, setTotalPages] = useState(9);
     const navigate = useNavigate();
 
-    const { type, selected, page } = useParams();
-    const editedType = type.endsWith("s") ? type.slice(0, -1) : type;
+    const { selected, page } = useParams();
 
     const initialPage = parseInt(page) || 1;
     const [currentPage, setCurrentPage] = useState(initialPage);
@@ -28,8 +28,8 @@ const Selected = () => {
         
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
-                    Genres: [],
+                const response = await axios.post(CARTOON_ENDPOINTS.countPages, {
+                    Categories: [],
                     Studios: [],
                     Selections: selectedFilter
                 }, {
@@ -53,7 +53,7 @@ const Selected = () => {
             selectedFilter.push(selected.replace(/_/g, ' '));
         }
 
-        dispatch(fetchFilms(
+        dispatch(fetchCartoons(
             {
                 pageNumber: currentPage,
                 pageSize: pageSize,
@@ -98,7 +98,7 @@ const Selected = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
 
-        const newPath = `/selection/${type}/${selected}/${pageNumber}`;
+        const newPath = `/selection/cartoons/${selected}/${pageNumber}`;
         navigate(newPath);
     };
 
@@ -119,7 +119,7 @@ const Selected = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/${editedType}-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/cartoon-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
                              <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -159,4 +159,4 @@ const Selected = () => {
     );
 }
 
-export default Selected;
+export default SelectedCartoons;

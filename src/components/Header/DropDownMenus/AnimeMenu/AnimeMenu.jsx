@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "./AnimeMenuStyles.module.css";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 
 const AnimeMenu = () => {
 
@@ -12,7 +13,7 @@ const AnimeMenu = () => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                const response = await axios.get(ANIME_ENDPOINTS.getGenres);
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);

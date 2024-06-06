@@ -1,5 +1,5 @@
 
-export const ANIME_URL = 'https://localhost:7095';
+export const ANIME_URL = 'https://localhost:7275';
 // export const ANIME_URL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
 
 export const ANIME_ENDPOINTS = {
@@ -14,8 +14,12 @@ export const ANIME_ENDPOINTS = {
     commentLike: `${ANIME_URL}/api/Comments/like`,
     commentDislike: `${ANIME_URL}/api/Comments/dislike`,
     rateAnime: `${ANIME_URL}/api/Rating`,
+    getAnimeParts: `${ANIME_URL}/api/AnimePart/getbyanimeid`,
+    getPartById: `${ANIME_URL}/api/AnimePart/getbyid`,
 
     getAnimeByIds: `${ANIME_URL}/api/Anime/byids`,
     countPages: `${ANIME_URL}/api/Anime/countpagesbyfiltersandsorting`,
     animeByTitle: `${ANIME_URL}/api/Anime/bytitle`,
+
+    getGenres: `${ANIME_URL}/api/Anime/genres`,
 };

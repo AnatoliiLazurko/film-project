@@ -6,18 +6,42 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
+import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
 const SerialPlayer = ({ serialDetails }) => {
 
     const { isAuth } = useAuth();
 
     const voiceActingArray = ['English'];
-    const seasonArray = ['Season 1', 'Season 2', 'Season 3']
-    const episodesData = {
-        "Season 1": ["Episode 1", "Episode 2", "Episode 3", "Episode 4", "Episode 5"],
-        "Season 2": ["Episode 1", "Episode 2"],
-        "Season 3": ["Episode 1", "Episode 2", "Episode 3"],
-    };
+    const [seasonArray, setSeasonArray] = useState([]);
+    const [episodesData, setEpisodesData] = useState({});
+
+    useEffect(() => {
+        const fetchSerialParts = async () => {
+            try {
+                const response = await axios.get(`${SERIAL_ENDPOINTS.getSerialParts}?serialId=${serialDetails.id}`);
+                const fetchedParts = response.data;
+
+                const structuredData = fetchedParts.reduce((acc, part) => {
+                    const { seasonNumber, partNumber, id } = part;
+                    const seasonKey = `Season ${seasonNumber}`;
+                    const episodeKey = { episodeNumber: `Episode ${partNumber}`, episodeId: id };
+                    if (!acc[seasonKey]) {
+                        acc[seasonKey] = [];
+                    }
+                    acc[seasonKey].push(episodeKey);
+                    return acc;
+                }, {});
+
+                setSeasonArray(Object.keys(structuredData));
+                setEpisodesData(structuredData);
+            } catch (error) {
+                console.log("Fetch serial parts error: " + error);
+            }
+        };
+
+        fetchSerialParts();
+    }, [serialDetails]);
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
     const [voiceActing, setVoiceActing] = useState('English');
@@ -54,7 +78,7 @@ const SerialPlayer = ({ serialDetails }) => {
         };
     }, []);
 
-    const [episode, setEpisode] = useState('Episode 1');
+    const [episode, setEpisode] = useState({ episodeNumber: 'Episode 1', episodeId: 1 });
     const [isEpisodeOpen, setEpisodeOpen] = useState(false);
     const selectEpisodeRef = useRef(null);
 
@@ -149,7 +173,7 @@ const SerialPlayer = ({ serialDetails }) => {
                                 {seasonArray.map((option, index) => (
                                     <p
                                         key={index}
-                                        onClick={() => {setSeason(option)}}
+                                        onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); }}
                                         className={`${option === season ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                     >
                                         {option}
@@ -166,20 +190,20 @@ const SerialPlayer = ({ serialDetails }) => {
                     >
                         <div className={styles["custom-select"]}>
                             <span>
-                                {episode}
+                                {episode.episodeNumber}
                             </span>
                             {!isEpisodeOpen && <FontAwesomeIcon icon={faCaretRight}/>}
                             {isEpisodeOpen && <FontAwesomeIcon icon={faCaretDown}/>}
                         </div>
                         {isEpisodeOpen && 
                             <div className={styles["list-options"]}>
-                                {episodesData[season].map((option, index) => (
+                                {episodesData[season]?.map((option, index) => (
                                     <p
                                         key={index}
-                                        onClick={() => {setEpisode(option)}}
-                                        className={`${option === episode ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                        onClick={() => { setEpisode(option); }}
+                                        className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                     >
-                                        {option}
+                                        {option.episodeNumber}
                                     </p>
                                 ))}
                             </div>
@@ -191,7 +215,7 @@ const SerialPlayer = ({ serialDetails }) => {
                     <Player
                         switchPlayer={switchPlayer}
                         voiceActing={voiceActing}
-                        season={season} episode={episode}
+                        episodeId={episode.episodeId}
                         serialDetails={serialDetails}
                     />
                 </div>

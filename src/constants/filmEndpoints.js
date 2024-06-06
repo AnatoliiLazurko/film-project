@@ -18,4 +18,7 @@ export const FILM_ENDPOINTS = {
     getFilmsByIds: `${FILM_URL}/api/Films/byids`,
     countPages: `${FILM_URL}/api/Films/countpagesbyfiltersandsorting`,
     filmsByTitle: `${FILM_URL}/api/Films/bytitle`,
+
+    getGenres: `${FILM_URL}/api/Films/genres`,
+    getStudios: `${FILM_URL}/api/Films/studios`,
 };

@@ -8,4 +8,6 @@ export const TRANSACTION_ENDPOINTS = {
 
     isSubscribe: `${TRANSACTION_URL}/api/Subscription/subscriptions`,
     subscribe: `${TRANSACTION_URL}/api/Subscription/subscribe`,
+
+    changeStatus: `${TRANSACTION_URL}/api/Subscription/changestatus`,
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "./SerialMenuStyles.module.css";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
 const SerialMenu = () => {
 
@@ -12,7 +13,7 @@ const SerialMenu = () => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                const response = await axios.get(SERIAL_ENDPOINTS.getGenres);
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);
@@ -35,7 +36,7 @@ const SerialMenu = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/studios ');
+                const response = await axios.get(SERIAL_ENDPOINTS.getStudios);
                 setStudios(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);

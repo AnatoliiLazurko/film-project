@@ -84,7 +84,7 @@ const Comments = ({ cartoonDetails }) => {
     
     //LIKE AND DISLIKE
 
-    const toLike = async (commentId, isDisliked) => {  
+    const toLike = async (commentId) => {  
         if (isAuth) {
             try {
                 await axios.post(`${CARTOON_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
@@ -93,22 +93,13 @@ const Comments = ({ cartoonDetails }) => {
             } catch (error) {
                 console.error('Error liking comment:', error);
             }
-            if (isDisliked) {
-                try {
-                    await axios.post(`${CARTOON_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error disliking comment:', error);
-                }
-            }
             setUpdate(!update);
         } else {
             setIsAuthPrompt(true);
         }
     };
 
-    const toDisLike = async (commentId, isLiked) => {
+    const toDisLike = async (commentId) => {
         if (isAuth) {
             try {
                 await axios.post(`${CARTOON_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
@@ -116,15 +107,6 @@ const Comments = ({ cartoonDetails }) => {
                 });
             } catch (error) {
                 console.error('Error disliking comment:', error);
-            }
-            if (isLiked) {
-                try {
-                    await axios.post(`${CARTOON_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error liking comment:', error);
-                }
             }
             setUpdate(!update);
         } else {
@@ -310,13 +292,13 @@ const Comments = ({ cartoonDetails }) => {
                                         <div className={styles["under-comment-section"]}>
                                             <div className={styles["left-section"]}>
                                                 <p className={styles["like"]}>
-                                                    {comment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(comment.id, comment.isDisliked)} />}
-                                                    {!comment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(comment.id, comment.isDisliked)} />}
+                                                    {comment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(comment.id)} />}
+                                                    {!comment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(comment.id)} />}
                                                     {comment.countLikes}
                                                 </p>
                                                 <p className={styles["dislike"]}>
-                                                    {comment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(comment.id, comment.isLiked)} />}
-                                                    {!comment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(comment.id, comment.isLiked)} />}
+                                                    {comment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(comment.id)} />}
+                                                    {!comment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(comment.id)} />}
                                                     {comment.countDislikes}
                                                 </p>
                                                 <p className={styles["see-comments"]}>

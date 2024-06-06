@@ -38,6 +38,8 @@ const AnimeView = () => {
         console.log("Anime details error: " + error);
     }
 
+    
+
     // OTHER ANIME
 
     const animeData = useSelector((state) => state.anime.anime); 

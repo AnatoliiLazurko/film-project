@@ -6,7 +6,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { TRANSACTION_ENDPOINTS } from '../../../constants/transactionEndpoints';
 
-const PayPalWindow = ({ closeWindow }) => {
+const PayPalWindow = ({ closeWindow, setUpdate, update }) => {
 
     const createSubscription = async (orderId, subscriptionId) => {
         try {
@@ -18,6 +18,7 @@ const PayPalWindow = ({ closeWindow }) => {
                 withCredentials: true
             });
 
+            setUpdate(!update);
             closeWindow(false);
         } catch (error) {
             console.error('Error creating subscription:' + error);
