@@ -1,10 +1,10 @@
 
-export const CARTOON_URL = 'https://localhost:7095';
+export const CARTOON_URL = 'https://localhost:7061';
 // export const CARTOON_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
 
 export const CARTOON_ENDPOINTS = {
     cartoons: `${CARTOON_URL}/api/Cartoons/byfiltersandsorting`,
-    cartoonById: `${CARTOON_URL}/api/v/byid`,
+    cartoonById: `${CARTOON_URL}/api/Cartoons/byid`,
     cartoonSelections: `${CARTOON_URL}/api/Cartoons/selections`,
 
     getSasToken: `${CARTOON_URL}/api/Cartoons/getsas`,

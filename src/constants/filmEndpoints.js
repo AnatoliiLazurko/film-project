@@ -1,6 +1,6 @@
 
 export const FILM_URL = 'https://localhost:7095';
-// export const FILM_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
+//export const FILM_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
 
 export const FILM_ENDPOINTS = {
     films: `${FILM_URL}/api/Films/byfiltersandsorting`,

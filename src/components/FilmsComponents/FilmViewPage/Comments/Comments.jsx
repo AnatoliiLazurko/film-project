@@ -79,6 +79,7 @@ const Comments = ({ filmDetails }) => {
         }
         
         fetchGetComments();
+        console.log("YESSS");
     }, [filmDetails.id, update]);
 
     
@@ -120,11 +121,11 @@ const Comments = ({ filmDetails }) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post(FILM_ENDPOINTS.createComment, {
+                    await axios.post(FILM_ENDPOINTS.createComment, {
                         FilmId: filmDetails.id,
                         ParentCommentId: null,
                         Text: comment
@@ -133,10 +134,10 @@ const Comments = ({ filmDetails }) => {
                     });
 
                     setComment('');
+                    setUpdate(!update);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
@@ -283,7 +284,7 @@ const Comments = ({ filmDetails }) => {
                                     <div className={styles["comment-content"]}>
                                         <div className={styles["top-section"]}>
                                             <p className={styles["username"]}>{comment.user.userName} <span>{getTimeDifference(comment.date)}</span></p>
-                                            <FontAwesomeIcon icon={faEllipsis} />
+                                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                                         </div>
                                         <div className={styles["comment"]}>
                                             {comment.text}
@@ -316,10 +317,18 @@ const Comments = ({ filmDetails }) => {
                                                 setIsAuthPrompt={setIsAuthPrompt}
                                                 update={update}
                                                 setUpdate={setUpdate}
+                                                setReplyStates={setReplyStates}
                                             />
                                         }
                                         
-                                        {showReplayedStates[comment.id] && <Subcomment commentId={comment.id} comments={commentsList} /> }
+                                        {showReplayedStates[comment.id] &&
+                                            <Subcomment
+                                                commentId={comment.id}
+                                                comments={commentsList}
+                                                update={update}
+                                                setUpdate={setUpdate}
+                                            />
+                                        }
 
                                     </div>      
                                 </div>   

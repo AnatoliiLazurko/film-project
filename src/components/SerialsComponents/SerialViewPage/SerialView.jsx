@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
 import OtherSeries from './OtherSerials/OtherSerials';
 import Comments from './Comments/Comments';
@@ -10,6 +10,8 @@ import { fetchSerials } from '../../../slices/serialsSlices/SerialsSlice';
 import Spinner from '../../Technicall/Spinner/Spinner';
 
 const SerialView = () => {
+
+    const [partId, setPartId] = useState();
 
     const { genre, id } = useParams();
     const dispatch = useDispatch();
@@ -58,12 +60,12 @@ const SerialView = () => {
             
             <ViewInfo serialDetails={serialDetails} />
 
-            <SerialPlayer serialDetails={serialDetails} />
+            <SerialPlayer serialDetails={serialDetails} setPartId={setPartId} />
 
             <OtherSeries serials={serialsData.slice(0, 6)} />
 
-            <Comments serialDetails={serialDetails} />
-
+            <Comments serialDetails={serialDetails} partId={partId} />
+            
         </>
     );
 }

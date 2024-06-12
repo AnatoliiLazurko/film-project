@@ -76,8 +76,8 @@ const ViewInfo = ({ cartoonDetails }) => {
                 <div className={styles["path"]}>
                     <NavLink to={'/cartoons/category=u/animation=u/studio=u/date=u/popular=u/1'}>Cartoons</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
-                    <NavLink to={`/cartoons/${cartoonDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/animation=u/studio=u/date=u/popular=u/1'`}>
-                        {cartoonDetails.genres?.[0]?.name ?? ''}
+                    <NavLink to={`/cartoons/${cartoonDetails.categories?.[0]?.name?.toLowerCase() ?? ''}/animation=u/studio=u/date=u/popular=u/1'`}>
+                        {cartoonDetails.categories?.[0]?.name ?? ''}
                     </NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <span>{cartoonDetails.title}</span>

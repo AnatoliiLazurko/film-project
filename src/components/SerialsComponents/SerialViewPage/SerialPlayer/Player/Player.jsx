@@ -4,7 +4,7 @@ import "plyr-react/plyr.css";
 import { SERIAL_ENDPOINTS } from '../../../../../constants/serialEndpoints';
 import axios from 'axios';
 
-const Player = ({ switchPlayer, voiceActing, episodeId, serialDetails }) => {
+const Player = ({ switchPlayer, voiceActing, episodeId, serialDetails, partExists }) => {
 
     const [partData, setPartData] = useState([]);
     const [sasToken, setSasToken] = useState();
@@ -24,13 +24,17 @@ const Player = ({ switchPlayer, voiceActing, episodeId, serialDetails }) => {
             }
         }
         
-        fetchEpisod();
+        if (partExists) {
+            fetchEpisod();
+        }
     }, [episodeId]);
 
     useEffect(() => {    
+        const fileName = partExists ? partData.fileName : serialDetails.fileName;
+
         const fetchSasToken = async () => {
             try {
-                const response = await axios.get(`${SERIAL_ENDPOINTS.getSasToken}?blobName=${partData.fileName}`);
+                const response = await axios.get(`${SERIAL_ENDPOINTS.getSasToken}?blobName=${fileName}`);
 
                 setSasToken(response.data);
             } catch (error) {
@@ -58,7 +62,7 @@ const Player = ({ switchPlayer, voiceActing, episodeId, serialDetails }) => {
         
         source: {
             type: 'video',
-            sources: `${partData.fileUri}?${sasToken}`,
+            sources: `${partExists ? partData.fileUri : serialDetails.fileUri}?${sasToken}`,
             poster: `${serialDetails.poster ? `data:image/jpeg;base64,${serialDetails.poster}` : ''}`,
         },
         options: {

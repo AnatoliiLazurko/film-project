@@ -73,6 +73,7 @@ const MainPage = () => {
 
     // console.log(filmsData);
     //console.log(animeData);
+    //console.log(cartoonsData);
 
     return (
         <>

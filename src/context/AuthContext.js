@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { useCookies } from "react-cookie";
 import RequestError from '../components/Technicall/Error/RequestError';
 import EmailVerification from "../components/Technicall/Email/EmailVerification";
@@ -117,27 +117,25 @@ export const AuthProvider = ({ children }) => {
     const authWithGoogle = async (googleToken) => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            const response = await axios.post(USER_ENDPOINTS.googleAuth, { token: googleToken }, {
+            await axios.post(USER_ENDPOINTS.googleAuth, { token: googleToken }, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 }
             );
             
-            // if (response.data) {       
-            //     navigate(`/migrate?token=${response.data}`);
-            // } else {
-                
             removeCookie('authenticated');
             setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
 
             await getUser();
-            //}
-
         }
-        catch (error) { 
+        catch (error) {
+            console.log(error);
+
+            if (error.response.status === 409) {
+                navigate(`/migrate?token=${error.response.data}`);
+            }
             //console.log('Login with Google error:' + error);
             removeCookie('authenticated');
-            setError(error.response.data);
             setTimeout(() => {
                 setError(null);
             }, 6000);
@@ -179,6 +177,7 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 console.log('Get user error: ' + error);
                 removeCookie('authenticated');
+                navigate('/');
                 setError(error.response.data);
                 setTimeout(() => {
                     setError(null);

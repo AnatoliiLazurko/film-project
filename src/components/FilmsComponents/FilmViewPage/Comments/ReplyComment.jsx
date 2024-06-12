@@ -7,7 +7,7 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
-const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate }) => {
+const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate, setReplyStates }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -24,11 +24,11 @@ const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate })
         setReplyComment(replyComment + emoji);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post(FILM_ENDPOINTS.createComment, {
+                    await axios.post(FILM_ENDPOINTS.createComment, {
                         FilmId: filmId,
                         ParentCommentId: commentId,
                         Text: replyComment
@@ -37,10 +37,11 @@ const ReplyComment = ({ filmId, commentId, setIsAuthPrompt, update, setUpdate })
                     });
 
                     setReplyComment('');
+                    setUpdate(!update);
+                    setReplyStates([]);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);

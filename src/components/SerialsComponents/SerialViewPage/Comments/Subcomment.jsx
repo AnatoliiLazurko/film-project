@@ -9,7 +9,7 @@ import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
-const Subcomment = ({ commentId, comments }) => {
+const Subcomment = ({ commentId, comments, update, setUpdate }) => {
 
     const { isAuth } = useAuth();
 
@@ -25,6 +25,8 @@ const Subcomment = ({ commentId, comments }) => {
                 await axios.post(`${SERIAL_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
+
+                setUpdate(!update);
             } catch (error) {
                 console.error('Error liking comment:', error);
             }
@@ -39,6 +41,8 @@ const Subcomment = ({ commentId, comments }) => {
                 await axios.post(`${SERIAL_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
+
+                setUpdate(!update);
             } catch (error) {
                 console.error('Error disliking comment:', error);
             }
@@ -80,7 +84,7 @@ const Subcomment = ({ commentId, comments }) => {
                     <div className={styles["comment-content"]}>
                         <div className={styles["top-section"]}>
                             <p className={styles["username"]}>{subComment.user.userName} <span>{getTimeDifference(subComment.date)}</span></p>
-                            <FontAwesomeIcon icon={faEllipsis} />
+                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                         </div>
                         <div className={styles["comment"]}>                     
                             {subComment.text}

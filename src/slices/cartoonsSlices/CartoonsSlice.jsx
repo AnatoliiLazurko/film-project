@@ -11,10 +11,11 @@ const initialState = {
 export const fetchCartoons = createAsyncThunk(
     'fetchCartoons',
     async (payload) => {
-        const { pageNumber, pageSize, sortByDate, sortByPopularity, categories, studios, selections } = payload;
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, categories, genres, studios, selections } = payload;
     
         const response = await axios.post(CARTOON_ENDPOINTS.cartoons, {
             Categories: categories,
+            Genres: genres,
             Studios: studios,
             Selections: selections,
         },  {

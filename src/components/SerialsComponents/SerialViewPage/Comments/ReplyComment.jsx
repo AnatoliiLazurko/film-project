@@ -7,7 +7,7 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
-const ReplyComment = ({ serialId, commentId, setIsAuthPrompt, update, setUpdate }) => {
+const ReplyComment = ({ serialId, commentId, partId, setIsAuthPrompt, update, setUpdate, setReplyStates }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -29,7 +29,7 @@ const ReplyComment = ({ serialId, commentId, setIsAuthPrompt, update, setUpdate 
             if (replyComment.trim() !== '') {
                 try {
                     axios.post(SERIAL_ENDPOINTS.createComment, {
-                        serialId: serialId,
+                        SeriesPartId: partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {
@@ -38,10 +38,11 @@ const ReplyComment = ({ serialId, commentId, setIsAuthPrompt, update, setUpdate 
                     });
 
                     setReplyComment('');
+                    setUpdate(!update);
+                    setReplyStates([]);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);

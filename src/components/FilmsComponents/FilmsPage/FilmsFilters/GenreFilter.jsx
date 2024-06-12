@@ -4,6 +4,7 @@ import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import styles from '../FilmsPageStyles.module.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
 const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
 
@@ -21,7 +22,7 @@ const GenreFilter = ({ isClean, setIsClean, setCurrentPage }) => {
     useEffect(() => {
         const fetchGenres = async () => {
             try {
-                const response = await axios.get('http://13.79.114.101:80/api/Films/genres');
+                const response = await axios.get(FILM_ENDPOINTS.getGenres);
                 setGenres(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);

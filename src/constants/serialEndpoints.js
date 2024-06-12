@@ -1,6 +1,6 @@
 
 export const SERIAL_URL = 'https://localhost:7262';
-// export const SERIAL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
+//export const SERIAL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
 
 export const SERIAL_ENDPOINTS = {
     serials: `${SERIAL_URL}/api/Series/byfiltersandsorting`,
@@ -14,8 +14,8 @@ export const SERIAL_ENDPOINTS = {
     commentLike: `${SERIAL_URL}/api/Comments/like`,
     commentDislike: `${SERIAL_URL}/api/Comments/dislike`,
     rateSerial: `${SERIAL_URL}/api/Rating`,
-    getSerialParts: `${SERIAL_URL}/api/SeriesPart/byseriesid`,
-    getPartById: `${SERIAL_URL}/api/SeriesPart/byId`,
+    getSerialParts: `${SERIAL_URL}/api/SeriesParts/getbyseriesid`,
+    getPartById: `${SERIAL_URL}/api/SeriesParts/getbyid`,
 
     getSerialsByIds: `${SERIAL_URL}/api/Series/byids`,
     countPages: `${SERIAL_URL}/api/Series/countpagesbyfiltersandsorting`,

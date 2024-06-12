@@ -13,7 +13,7 @@ import Spinner from '../../../Technicall/Spinner/Spinner';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
-const Comments = ({ cartoonDetails }) => {
+const Comments = ({ cartoonDetails, partId }) => {
 
     const { isAuth, user } = useAuth();
     const [isAuthPrompt, setIsAuthPrompt] = useState(false);
@@ -120,12 +120,13 @@ const Comments = ({ cartoonDetails }) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post(CARTOON_ENDPOINTS.createComment, {
-                        FilmId: cartoonDetails.id,
+                    await axios.post(CARTOON_ENDPOINTS.createComment, {
+                        CartoonId: cartoonDetails.id,
+                        CartoonPartId: partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {
@@ -134,10 +135,10 @@ const Comments = ({ cartoonDetails }) => {
                     });
 
                     setComment('');
+                    setUpdate(!update);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
@@ -284,7 +285,7 @@ const Comments = ({ cartoonDetails }) => {
                                     <div className={styles["comment-content"]}>
                                         <div className={styles["top-section"]}>
                                             <p className={styles["username"]}>{comment.user.userName} <span>{getTimeDifference(comment.date)}</span></p>
-                                            <FontAwesomeIcon icon={faEllipsis} />
+                                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                                         </div>
                                         <div className={styles["comment"]}>
                                             {comment.text}
@@ -314,14 +315,23 @@ const Comments = ({ cartoonDetails }) => {
                                             <ReplyComment
                                                 cartoonId={cartoonDetails.id}
                                                 commentId={comment.id}
+                                                partId={partId}
                                                 setIsAuthPrompt={setIsAuthPrompt}
+                                                update={update}
+                                                setUpdate={setUpdate}
+                                                setReplyStates={setReplyStates}
+                                            />
+                                        }
+                                        
+                                        {showReplayedStates[comment.id] &&
+                                            <Subcomment
+                                                commentId={comment.id}
+                                                comments={commentsList}
                                                 update={update}
                                                 setUpdate={setUpdate}
                                             />
                                         }
                                         
-                                        {showReplayedStates[comment.id] && <Subcomment commentId={comment.id} comments={commentsList} /> }
-
                                     </div>      
                                 </div>   
                             ))}

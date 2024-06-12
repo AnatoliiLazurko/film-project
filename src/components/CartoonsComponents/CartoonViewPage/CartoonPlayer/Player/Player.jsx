@@ -4,7 +4,7 @@ import "plyr-react/plyr.css";
 import { CARTOON_ENDPOINTS } from '../../../../../constants/cartoonEndpoints';
 import axios from 'axios';
 
-const Player = ({ switchPlayer, episodeId, cartoonDetails }) => {
+const Player = ({ switchPlayer, episodeId, cartoonDetails, partExists }) => {
 
     const [partData, setPartData] = useState([]);
     const [sasToken, setSasToken] = useState();
@@ -24,13 +24,17 @@ const Player = ({ switchPlayer, episodeId, cartoonDetails }) => {
             }
         }
         
-        fetchEpisod();
+        if (partExists) {
+            fetchEpisod();
+        }
     }, [episodeId]);
 
     useEffect(() => {    
+        const fileName = partExists ? partData.fileName : cartoonDetails.fileName;
+
         const fetchSasToken = async () => {
             try {
-                const response = await axios.get(`${CARTOON_ENDPOINTS.getSasToken}?blobName=${partData.fileName}`);
+                const response = await axios.get(`${CARTOON_ENDPOINTS.getSasToken}?blobName=${fileName}`);
 
                 setSasToken(response.data);
             } catch (error) {
@@ -58,7 +62,7 @@ const Player = ({ switchPlayer, episodeId, cartoonDetails }) => {
         
         source: {
             type: 'video',
-            sources: `${partData.fileUri}?${sasToken}`,
+            sources: `${partExists ? partData.fileUri : cartoonDetails.fileUri}?${sasToken}`,
             poster: `${cartoonDetails.poster ? `data:image/jpeg;base64,${cartoonDetails.poster}` : ''}`,
         },
         options: {

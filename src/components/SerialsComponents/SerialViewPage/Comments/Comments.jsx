@@ -13,7 +13,7 @@ import Spinner from '../../../Technicall/Spinner/Spinner';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
-const Comments = ({ serialDetails }) => {
+const Comments = ({ serialDetails, partId }) => {
 
     const { isAuth, user } = useAuth();
     const [isAuthPrompt, setIsAuthPrompt] = useState(false);
@@ -49,7 +49,7 @@ const Comments = ({ serialDetails }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`${SERIAL_ENDPOINTS.getComments}?serialId=${serialDetails.id}`, {
+                const response = await axios.get(`${SERIAL_ENDPOINTS.getComments}?seriesPartId=${serialDetails.id}`, {
                     withCredentials: true
                 });
 
@@ -120,12 +120,12 @@ const Comments = ({ serialDetails }) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post(SERIAL_ENDPOINTS.createComment, {
-                        FilmId: serialDetails.id,
+                    await axios.post(SERIAL_ENDPOINTS.createComment, {
+                        SeriesPartId: partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {
@@ -134,10 +134,10 @@ const Comments = ({ serialDetails }) => {
                     });
 
                     setComment('');
+                    setUpdate(!update);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
@@ -284,7 +284,7 @@ const Comments = ({ serialDetails }) => {
                                     <div className={styles["comment-content"]}>
                                         <div className={styles["top-section"]}>
                                             <p className={styles["username"]}>{comment.user.userName} <span>{getTimeDifference(comment.date)}</span></p>
-                                            <FontAwesomeIcon icon={faEllipsis} />
+                                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                                         </div>
                                         <div className={styles["comment"]}>
                                             {comment.text}
@@ -314,14 +314,23 @@ const Comments = ({ serialDetails }) => {
                                             <ReplyComment
                                                 serialId={serialDetails.id}
                                                 commentId={comment.id}
+                                                partId={partId}
                                                 setIsAuthPrompt={setIsAuthPrompt}
+                                                update={update}
+                                                setUpdate={setUpdate}
+                                                setReplyStates={setReplyStates}
+                                            />
+                                        }
+                                        
+                                        {showReplayedStates[comment.id] &&
+                                            <Subcomment
+                                                commentId={comment.id}
+                                                comments={commentsList}
                                                 update={update}
                                                 setUpdate={setUpdate}
                                             />
                                         }
                                         
-                                        {showReplayedStates[comment.id] && <Subcomment commentId={comment.id} comments={commentsList} /> }
-
                                     </div>      
                                 </div>   
                             ))}

@@ -8,9 +8,11 @@ import axios from 'axios';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 
-const AnimePlayer = ({ animeDetails }) => {
+const AnimePlayer = ({ animeDetails, setPartId }) => {
 
     const { isAuth } = useAuth();
+
+    const [partExists, setPartExists] = useState(false);
     
     const voiceActingArray = ['English'];
     const [seasonArray, setSeasonArray] = useState([]);
@@ -24,8 +26,8 @@ const AnimePlayer = ({ animeDetails }) => {
 
                 const structuredData = fetchedParts.reduce((acc, part) => {
                     const { seasonNumber, partNumber, id } = part;
-                    const seasonKey = `Season ${seasonNumber}`;
-                    const episodeKey = { episodeNumber: `Episode ${partNumber}`, episodeId: id };
+                    const seasonKey = seasonNumber;
+                    const episodeKey = { episodeNumber: partNumber, episodeId: id };
                     if (!acc[seasonKey]) {
                         acc[seasonKey] = [];
                     }
@@ -35,8 +37,12 @@ const AnimePlayer = ({ animeDetails }) => {
 
                 setSeasonArray(Object.keys(structuredData));
                 setEpisodesData(structuredData);
+                setPartExists(true);
             } catch (error) {
-                console.log("Fetch anime parts error: " + error);
+                //console.log("Fetch anime parts error: " + error);
+                if (error.response.status === 404) {
+                    setPartExists(false);
+                }
             }
         };
 
@@ -61,7 +67,7 @@ const AnimePlayer = ({ animeDetails }) => {
         };
     }, []);
 
-    const [season, setSeason] = useState('Season 1');
+    const [season, setSeason] = useState(1);
     const [isSeasonOpen, setSeasonOpen] = useState(false);
     const selectSeasonRef = useRef(null);
 
@@ -78,9 +84,11 @@ const AnimePlayer = ({ animeDetails }) => {
         };
     }, []);
 
-    const [episode, setEpisode] = useState({ episodeNumber: 'Episode 1', episodeId: 1 });
+    const [episode, setEpisode] = useState({ episodeNumber: 1, episodeId: 1 });
     const [isEpisodeOpen, setEpisodeOpen] = useState(false);
     const selectEpisodeRef = useRef(null);
+
+    setPartId(episode.episodeId);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -113,7 +121,7 @@ const AnimePlayer = ({ animeDetails }) => {
                         mediaId: animeDetails.id, 
                         mediaTypeId: 4, 
                     },
-                    partNumber: episode, 
+                    partNumber: episode.episodeNumber, 
                     seasonNumber: season, 
                 };
 
@@ -156,59 +164,63 @@ const AnimePlayer = ({ animeDetails }) => {
                         }
                     </div>
 
-                    <div
-                        className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
-                        onClick={() => setSeasonOpen(!isSeasonOpen)}
-                        ref={selectSeasonRef}
-                    >
-                        <div className={styles["custom-select"]}>
-                            <span>
-                                {season}
-                            </span>
-                            {!isSeasonOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                            {isSeasonOpen && <FontAwesomeIcon icon={faCaretDown}/>}
-                        </div>
-                        {isSeasonOpen && 
-                            <div className={styles["list-options"]}>
-                                {seasonArray.map((option, index) => (
-                                    <p
-                                        key={index}
-                                        onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); }}
-                                        className={`${option === season ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    >
-                                        {option}
-                                    </p>
-                                ))}
+                    {partExists &&
+                        <>
+                            <div
+                                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+                                onClick={() => setSeasonOpen(!isSeasonOpen)}
+                                ref={selectSeasonRef}
+                            >
+                                <div className={styles["custom-select"]}>
+                                    <span>
+                                        Season {season}
+                                    </span>
+                                    {!isSeasonOpen && <FontAwesomeIcon icon={faCaretRight}/>}
+                                    {isSeasonOpen && <FontAwesomeIcon icon={faCaretDown}/>}
+                                </div>
+                                {isSeasonOpen && 
+                                    <div className={styles["list-options"]}>
+                                        {seasonArray.map((option, index) => (
+                                            <p
+                                                key={index}
+                                                onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); }}
+                                                className={`${option === season.toString() ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                            >
+                                                Season {option}
+                                            </p>
+                                        ))}
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
 
-                    <div
-                        className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
-                        onClick={() => setEpisodeOpen(!isEpisodeOpen)}
-                        ref={selectEpisodeRef}
-                    >
-                        <div className={styles["custom-select"]}>
-                            <span>
-                                {episode.episodeNumber}
-                            </span>
-                            {!isEpisodeOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                            {isEpisodeOpen && <FontAwesomeIcon icon={faCaretDown}/>}
-                        </div>
-                        {isEpisodeOpen && 
-                            <div className={styles["list-options"]}>
-                                {episodesData[season]?.map((option, index) => (
-                                    <p
-                                        key={index}
-                                        onClick={() => { setEpisode(option); }}
-                                        className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    >
-                                        {option.episodeNumber}
-                                    </p>
-                                ))}
+                            <div
+                                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+                                onClick={() => setEpisodeOpen(!isEpisodeOpen)}
+                                ref={selectEpisodeRef}
+                            >
+                                <div className={styles["custom-select"]}>
+                                    <span>
+                                        Episod {episode.episodeNumber}
+                                    </span>
+                                    {!isEpisodeOpen && <FontAwesomeIcon icon={faCaretRight}/>}
+                                    {isEpisodeOpen && <FontAwesomeIcon icon={faCaretDown}/>}
+                                </div>
+                                {isEpisodeOpen && 
+                                    <div className={styles["list-options"]}>
+                                        {episodesData[season]?.map((option, index) => (
+                                            <p
+                                                key={index}
+                                                onClick={() => { setEpisode(option); }}
+                                                className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                                            >
+                                                Episod {option.episodeNumber}
+                                            </p>
+                                        ))}
+                                    </div>
+                                }
                             </div>
-                        }
-                    </div>
+                        </>
+                    }
 
                 </div>
                 <div className={styles["player"]} onClick={handleHistory}>
@@ -217,6 +229,7 @@ const AnimePlayer = ({ animeDetails }) => {
                         voiceActing={voiceActing}
                         episodeId={episode.episodeId}
                         animeDetails={animeDetails}
+                        partExists={partExists}
                     />
                 </div>
             </div>

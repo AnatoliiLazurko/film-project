@@ -31,26 +31,26 @@ const CartoonMenu = () => {
 
     // ANIMATION
 
-    const ArrayAnimations = ['3D', '2D', 'Clay animation', 'Stop-motion animation']
-    // const [animations, setAnimations] = useState([]);
+    //const ArrayAnimations = ['3D', '2D', 'Clay animation', 'Stop-motion animation']
+    const [animations, setAnimations] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchAnimations = async () => {
-    //         try {
-    //             const response = await axios.get(CARTOON_ENDPOINTS.getAnimations);
-    //             setAnimations(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching genres:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchAnimations = async () => {
+            try {
+                const response = await axios.get(CARTOON_ENDPOINTS.getAnimations);
+                setAnimations(response.data);
+            } catch (error) {
+                console.error('Error fetching genres:', error);
+            }
+        };
 
-    //     fetchAnimations();
-    // }, []);
+        fetchAnimations();
+    }, []);
 
     const rowsAnimations = [];
   
-    for (let i = 0; i < ArrayAnimations.length; i += 5) {
-        rowsAnimations.push(ArrayAnimations.slice(i, i + 5));
+    for (let i = 0; i < animations.length; i += 5) {
+        rowsAnimations.push(animations.slice(i, i + 5));
     }
 
     // STUDIOS

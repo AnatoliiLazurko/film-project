@@ -13,7 +13,7 @@ import Spinner from '../../../Technicall/Spinner/Spinner';
 import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
-const Comments = ({ animeDetails }) => {
+const Comments = ({ animeDetails, partId }) => {
 
     const { isAuth, user } = useAuth();
     const [isAuthPrompt, setIsAuthPrompt] = useState(false);
@@ -49,7 +49,7 @@ const Comments = ({ animeDetails }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`${ANIME_ENDPOINTS.getComments}?animeId=${animeDetails.id}`, {
+                const response = await axios.get(`${ANIME_ENDPOINTS.getComments}?animeId=${partId}`, {
                     withCredentials: true
                 });
 
@@ -73,14 +73,14 @@ const Comments = ({ animeDetails }) => {
 
             } catch (error) {
                 //console.log(error);
+                setCommentsList([]);
             } finally {
                 setIsLoading(false);
             }
         }
         
         fetchGetComments();
-    }, [animeDetails.id, update]);
-
+    }, [animeDetails.id, update, partId]);
     
     //LIKE AND DISLIKE
 
@@ -120,12 +120,13 @@ const Comments = ({ animeDetails }) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post(ANIME_ENDPOINTS.createComment, {
-                        FilmId: animeDetails.id,
+                    await axios.post(ANIME_ENDPOINTS.createComment, {
+                        AnimeId: animeDetails.id,
+                        AnimePartId: partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {
@@ -134,10 +135,10 @@ const Comments = ({ animeDetails }) => {
                     });
 
                     setComment('');
+                    setUpdate(!update);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
@@ -284,7 +285,7 @@ const Comments = ({ animeDetails }) => {
                                     <div className={styles["comment-content"]}>
                                         <div className={styles["top-section"]}>
                                             <p className={styles["username"]}>{comment.user.userName} <span>{getTimeDifference(comment.date)}</span></p>
-                                            <FontAwesomeIcon icon={faEllipsis} />
+                                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                                         </div>
                                         <div className={styles["comment"]}>
                                             {comment.text}
@@ -314,13 +315,22 @@ const Comments = ({ animeDetails }) => {
                                             <ReplyComment
                                                 animeId={animeDetails.id}
                                                 commentId={comment.id}
+                                                partId={partId}
                                                 setIsAuthPrompt={setIsAuthPrompt}
+                                                update={update}
+                                                setUpdate={setUpdate}
+                                                setReplyStates={setReplyStates}
+                                            />
+                                        }
+                                        
+                                        {showReplayedStates[comment.id] &&
+                                            <Subcomment c
+                                                ommentId={comment.id}
+                                                comments={commentsList}
                                                 update={update}
                                                 setUpdate={setUpdate}
                                             />
                                         }
-                                        
-                                        {showReplayedStates[comment.id] && <Subcomment commentId={comment.id} comments={commentsList} /> }
 
                                     </div>      
                                 </div>   

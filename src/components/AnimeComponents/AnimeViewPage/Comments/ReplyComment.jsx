@@ -7,7 +7,7 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 
-const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }) => {
+const ReplyComment = ({ animeId, commentId, partId, setIsAuthPrompt, update, setUpdate, setReplyStates }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -29,7 +29,8 @@ const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }
             if (replyComment.trim() !== '') {
                 try {
                     axios.post(ANIME_ENDPOINTS.createComment, {
-                        animeId: animeId,
+                        AnimeId: animeId,
+                        AnimePartId: partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {
@@ -38,10 +39,11 @@ const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }
                     });
 
                     setReplyComment('');
+                    setUpdate(!update);
+                    setReplyStates([]);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
