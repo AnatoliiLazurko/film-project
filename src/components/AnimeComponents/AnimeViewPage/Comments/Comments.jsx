@@ -49,7 +49,7 @@ const Comments = ({ animeDetails, partId }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`${ANIME_ENDPOINTS.getComments}?animeId=${partId}`, {
+                const response = await axios.get(`${ANIME_ENDPOINTS.getComments}?animeId=${animeDetails.id}&animePartId=${partId}`, {
                     withCredentials: true
                 });
 
@@ -126,7 +126,7 @@ const Comments = ({ animeDetails, partId }) => {
                 try {
                     await axios.post(ANIME_ENDPOINTS.createComment, {
                         AnimeId: animeDetails.id,
-                        AnimePartId: partId,
+                        AnimePartId: partId === 0 ? null : partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {
@@ -325,7 +325,7 @@ const Comments = ({ animeDetails, partId }) => {
                                         
                                         {showReplayedStates[comment.id] &&
                                             <Subcomment c
-                                                ommentId={comment.id}
+                                                commentId={comment.id}
                                                 comments={commentsList}
                                                 update={update}
                                                 setUpdate={setUpdate}

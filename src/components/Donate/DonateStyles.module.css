@@ -55,8 +55,8 @@
     font-weight: 400;
     font-size: 19px;
     color: #151518;
-    white-space: nowrap;
-    overflow: hidden;
+    /* white-space: nowrap;
+    overflow: hidden; */
 }
 
 .donate-status {

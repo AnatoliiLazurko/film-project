@@ -1,6 +1,6 @@
 
-export const ANIME_URL = 'https://localhost:7275';
-// export const ANIME_URL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
+//export const ANIME_URL = 'https://localhost:7275';
+export const ANIME_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:447';
 
 export const ANIME_ENDPOINTS = {
     anime: `${ANIME_URL}/api/Anime/byfiltersandsorting`,

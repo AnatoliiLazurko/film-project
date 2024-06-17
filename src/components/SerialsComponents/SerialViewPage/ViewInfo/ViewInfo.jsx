@@ -37,7 +37,7 @@ const ViewInfo = ({ serialDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === serialDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === serialDetails.id && media.mediaTypeId === 2);
             setSaved(isBookmarked);
         }
     }, [bookedList]);

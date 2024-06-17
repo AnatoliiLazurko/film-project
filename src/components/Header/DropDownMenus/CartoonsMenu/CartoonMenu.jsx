@@ -31,7 +31,6 @@ const CartoonMenu = () => {
 
     // ANIMATION
 
-    //const ArrayAnimations = ['3D', '2D', 'Clay animation', 'Stop-motion animation']
     const [animations, setAnimations] = useState([]);
 
     useEffect(() => {
@@ -100,7 +99,7 @@ const CartoonMenu = () => {
                             <div className={styles["column"]} key={rowIndex}>
                             {row.map((animation, index) => (
                                 <div className={styles["row"]} key={index}>
-                                    <NavLink to={`/cartoons/category=u/${animation.toLowerCase().replace(/ /g, '_')}/studio=u/date=u/popular=u/1`}>{animation}</NavLink>
+                                    <NavLink to={`/cartoons/category=u/${animation.name.toLowerCase().replace(/ /g, '_')}/studio=u/date=u/popular=u/1`}>{animation.name}</NavLink>
                                 </div>
                             ))}
                             </div>

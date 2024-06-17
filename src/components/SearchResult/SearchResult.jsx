@@ -111,8 +111,6 @@ const SearchResult = () => {
 
     const totalResults = films.length + cartoons.length + serials.length + anime.length;
 
-    console.log(films);
-
     return (
         <div className={styles["search-page"]}>
             

@@ -8,6 +8,9 @@ import { TRANSACTION_ENDPOINTS } from '../../../constants/transactionEndpoints';
 
 const PayPalWindow = ({ closeWindow, setUpdate, update }) => {
 
+    const clientId = "AYrY95Xxkr1UUigZ0tvccb1Uri57XfEdJlv1YxPtAquphFnIPtyHjwZYkiEQPL2SIVg5py8P70PWLFSP";
+    const planId = 'P-222361577E286225NMZYDTCQ';
+
     const createSubscription = async (orderId, subscriptionId) => {
         try {
 
@@ -35,7 +38,7 @@ const PayPalWindow = ({ closeWindow, setUpdate, update }) => {
 
                 <PayPalScriptProvider
                     options={{
-                        clientId: "AeqVdBK1q_pZAnCOvDIWMRAewzjqhX6vhdLp1m2RYa6W9oG4SbY8vHuihX64cV1muy4hm8AVzYzsQSz5",
+                        clientId: clientId,
                         components: "buttons",
                         intent: "subscription",
                         vault: true,
@@ -44,7 +47,7 @@ const PayPalWindow = ({ closeWindow, setUpdate, update }) => {
                     <PayPalButtons
                         createSubscription={(data, actions) => {
                             return actions.subscription.create({
-                            plan_id: 'P-8CV30739AW495690XMYBOEEY',
+                            plan_id: planId,
                             });
                         }}
                         onApprove={(data, actions) => {

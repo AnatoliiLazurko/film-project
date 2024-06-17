@@ -39,7 +39,7 @@ const ViewInfo = ({ filmDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === filmDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === filmDetails.id && media.mediaTypeId === 1);
             setSaved(isBookmarked);
         }
     }, [bookedList]);

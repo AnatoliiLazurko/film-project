@@ -7,6 +7,14 @@ const DonateCard = ({ fundraising }) => {
         window.open(`${url}`, '_blank');
     };
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             {fundraising.map((item, index) => (
@@ -17,7 +25,7 @@ const DonateCard = ({ fundraising }) => {
                     <p className={styles["donate-title"]}>{item.name}</p>
                     <p className={styles["donate-status"]}>Collection started</p>
                     <p className={styles["donate-description"]}>
-                        {item.description}
+                        {truncateDescription(item.description, 150)}
                     </p>
 
                     <div className={styles["donate-btn"]} onClick={() => handleDonateClick(item.fundraisingUrl)}>Donate</div>

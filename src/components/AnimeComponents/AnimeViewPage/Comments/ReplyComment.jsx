@@ -30,7 +30,7 @@ const ReplyComment = ({ animeId, commentId, partId, setIsAuthPrompt, update, set
                 try {
                     axios.post(ANIME_ENDPOINTS.createComment, {
                         AnimeId: animeId,
-                        AnimePartId: partId,
+                        AnimePartId: partId === 0 ? null : partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {

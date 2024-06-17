@@ -1,6 +1,6 @@
 
-export const CARTOON_URL = 'https://localhost:7061';
-// export const CARTOON_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
+//export const CARTOON_URL = 'https://localhost:7061';
+export const CARTOON_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:448';
 
 export const CARTOON_ENDPOINTS = {
     cartoons: `${CARTOON_URL}/api/Cartoons/byfiltersandsorting`,
@@ -22,6 +22,6 @@ export const CARTOON_ENDPOINTS = {
     cartoonsByTitle: `${CARTOON_URL}/api/Cartoons/bytitle`,
 
     getCategories: `${CARTOON_URL}/api/Cartoons/categories`,
-    getAnimations: `${CARTOON_URL}/api/Cartoons/animations`,
+    getAnimations: `${CARTOON_URL}/api/Cartoons/animationtypes`,
     getStudios: `${CARTOON_URL}/api/Cartoons/studios`,
 };

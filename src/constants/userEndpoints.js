@@ -1,6 +1,6 @@
 
-export const USER_URL = 'https://localhost:7176';
-//export const USER_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:443';
+//export const USER_URL = 'https://localhost:7176';
+export const USER_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:443';
 
 export const USER_ENDPOINTS = {
     login: `${USER_URL}/api/Auth/authenticate`,

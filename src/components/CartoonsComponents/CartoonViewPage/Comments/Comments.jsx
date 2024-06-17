@@ -49,7 +49,7 @@ const Comments = ({ cartoonDetails, partId }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`${CARTOON_ENDPOINTS.getComments}?cartoonId=${cartoonDetails.id}`, {
+                const response = await axios.get(`${CARTOON_ENDPOINTS.getComments}?cartoonId=${cartoonDetails.id}&cartoonPartId=${partId}`, {
                     withCredentials: true
                 });
 
@@ -126,7 +126,7 @@ const Comments = ({ cartoonDetails, partId }) => {
                 try {
                     await axios.post(CARTOON_ENDPOINTS.createComment, {
                         CartoonId: cartoonDetails.id,
-                        CartoonPartId: partId,
+                        CartoonPartId: partId === 0 ? null : partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {

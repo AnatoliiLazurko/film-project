@@ -24,13 +24,13 @@ const ReplyComment = ({ cartoonId, commentId, partId, setIsAuthPrompt, update, s
         setReplyComment(replyComment + emoji);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post(CARTOON_ENDPOINTS.createComment, {
+                    await axios.post(CARTOON_ENDPOINTS.createComment, {
                         cartoonId: cartoonId,
-                        CartoonPartId: partId,
+                        CartoonPartId: partId === 0 ? null : partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {

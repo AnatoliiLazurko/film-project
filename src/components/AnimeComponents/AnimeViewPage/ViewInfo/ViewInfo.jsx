@@ -37,7 +37,7 @@ const ViewInfo = ({ animeDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === animeDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === animeDetails.id && media.mediaTypeId === 4);
             setSaved(isBookmarked);
         }
     }, [bookedList]);

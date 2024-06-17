@@ -88,7 +88,7 @@ const CartoonPlayer = ({ cartoonDetails, setPartId }) => {
     const [isEpisodeOpen, setEpisodeOpen] = useState(false);
     const selectEpisodeRef = useRef(null);
 
-    setPartId(episode.episodeId);
+    setPartId(partExists ? episode.episodeId : 0);
 
     useEffect(() => {
         const handleClickOutside = (event) => {

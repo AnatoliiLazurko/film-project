@@ -203,7 +203,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const tokenRefreshInterval = setInterval(() => {
             refreshJwtToken();
-        }, 14 * 60 * 1000);
+        }, 133 * 60 * 1000);
 
         return () => clearInterval(tokenRefreshInterval);
     }, [state.user]);
@@ -213,13 +213,17 @@ export const AuthProvider = ({ children }) => {
             await axios.put(USER_ENDPOINTS.refreshToken, null, { withCredentials: true });
             
             removeCookie('authenticated');
-            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
+            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 14 * 60 * 1000) });
 
         } catch (error) {
             removeCookie('authenticated');
             console.error('JWT токен не оновлено:', error);
         }
     };
+
+    useEffect(() => {       
+        refreshJwtToken();
+    }, []);
 
     return <AuthContext.Provider value={{...state, login, register, authWithGoogle, logout}}>
         <LoadingContext.Provider value={{ ...stateLoading }}>

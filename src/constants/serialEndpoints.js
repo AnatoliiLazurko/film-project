@@ -1,6 +1,6 @@
 
-export const SERIAL_URL = 'https://localhost:7262';
-//export const SERIAL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:444';
+//export const SERIAL_URL = 'https://localhost:7262';
+export const SERIAL_URL = 'https://blahofilm.northeurope.cloudapp.azure.com:446';
 
 export const SERIAL_ENDPOINTS = {
     serials: `${SERIAL_URL}/api/Series/byfiltersandsorting`,
