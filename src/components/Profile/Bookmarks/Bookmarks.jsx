@@ -34,6 +34,14 @@ const Bookmarks = ({ bookedList, loading }) => {
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
     const currentMovies = bookedList.slice(indexOfFirstMovie, indexOfLastMovie);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             {loading ? (
@@ -42,7 +50,7 @@ const Bookmarks = ({ bookedList, loading }) => {
                 <>
                     <div className={styles["bookmarks-list"]}>
                         {currentMovies.map((movie, index) => (
-                            <NavLink to={`/${movie.mediaType}-view/${movie.genres?.[0]?.name?.toLowerCase() ?? ''}/${movie.id}`} className={styles["film-card"]} key={index}>
+                            <NavLink to={`/${movie.mediaType}-view/${movie.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/${movie.id}`} className={styles["film-card"]} key={index}>
                                 <div className={styles["film-poster"]}>
                                     <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                                     <div className={styles["question-mark"]}>?</div>
@@ -63,7 +71,7 @@ const Bookmarks = ({ bookedList, loading }) => {
                                         <div className={styles["info-description"]}>
                                             <h1>Description</h1>
                                             <p>
-                                                {movie.description}
+                                                {truncateDescription(movie.description, 300)}
                                             </p>
                                         </div>
                                     </div>

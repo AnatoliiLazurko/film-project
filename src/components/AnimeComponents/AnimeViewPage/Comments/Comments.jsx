@@ -10,8 +10,10 @@ import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
 import Spinner from '../../../Technicall/Spinner/Spinner';
+import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
-const Comments = ({ animeDetails }) => {
+const Comments = ({ animeDetails, partId }) => {
 
     const { isAuth, user } = useAuth();
     const [isAuthPrompt, setIsAuthPrompt] = useState(false);
@@ -47,7 +49,7 @@ const Comments = ({ animeDetails }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`https://localhost:7095/api/Comments?filmId=${animeDetails.id}`, {
+                const response = await axios.get(`${ANIME_ENDPOINTS.getComments}?animeId=${animeDetails.id}&animePartId=${partId}`, {
                     withCredentials: true
                 });
 
@@ -55,7 +57,7 @@ const Comments = ({ animeDetails }) => {
 
                 const userIds = comments.map(comment => comment.userId);
 
-                const usersResponse = await axios.post('https://localhost:7176/api/Users/byids',  userIds);
+                const usersResponse = await axios.post(USER_ENDPOINTS.getUsersByIds,  userIds);
                 const usersData = usersResponse.data;
 
                 const usersMap = {};
@@ -71,34 +73,25 @@ const Comments = ({ animeDetails }) => {
 
             } catch (error) {
                 //console.log(error);
+                setCommentsList([]);
             } finally {
                 setIsLoading(false);
             }
         }
         
         fetchGetComments();
-    }, [animeDetails.id, update]);
-
+    }, [animeDetails.id, update, partId]);
     
     //LIKE AND DISLIKE
 
-    const toLike = async (commentId, isDisliked) => {  
+    const toLike = async (commentId) => {  
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
+                await axios.post(`${ANIME_ENDPOINTS.commentLike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
                 console.error('Error liking comment:', error);
-            }
-            if (isDisliked) {
-                try {
-                    await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error disliking comment:', error);
-                }
             }
             setUpdate(!update);
         } else {
@@ -106,23 +99,14 @@ const Comments = ({ animeDetails }) => {
         }
     };
 
-    const toDisLike = async (commentId, isLiked) => {
+    const toDisLike = async (commentId) => {
         if (isAuth) {
             try {
-                await axios.post(`https://localhost:7095/api/Comments/dislike?commentId=${commentId}`, null, {
+                await axios.post(`${ANIME_ENDPOINTS.commentDislike}?commentId=${commentId}`, null, {
                     withCredentials: true
                 });
             } catch (error) {
                 console.error('Error disliking comment:', error);
-            }
-            if (isLiked) {
-                try {
-                    await axios.post(`https://localhost:7095/api/Comments/like?commentId=${commentId}`, null, {
-                        withCredentials: true
-                    });
-                } catch (error) {
-                    console.error('Error liking comment:', error);
-                }
             }
             setUpdate(!update);
         } else {
@@ -136,12 +120,13 @@ const Comments = ({ animeDetails }) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (comment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
-                        FilmId: animeDetails.id,
+                    await axios.post(ANIME_ENDPOINTS.createComment, {
+                        AnimeId: animeDetails.id,
+                        AnimePartId: partId === 0 ? null : partId,
                         ParentCommentId: null,
                         Text: comment
                     }, {
@@ -150,10 +135,10 @@ const Comments = ({ animeDetails }) => {
                     });
 
                     setComment('');
+                    setUpdate(!update);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);
@@ -300,7 +285,7 @@ const Comments = ({ animeDetails }) => {
                                     <div className={styles["comment-content"]}>
                                         <div className={styles["top-section"]}>
                                             <p className={styles["username"]}>{comment.user.userName} <span>{getTimeDifference(comment.date)}</span></p>
-                                            <FontAwesomeIcon icon={faEllipsis} />
+                                            {/* <FontAwesomeIcon icon={faEllipsis} /> */}
                                         </div>
                                         <div className={styles["comment"]}>
                                             {comment.text}
@@ -308,13 +293,13 @@ const Comments = ({ animeDetails }) => {
                                         <div className={styles["under-comment-section"]}>
                                             <div className={styles["left-section"]}>
                                                 <p className={styles["like"]}>
-                                                    {comment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(comment.id, comment.isDisliked)} />}
-                                                    {!comment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(comment.id, comment.isDisliked)} />}
+                                                    {comment.isLiked && <FontAwesomeIcon icon={solidHeart} onClick={() => toLike(comment.id)} />}
+                                                    {!comment.isLiked && <FontAwesomeIcon icon={regularHeart} onClick={() => toLike(comment.id)} />}
                                                     {comment.countLikes}
                                                 </p>
                                                 <p className={styles["dislike"]}>
-                                                    {comment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(comment.id, comment.isLiked)} />}
-                                                    {!comment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(comment.id, comment.isLiked)} />}
+                                                    {comment.isDisliked && <FontAwesomeIcon icon={faHeartCrack} onClick={() => toDisLike(comment.id)} />}
+                                                    {!comment.isDisliked && <FontAwesomeIcon icon={regularHeart} onClick={() => toDisLike(comment.id)} />}
                                                     {comment.countDislikes}
                                                 </p>
                                                 <p className={styles["see-comments"]}>
@@ -330,13 +315,22 @@ const Comments = ({ animeDetails }) => {
                                             <ReplyComment
                                                 animeId={animeDetails.id}
                                                 commentId={comment.id}
+                                                partId={partId}
                                                 setIsAuthPrompt={setIsAuthPrompt}
+                                                update={update}
+                                                setUpdate={setUpdate}
+                                                setReplyStates={setReplyStates}
+                                            />
+                                        }
+                                        
+                                        {showReplayedStates[comment.id] &&
+                                            <Subcomment c
+                                                commentId={comment.id}
+                                                comments={commentsList}
                                                 update={update}
                                                 setUpdate={setUpdate}
                                             />
                                         }
-                                        
-                                        {showReplayedStates[comment.id] && <Subcomment commentId={comment.id} comments={commentsList} /> }
 
                                     </div>      
                                 </div>   

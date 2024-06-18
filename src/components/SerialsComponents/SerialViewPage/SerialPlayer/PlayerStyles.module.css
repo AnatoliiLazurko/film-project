@@ -112,7 +112,7 @@
 
 .player {
     --plyr-color-main: #6D8EEB;
-    --plyr-video-background: #514F5A;
+    --plyr-video-background: black;
     animation: showPlayer 1s ease-in-out forwards;
 }
 

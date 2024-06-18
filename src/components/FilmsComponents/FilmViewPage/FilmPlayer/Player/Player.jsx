@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
+import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../../constants/filmEndpoints'
 
 const Player = ({ switchPlayer, filmDetails }) => {
+
+    const [sasToken, setSasToken] = useState();
+    const [plyrPropsState, setPlyrProps] = useState([]);
+
+    useEffect(() => {
+        
+        const fetchSasToken = async () => {
+            try {
+                const response = await axios.get(`${FILM_ENDPOINTS.getSasToken}?blobName=${filmDetails.fileName}`)
+
+                setSasToken(response.data);
+            } catch (error) {
+                //console.log('Getting sas token error: ' + error);
+            }
+        }
+
+        fetchSasToken();
+    }, [filmDetails]);
 
     const controls = [
       'play-large',
@@ -17,29 +37,35 @@ const Player = ({ switchPlayer, filmDetails }) => {
       'fullscreen',
     ];
 
-    const plyrProps = {
+    useEffect(() => {
         
-        source: {
-            type: 'video',
-            sources: 'https://blahofilmstorage.blob.core.windows.net/films/A Haunting in Venice (2023) [Ukr,Eng] BDRip-AVC [Hurtom].mkv?sv=2023-11-03&st=2024-05-19T12%3A36%3A49Z&se=2024-05-19T22%3A36%3A49Z&sr=b&sp=r&sig=GT1fRZGv%2BqCCqZIIx4H3FIHbgnOCrH79Le4VdfcJx%2Fw%3D',
-            poster: `${filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''}`,
-        },
-        options: {
-            controls,
-            settings: ['captions', 'quality', 'speed'],
-            captions: {
-                active: true,
-                update: true,
-                language: 'auto',
-            },
-            quality: {
-                default: 720,
-                options: [720],
-                forced: true,
-            },
-        },
+        const plyrProps = {
         
-    }
+            source: {
+                type: 'video',
+                sources: `${filmDetails.fileUri}?${sasToken}`,
+                poster: `${filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''}`,
+            },
+            options: {
+                controls,
+                settings: ['captions', 'quality', 'speed'],
+                captions: {
+                    active: true,
+                    update: true,
+                    language: 'auto',
+                },
+                quality: {
+                    default: 720,
+                    options: [720],
+                    forced: true,
+                },
+            },
+            
+        }
+
+        setPlyrProps(plyrProps);
+        
+    }, [sasToken]);
 
     // TRAILER
 
@@ -63,7 +89,7 @@ const Player = ({ switchPlayer, filmDetails }) => {
         },
     }
 
-    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+    const switchProps = switchPlayer === true ? plyrPropsState : plyrPropsTrailer;
 
     return (
         <>

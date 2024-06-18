@@ -3,8 +3,30 @@ import styles from './PayPalStyles.module.css';
 import { PayPalScriptProvider, PayPalButtons, } from '@paypal/react-paypal-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { TRANSACTION_ENDPOINTS } from '../../../constants/transactionEndpoints';
 
-const PayPalWindow = ({ closeWindow}) => {
+const PayPalWindow = ({ closeWindow, setUpdate, update }) => {
+
+    const clientId = "AYrY95Xxkr1UUigZ0tvccb1Uri57XfEdJlv1YxPtAquphFnIPtyHjwZYkiEQPL2SIVg5py8P70PWLFSP";
+    const planId = 'P-222361577E286225NMZYDTCQ';
+
+    const createSubscription = async (orderId, subscriptionId) => {
+        try {
+
+            await axios.post(TRANSACTION_ENDPOINTS.subscribe, {
+                OrderId: orderId,
+                SubscriptionId: subscriptionId
+            }, {
+                withCredentials: true
+            });
+
+            setUpdate(!update);
+            closeWindow(false);
+        } catch (error) {
+            console.error('Error creating subscription:' + error);
+        }
+    };
 
     return (
         <>
@@ -16,7 +38,7 @@ const PayPalWindow = ({ closeWindow}) => {
 
                 <PayPalScriptProvider
                     options={{
-                        clientId: "AeqVdBK1q_pZAnCOvDIWMRAewzjqhX6vhdLp1m2RYa6W9oG4SbY8vHuihX64cV1muy4hm8AVzYzsQSz5",
+                        clientId: clientId,
                         components: "buttons",
                         intent: "subscription",
                         vault: true,
@@ -25,11 +47,11 @@ const PayPalWindow = ({ closeWindow}) => {
                     <PayPalButtons
                         createSubscription={(data, actions) => {
                             return actions.subscription.create({
-                            plan_id: 'P-8CV30739AW495690XMYBOEEY',
+                            plan_id: planId,
                             });
                         }}
                         onApprove={(data, actions) => {
-                            console.log('Subscription approved:', data.subscriptionID);
+                            createSubscription(data.orderID, data.subscriptionID);
                         }}
                         style={{
                             label: "subscribe",

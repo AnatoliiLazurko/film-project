@@ -7,6 +7,14 @@ import { NavLink } from 'react-router-dom';
 
 const NewFilmCard = ({ films }) => {
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     useEffect(() => {
         const handleMouseEnter = (event) => {
             handleFilmInfoPositioning(event, styles);
@@ -22,10 +30,10 @@ const NewFilmCard = ({ films }) => {
                 questionMark.removeEventListener('mouseenter', handleMouseEnter);
             });
         };
-    }, []);
+    }, [films]);
 
     return (
-        <NavLink to={`/film-view/${films.genres[0].name.toLowerCase()}/${films.id}`} className={styles["film-card"]}>
+        <NavLink to={`/film-view/${films.genres[0].name.toLowerCase().replace(/ /g, '_')}/${films.id}`} className={styles["film-card"]}>
             <div className={styles["film-poster"]}>
                 <img src={films.poster ? `data:image/jpeg;base64,${films.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
@@ -46,7 +54,7 @@ const NewFilmCard = ({ films }) => {
                         <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {films.description}
+                            {truncateDescription(films.description, 300)}
                         </p>
                     </div>
                 </div>

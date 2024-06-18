@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
 import OtherCartoons from './OtherCartoons/OtherCartoons';
 import Comments from './Comments/Comments';
@@ -10,6 +10,8 @@ import { fetchCartoonDetails } from '../../../slices/cartoonsSlices/CartoonDetai
 import { fetchCartoons } from '../../../slices/cartoonsSlices/CartoonsSlice';
 
 const CartoonView = () => {
+
+    const [partId, setPartId] = useState();
 
     const { category, id } = useParams();
     const dispatch = useDispatch();
@@ -25,7 +27,8 @@ const CartoonView = () => {
             {
                 pageNumber: 1,
                 pageSize: 6,
-                categories: categoryFilter,
+                //categories: categoryFilter,
+                genres: categoryFilter
             }
         ));
         
@@ -58,11 +61,11 @@ const CartoonView = () => {
             
             <ViewInfo cartoonDetails={cartoonDetails} />
 
-            <CartoonPlayer cartoonDetails={cartoonDetails} />
+            <CartoonPlayer cartoonDetails={cartoonDetails} setPartId={setPartId} />
 
             <OtherCartoons cartoons={cartoonsData} />
 
-            <Comments cartoonDetails={cartoonDetails} />
+            <Comments cartoonDetails={cartoonDetails} partId={partId} />
 
         </>
     );

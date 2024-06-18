@@ -6,6 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleFilmInfoPositioning } from './FilmsListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../../constants/filmEndpoints';
 
 const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
 
@@ -51,7 +52,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
 
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(FILM_ENDPOINTS.countPages, {
                     Genres: genreFilter,
                     Studios: studioFilter
                 }, {
@@ -99,13 +100,21 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [films]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["films-list"]}>
     
                 {films.map((film, index) => (
                     
-                    <NavLink to={`/film-view/${film.genres[0].name.toLowerCase()}/${film.id}`} className={styles["film-card"]} key={index}>
+                    <NavLink to={`/film-view/${film.genres[0].name.toLowerCase().replace(/ /g, '_')}/${film.id}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
                             <img src={film.poster ? `data:image/jpeg;base64,${film.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -126,7 +135,7 @@ const FilmsList = ({ films, setCurrentPage, currentPage, pageSize }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {film.description}
+                                        {truncateDescription(film.description, 300)}
                                     </p>
                                 </div>
                             </div>

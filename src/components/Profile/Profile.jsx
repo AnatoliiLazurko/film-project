@@ -8,6 +8,11 @@ import { NavLink } from 'react-router-dom';
 import noneUserAvatar from '../../images/profile/user_avatar.jpg'
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../constants/userEndpoints';
+import { FILM_ENDPOINTS } from '../../constants/filmEndpoints';
+import { SERIAL_ENDPOINTS } from '../../constants/serialEndpoints';
+import { CARTOON_ENDPOINTS } from '../../constants/cartoonEndpoints';
+import { ANIME_ENDPOINTS } from '../../constants/animeEndpoints';
 
 const Profile = () => {
 
@@ -34,9 +39,18 @@ const Profile = () => {
 
     const fetchHistory = async () => {
         try {
-            const response = await axios.get(`https://localhost:7176/api/History`, { withCredentials: true });
+            const response = await axios.get(USER_ENDPOINTS.getHistory, { withCredentials: true });
             const historyArray = response.data;
-            setHistoryNumber(historyArray.length);
+
+            const uniqueMedia = new Set();
+
+            historyArray.forEach(item => {
+                const uniqueKey = `${item.mediaId}-${item.mediaTypeId}`;
+                uniqueMedia.add(uniqueKey);
+            });
+
+            const uniqueMediaCount = uniqueMedia.size;
+            setHistoryNumber(uniqueMediaCount);
 
             const filteredArray = filterHistory(historyArray);
 
@@ -44,59 +58,68 @@ const Profile = () => {
                 .filter(item => item.mediaTypeId === 1)
                 .map(item => item.mediaId);
 
-            const filmsResponse = await axios.post('https://localhost:7095/api/Films/byids', filmsIds, { withCredentials: true });
-
-            if (filmsResponse.data) {
-                filmsResponse.data.forEach(film => {
-                    film.mediaType = "film";
-                });
+            try {
+                const filmsResponse = await axios.post(FILM_ENDPOINTS.getFilmsByIds, filmsIds, { withCredentials: true });
+                if (filmsResponse.data) {
+                    filmsResponse.data.forEach(film => {
+                        film.mediaType = "film";
+                    });
+                }
+                setHistoryFilms(filmsResponse.data);
+            } catch (error) {
+                console.error('Error fetching films: ' + error);
             }
 
-            setHistoryFilms(filmsResponse.data);
+            const serialsIds = filteredArray
+                .filter(item => item.mediaTypeId === 2)
+                .map(item => item.mediaId);
 
-            // const serialsIds = filteredArray
-            //     .filter(item => item.mediaTypeId === 2)
-            //     .map(item => item.mediaId);
+            try {
+                const serialsResponse = await axios.post(SERIAL_ENDPOINTS.getSerialsByIds, serialsIds, { withCredentials: true });
+                if (serialsResponse.data) {
+                    serialsResponse.data.forEach(serial => {
+                        serial.mediaType = "serial";
+                    });
+                }
+                setHistorySerials(serialsResponse.data);
+            } catch (error) {
+                console.error('Error fetching serials: ' + error);
+            }
 
-            // const serialsResponse = await axios.post('https://localhost:7095/api/Serials/byids', serialsIds, { withCredentials: true });
+            const cartoonsIds = filteredArray
+                .filter(item => item.mediaTypeId === 3)
+                .map(item => item.mediaId);
 
-            // if (serialsResponse.data) {
-            //     serialsResponse.data.forEach(film => {
-            //         film.mediaType = "serial";
-            //     });
-            // }
+            try {
+                const cartoonsResponse = await axios.post(CARTOON_ENDPOINTS.getCartoonsByIds, cartoonsIds, { withCredentials: true });
+                if (cartoonsResponse.data) {
+                    cartoonsResponse.data.forEach(cartoon => {
+                        cartoon.mediaType = "cartoon";
+                    });
+                }
+                setHistoryCartoons(cartoonsResponse.data);
+            } catch (error) {
+                console.error('Error fetching cartoons: ' + error);
+            }
 
-            //setHistorySerials(serialsResponse.data);
+            const animeIds = filteredArray
+                .filter(item => item.mediaTypeId === 4)
+                .map(item => item.mediaId);
 
-            // const cartoonsIds = filteredArray
-            //     .filter(item => item.mediaTypeId === 3)
-            //     .map(item => item.mediaId);
+            try {
+                const animeResponse = await axios.post(ANIME_ENDPOINTS.getAnimeByIds, animeIds, { withCredentials: true });
+                if (animeResponse.data) {
+                    animeResponse.data.forEach(anime => {
+                        anime.mediaType = "anime";
+                    });
+                }
+                setHistoryAnime(animeResponse.data);
+            } catch (error) {
+                console.error('Error fetching anime: ' + error);
+            }
 
-            // const cartoonsResponse = await axios.post('https://localhost:7095/api/Cartoons/byids', cartoonsIds, { withCredentials: true });
-
-            // if (cartoonsResponse.data) {
-            //     cartoonsResponse.data.forEach(film => {
-            //         film.mediaType = "cartoon";
-            //     });
-            // }
-
-            //setHistoryCartoons(cartoonsResponse.data);
-
-            // const animeIds = filteredArray
-            //     .filter(item => item.mediaTypeId === 4)
-            //     .map(item => item.mediaId);
-
-            // const animeResponse = await axios.post('https://localhost:7095/api/Anime/byids', animeIds, { withCredentials: true });
-
-            // if (animeResponse.data) {
-            //     animeResponse.data.forEach(film => {
-            //         film.mediaType = "anime";
-            //     });
-            // }
-
-            //setHistoryAnime(animeResponse.data);
         } catch (error) {
-            console.error('Getting history list arror: ' + error);
+            console.error('Getting history list error: ' + error);
         } finally {
             setLoadingHistory(false);
         }
@@ -146,67 +169,84 @@ const Profile = () => {
 
     const fetchBooked = async () => {
         try {
-            const response = await axios.get(`https://localhost:7176/api/BookMarks`, { withCredentials: true });
+            const response = await axios.get(USER_ENDPOINTS.isBooked, { withCredentials: true });
             const bookedArray = response.data;
             setBookedNumber(bookedArray.length);
 
-            const filmsIds = bookedArray
-                .filter(item => item.mediaTypeId === 1)
-                .map(item => item.mediaId);
+            // Запит для фільмів
+            try {
+                const filmsIds = bookedArray
+                    .filter(item => item.mediaTypeId === 1)
+                    .map(item => item.mediaId);
 
-            const filmsResponse = await axios.post('https://localhost:7095/api/Films/byids', filmsIds, { withCredentials: true });
+                const filmsResponse = await axios.post(FILM_ENDPOINTS.getFilmsByIds, filmsIds, { withCredentials: true });
 
-            if (filmsResponse.data) {
-                filmsResponse.data.forEach(film => {
-                    film.mediaType = "film";
-                });
+                if (filmsResponse.data) {
+                    filmsResponse.data.forEach(film => {
+                        film.mediaType = "film";
+                    });
+                }
+                setBookedFilms(filmsResponse.data);
+            } catch (error) {
+                console.error('Error fetching booked films: ' + error);
             }
 
-            setBookedFilms(filmsResponse.data);
+            // Запит для серіалів
+            try {
+                const serialsIds = bookedArray
+                    .filter(item => item.mediaTypeId === 2)
+                    .map(item => item.mediaId);
 
-            // const serialsIds = bookedArray
-            //     .filter(item => item.mediaTypeId === 2)
-            //     .map(item => item.mediaId);
+                const serialsResponse = await axios.post(SERIAL_ENDPOINTS.getSerialsByIds, serialsIds, { withCredentials: true });
 
-            // const serialsResponse = await axios.post('https://localhost:7095/api/Serials/byids', serialsIds, { withCredentials: true });
+                if (serialsResponse.data) {
+                    serialsResponse.data.forEach(serial => {
+                        serial.mediaType = "serial";
+                    });
+                }
+                setBookedSerials(serialsResponse.data);
+            } catch (error) {
+                console.error('Error fetching booked serials: ' + error);
+            }
 
-            // if (serialsResponse.data) {
-            //     serialsResponse.data.forEach(film => {
-            //         film.mediaType = "serial";
-            //     });
-            // }
+            // Запит для мультфільмів
+            try {
+                const cartoonsIds = bookedArray
+                    .filter(item => item.mediaTypeId === 3)
+                    .map(item => item.mediaId);
 
-            // setBookedSerials(serialsResponse.data);
+                const cartoonsResponse = await axios.post(CARTOON_ENDPOINTS.getCartoonsByIds, cartoonsIds, { withCredentials: true });
 
-            // const cartoonsIds = bookedArray
-            //     .filter(item => item.mediaTypeId === 3)
-            //     .map(item => item.mediaId);
+                if (cartoonsResponse.data) {
+                    cartoonsResponse.data.forEach(cartoon => {
+                        cartoon.mediaType = "cartoon";
+                    });
+                }
+                setBookedCartoons(cartoonsResponse.data);
+            } catch (error) {
+                console.error('Error fetching booked cartoons: ' + error);
+            }
 
-            // const cartoonsResponse = await axios.post('https://localhost:7095/api/Cartoons/byids', cartoonsIds, { withCredentials: true });
+            // Запит для аніме
+            try {
+                const animeIds = bookedArray
+                    .filter(item => item.mediaTypeId === 4)
+                    .map(item => item.mediaId);
 
-            // if (cartoonsResponse.data) {
-            //     cartoonsResponse.data.forEach(film => {
-            //         film.mediaType = "cartoon";
-            //     });
-            // }
+                const animeResponse = await axios.post(ANIME_ENDPOINTS.getAnimeByIds, animeIds, { withCredentials: true });
 
-            // setBookedCartoons(cartoonsResponse.data);
+                if (animeResponse.data) {
+                    animeResponse.data.forEach(anime => {
+                        anime.mediaType = "anime";
+                    });
+                }
+                setBookedAnime(animeResponse.data);
+            } catch (error) {
+                console.error('Error fetching booked anime: ' + error);
+            }
 
-            // const animeIds = bookedArray
-            //     .filter(item => item.mediaTypeId === 4)
-            //     .map(item => item.mediaId);
-
-            // const animeResponse = await axios.post('https://localhost:7095/api/Anime/byids', animeIds, { withCredentials: true });
-
-            // if (animeResponse.data) {
-            //     animeResponse.data.forEach(film => {
-            //         film.mediaType = "anime";
-            //     });
-            // }
-
-            // setBookedAnime(animeResponse.data);
         } catch (error) {
-            //console.error('Getting booked list arrero: ' + error);
+            console.error('Getting booked list error: ' + error);
         } finally {
             setLoadingBooked(false);
         }

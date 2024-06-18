@@ -5,15 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretRight, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const FilmPlayer = ({ filmDetails }) => {
 
     const { isAuth } = useAuth();
 
-    const voiceActingArray = ['English'];
+    const voiceActingArray = ['Ukrainian'];
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
-    const [voiceActing, setVoiceActing] = useState('English');
+    const [voiceActing, setVoiceActing] = useState('Ukrainian');
     const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
     const selectRef = useRef(null);
 
@@ -52,7 +53,7 @@ const FilmPlayer = ({ filmDetails }) => {
                     seasonNumber: 0, 
                 };
 
-                await axios.post('https://localhost:7176/api/History', data, { withCredentials: true });
+                await axios.post(USER_ENDPOINTS.addHistory, data, { withCredentials: true });
             } catch (error) {
                 //console.error('Adding history: ' + error);
             }

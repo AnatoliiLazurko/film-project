@@ -8,6 +8,7 @@ import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const ViewInfo = ({ serialDetails }) => {
 
@@ -22,7 +23,7 @@ const ViewInfo = ({ serialDetails }) => {
     useEffect(() => {
         const fetchBooked = async () => {
             try {
-                const response = await axios.get('https://localhost:7176/api/BookMarks', { withCredentials: true });
+                const response = await axios.get(USER_ENDPOINTS.isBooked, { withCredentials: true });
                 setBookedList(response.data);
             } catch (error) {
                 //console.error('Getting booked list error: ' + error);
@@ -36,7 +37,7 @@ const ViewInfo = ({ serialDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === serialDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === serialDetails.id && media.mediaTypeId === 2);
             setSaved(isBookmarked);
         }
     }, [bookedList]);
@@ -46,7 +47,7 @@ const ViewInfo = ({ serialDetails }) => {
             setSaved(!isSaved);
 
             try {
-                await axios.post('https://localhost:7176/api/BookMarks', {
+                await axios.post(USER_ENDPOINTS.makeBook, {
                     mediaId: serialDetails.id,
                     mediaTypeId: 2
                 }, {
@@ -75,7 +76,7 @@ const ViewInfo = ({ serialDetails }) => {
                 <div className={styles["path"]}>
                     <NavLink to={'/serials/genre=u/studio=u/date=u/popular=u/1'}>Serials</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
-                    <NavLink to={`/serials/${serialDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/studio=u/date=u/popular=u/1`}>{serialDetails.genres?.[0]?.name ?? ''}</NavLink>
+                    <NavLink to={`/serials/${serialDetails.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/studio=u/date=u/popular=u/1`}>{serialDetails.genres?.[0]?.name ?? ''}</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <span>{serialDetails.title}</span>
                 </div>

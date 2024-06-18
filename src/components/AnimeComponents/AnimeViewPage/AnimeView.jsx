@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewInfo from './ViewInfo/ViewInfo';
 import OtherAnime from './OtherAnime/OtherAnime';
 import Comments from './Comments/Comments';
@@ -8,7 +8,10 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnimeDetails } from '../../../slices/animeSlices/AnimeDetailsSlice';
 import { fetchAnime } from '../../../slices/animeSlices/AnimeSlice';
+
 const AnimeView = () => {
+
+    const [partId, setPartId] = useState();
 
     const { genre, id } = useParams();
     const dispatch = useDispatch();
@@ -38,6 +41,8 @@ const AnimeView = () => {
         console.log("Anime details error: " + error);
     }
 
+    
+
     // OTHER ANIME
 
     const animeData = useSelector((state) => state.anime.anime); 
@@ -52,16 +57,18 @@ const AnimeView = () => {
         return <Spinner />;
     }
 
+    //console.log(animeDetails);
+
     return (
         <>
 
             <ViewInfo animeDetails={animeDetails}/>
 
-            <AnimePlayer animeDetails={animeDetails} />
+            <AnimePlayer animeDetails={animeDetails} setPartId={setPartId} />
 
             <OtherAnime anime={animeData} />
 
-            <Comments animeDetails={animeDetails} />
+            <Comments animeDetails={animeDetails} partId={partId} />
 
         </>
     );

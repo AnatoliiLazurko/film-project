@@ -24,6 +24,14 @@ const OtherFilms = ({ films }) => {
         };
     }, [films]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <div className={styles["other-section"]}>
             <p className={styles["other-txt"]}>Other films</p>
@@ -31,7 +39,7 @@ const OtherFilms = ({ films }) => {
             <div className={styles["list-other-films"]}>
 
                 {films.map((film, index) => (
-                    <NavLink to={`/film-view/${film.genres?.[0]?.name?.toLowerCase() ?? ''}/${film.id}`} className={styles["film-card"]} key={index}>
+                    <NavLink to={`/film-view/${film.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/${film.id}`} className={styles["film-card"]} key={index}>
                         <div className={styles["film-poster"]}>
                             <img src={film.poster ? `data:image/jpeg;base64,${film.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -52,7 +60,7 @@ const OtherFilms = ({ films }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {film.description}
+                                        {truncateDescription(film.description)}
                                     </p>
                                 </div>
                             </div>

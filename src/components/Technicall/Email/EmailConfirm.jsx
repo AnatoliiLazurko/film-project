@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../constants/userEndpoints';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -21,7 +22,9 @@ const EmailConfirm = () => {
         if (token) {   
             const fetchEmailConfirm = async () => {
                 try {
-                    await axios.post(`https://localhost:7176/api/Auth/emailconfirm?token=${token}`);
+                    await axios.post(`${USER_ENDPOINTS.emailConfirm}?token=${token}`);
+
+                    setError();
                 } catch (error) {
                     //console.error('Error email confirming: ', error);
                     setError(error.response.data);

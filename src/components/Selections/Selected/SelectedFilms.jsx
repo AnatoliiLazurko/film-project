@@ -9,14 +9,14 @@ import { fetchFilms } from '../../../slices/filmsSlices/FilmsSlice';
 import Spinner from '../../Technicall/Spinner/Spinner';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { FILM_ENDPOINTS } from '../../../constants/filmEndpoints';
 
-const Selected = () => {
+const SelectedFilms = () => {
 
     const [totalPages, setTotalPages] = useState(9);
     const navigate = useNavigate();
 
-    const { type, selected, page } = useParams();
-    const editedType = type.endsWith("s") ? type.slice(0, -1) : type;
+    const { selected, page } = useParams();
 
     const initialPage = parseInt(page) || 1;
     const [currentPage, setCurrentPage] = useState(initialPage);
@@ -28,7 +28,7 @@ const Selected = () => {
         
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(FILM_ENDPOINTS.countPages, {
                     Genres: [],
                     Studios: [],
                     Selections: selectedFilter
@@ -68,7 +68,7 @@ const Selected = () => {
 
     const selectionData = useSelector((state) => state.films.films); 
     const isLoadingSelection = useSelector((state) => state.films.isLoading);
-    const selectionError = useSelector((state) => state.films.error)
+    const selectionError = useSelector((state) => state.films.error);
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -98,8 +98,16 @@ const Selected = () => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
 
-        const newPath = `/selection/${type}/${selected}/${pageNumber}`;
+        const newPath = `/selection/films/${selected}/${pageNumber}`;
         navigate(newPath);
+    };
+
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
     };
 
     return (
@@ -111,7 +119,7 @@ const Selected = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/${editedType}-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/film-view/${movie.genres[0].name.toLowerCase().replace(/ /g, '_')}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
                              <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -132,7 +140,7 @@ const Selected = () => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {movie.description}
+                                        {truncateDescription(movie.description, 300)}
                                     </p>
                                 </div>
                             </div>
@@ -151,4 +159,4 @@ const Selected = () => {
     );
 }
 
-export default Selected;
+export default SelectedFilms;

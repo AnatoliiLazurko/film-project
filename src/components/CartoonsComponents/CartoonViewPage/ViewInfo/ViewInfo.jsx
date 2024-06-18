@@ -8,6 +8,7 @@ import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const ViewInfo = ({ cartoonDetails }) => {
 
@@ -22,7 +23,7 @@ const ViewInfo = ({ cartoonDetails }) => {
     useEffect(() => {
         const fetchBooked = async () => {
             try {
-                const response = await axios.get('https://localhost:7176/api/BookMarks', { withCredentials: true });
+                const response = await axios.get(USER_ENDPOINTS.isBooked, { withCredentials: true });
                 setBookedList(response.data);
             } catch (error) {
                 //console.error('Getting booked list error: ' + error);
@@ -36,7 +37,7 @@ const ViewInfo = ({ cartoonDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === cartoonDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === cartoonDetails.id && media.mediaTypeId === 3);
             setSaved(isBookmarked);
         }
     }, [bookedList]);
@@ -46,7 +47,7 @@ const ViewInfo = ({ cartoonDetails }) => {
             setSaved(!isSaved);
 
             try {
-                await axios.post('https://localhost:7176/api/BookMarks', {
+                await axios.post(USER_ENDPOINTS.makeBook, {
                     mediaId: cartoonDetails.id,
                     mediaTypeId: 3
                 }, {
@@ -75,8 +76,8 @@ const ViewInfo = ({ cartoonDetails }) => {
                 <div className={styles["path"]}>
                     <NavLink to={'/cartoons/category=u/animation=u/studio=u/date=u/popular=u/1'}>Cartoons</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
-                    <NavLink to={`/cartoons/${cartoonDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/animation=u/studio=u/date=u/popular=u/1'`}>
-                        {cartoonDetails.genres?.[0]?.name ?? ''}
+                    <NavLink to={`/cartoons/${cartoonDetails.categories?.[0]?.name?.toLowerCase() ?? ''}/animation=u/studio=u/date=u/popular=u/1'`}>
+                        {cartoonDetails.categories?.[0]?.name ?? ''}
                     </NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <span>{cartoonDetails.title}</span>

@@ -6,6 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleCartoonInfoPositioning } from './CartoonsListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
 const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
 
@@ -19,6 +20,7 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
 
     const categoryFilter = [];
     const studioFilter = [];
+    const animationFilter = [];
 
     useEffect(() => {
         if (date === 'from_old_to_new') {
@@ -49,11 +51,16 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
             studioFilter.push(studio.replace(/_/g, ' '));
         }
 
+        if (animation !== 'animation=u') {
+            animationFilter.push(animation.replace(/_/g, ' '));
+        }
+
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
-                    Genres: categoryFilter,
-                    Studios: studioFilter
+                const response = await axios.post(CARTOON_ENDPOINTS.countPages, {
+                    Categories: categoryFilter,
+                    Studios: studioFilter,
+                    AnimationType: animationFilter,
                 }, {
                     params: {    
                         pageSize: pageSize,
@@ -100,13 +107,21 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [cartoons]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["cartoons-list"]}>
             
                 {cartoons.map((cartoon, index) => (
                     
-                    <NavLink to={`/cartoon-view/${cartoon.genres[0].name.toLowerCase()}/${cartoon.id}`} className={styles["cartoon-card"]} key={index}>
+                    <NavLink to={`/cartoon-view/${cartoon.genres[0].name.toLowerCase().replace(/ /g, '_')}/${cartoon.id}`} className={styles["cartoon-card"]} key={index}>
                         <div className={styles["cartoon-poster"]}>
                             <img src={cartoon.poster ? `data:image/jpeg;base64,${cartoon.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -121,13 +136,13 @@ const CartoonList = ({ cartoons, setCurrentPage, currentPage, pageSize }) => {
                                         <p>Release year: {new Date(cartoon.dateOfPublish).getFullYear()}</p>
                                         <p>Country: {cartoon.country}</p>
                                         <p>Genre: {cartoon.genres.map(genre => genre.name).join(', ')}</p>
-                                        <p>Actors: {cartoon.actors}</p>
+                                        {/* <p>Actors: {cartoon.actors}</p> */}
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {cartoon.description}
+                                        {truncateDescription(cartoon.description, 300)}
                                     </p>
                                 </div>
                             </div>

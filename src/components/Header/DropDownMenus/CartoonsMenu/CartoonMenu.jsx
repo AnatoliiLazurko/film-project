@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './CartoonMenuStyles.module.css';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
 const CartoonMenu = () => {
 
@@ -12,7 +13,7 @@ const CartoonMenu = () => {
     useEffect(() => {
         const fetchCaegories = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/genres');
+                const response = await axios.get(CARTOON_ENDPOINTS.getCategories);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -30,26 +31,25 @@ const CartoonMenu = () => {
 
     // ANIMATION
 
-    const ArrayAnimations = ['3D', '2D', 'Clay animation', 'Stop-motion animation']
-    // const [animations, setAnimations] = useState([]);
+    const [animations, setAnimations] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchStudios = async () => {
-    //         try {
-    //             const response = await axios.get('https://localhost:7095/api/Films/studios ');
-    //             setAnimations(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching genres:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchAnimations = async () => {
+            try {
+                const response = await axios.get(CARTOON_ENDPOINTS.getAnimations);
+                setAnimations(response.data);
+            } catch (error) {
+                console.error('Error fetching genres:', error);
+            }
+        };
 
-    //     fetchStudios();
-    // }, []);
+        fetchAnimations();
+    }, []);
 
     const rowsAnimations = [];
   
-    for (let i = 0; i < ArrayAnimations.length; i += 5) {
-        rowsAnimations.push(ArrayAnimations.slice(i, i + 5));
+    for (let i = 0; i < animations.length; i += 5) {
+        rowsAnimations.push(animations.slice(i, i + 5));
     }
 
     // STUDIOS
@@ -59,7 +59,7 @@ const CartoonMenu = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const response = await axios.get('https://localhost:7095/api/Films/studios ');
+                const response = await axios.get(CARTOON_ENDPOINTS.getStudios);
                 setStudios(response.data);
             } catch (error) {
                 console.error('Error fetching genres:', error);
@@ -99,7 +99,7 @@ const CartoonMenu = () => {
                             <div className={styles["column"]} key={rowIndex}>
                             {row.map((animation, index) => (
                                 <div className={styles["row"]} key={index}>
-                                    <NavLink to={`/cartoons/category=u/${animation.toLowerCase().replace(/ /g, '_')}/studio=u/date=u/popular=u/1`}>{animation}</NavLink>
+                                    <NavLink to={`/cartoons/category=u/${animation.name.toLowerCase().replace(/ /g, '_')}/studio=u/date=u/popular=u/1`}>{animation.name}</NavLink>
                                 </div>
                             ))}
                             </div>

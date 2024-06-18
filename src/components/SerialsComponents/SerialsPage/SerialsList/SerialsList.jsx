@@ -6,6 +6,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { handleSerialInfoPositioning } from './SerialsListScripts';
 import Pagination from './Pagination/Pagination';
 import axios from 'axios';
+import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
 
 const SerialsList = ({ serials, setCurrentPage, currentPage, pageSize }) => {
 
@@ -51,7 +52,7 @@ const SerialsList = ({ serials, setCurrentPage, currentPage, pageSize }) => {
 
         async function fetchTotalPages() {
             try {
-                const response = await axios.post("https://localhost:7095/api/Films/countpagesbyfiltersandsorting", {
+                const response = await axios.post(SERIAL_ENDPOINTS.countPages, {
                     Genres: genreFilter,
                     Studios: studioFilter
                 }, {
@@ -98,13 +99,21 @@ const SerialsList = ({ serials, setCurrentPage, currentPage, pageSize }) => {
         };
     }, [serials]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <>
             <div className={styles["serials-list"]}>
             
                 {serials.map((serial, index) => (
                     
-                    <NavLink to={`/serial-view/${serial.genres[0].name.toLowerCase()}/${serial.id}`} className={styles["serial-card"]} key={index}>
+                    <NavLink to={`/serial-view/${serial.genres[0].name.toLowerCase().replace(/ /g, '_')}/${serial.id}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
                             <img src={serial.poster ? `data:image/jpeg;base64,${serial.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -125,7 +134,7 @@ const SerialsList = ({ serials, setCurrentPage, currentPage, pageSize }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {serial.description}
+                                        {truncateDescription(serial.description, 300)}
                                     </p>
                                 </div>
                             </div>

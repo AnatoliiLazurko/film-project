@@ -24,6 +24,14 @@ const OtherAnime = ({ anime }) => {
         };
     }, [anime]);
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     return (
         <div className={styles["other-section"]}>
             <p className={styles["other-txt"]}>Other anime</p>
@@ -31,7 +39,7 @@ const OtherAnime = ({ anime }) => {
             <div className={styles["list-other-anime"]}>
 
                 {anime.map((anime, index) => (
-                    <NavLink to={`/anime-view/${anime.genres?.[0]?.name?.toLowerCase() ?? ''}/${anime.id}`} className={styles["anime-card"]} key={index}>
+                    <NavLink to={`/anime-view/${anime.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/${anime.id}`} className={styles["anime-card"]} key={index}>
                         <div className={styles["anime-poster"]}>
                             <img src={anime.poster ? `data:image/jpeg;base64,${anime.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -52,7 +60,7 @@ const OtherAnime = ({ anime }) => {
                                     <div className={styles["info-description"]}>
                                     <h1>Description</h1>
                                     <p>
-                                        {anime.description}
+                                        {truncateDescription(anime.description)}
                                     </p>
                                 </div>
                             </div>

@@ -5,8 +5,9 @@ import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { ANIME_ENDPOINTS } from '../../../../constants/animeEndpoints';
 
-const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }) => {
+const ReplyComment = ({ animeId, commentId, partId, setIsAuthPrompt, update, setUpdate, setReplyStates }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -23,12 +24,13 @@ const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }
         setReplyComment(replyComment + emoji);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
-                        animeId: animeId,
+                    await axios.post(ANIME_ENDPOINTS.createComment, {
+                        AnimeId: animeId,
+                        AnimePartId: partId === 0 ? null : partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {
@@ -37,10 +39,11 @@ const ReplyComment = ({ animeId, commentId, setIsAuthPrompt, update, setUpdate }
                     });
 
                     setReplyComment('');
+                    setUpdate(!update);
+                    setReplyStates([]);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);

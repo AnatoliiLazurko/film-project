@@ -5,8 +5,9 @@ import { faFaceSmile, } from '@fortawesome/free-regular-svg-icons';
 import noneUserAvatar from '../../../../images/profile/user_avatar.jpg';
 import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
+import { CARTOON_ENDPOINTS } from '../../../../constants/cartoonEndpoints';
 
-const ReplyComment = ({ cartoonId, commentId, setIsAuthPrompt, update, setUpdate }) => {
+const ReplyComment = ({ cartoonId, commentId, partId, setIsAuthPrompt, update, setUpdate, setReplyStates }) => {
 
     const { isAuth, user } = useAuth();
 
@@ -23,12 +24,13 @@ const ReplyComment = ({ cartoonId, commentId, setIsAuthPrompt, update, setUpdate
         setReplyComment(replyComment + emoji);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post('https://localhost:7095/api/Comments', {
+                    await axios.post(CARTOON_ENDPOINTS.createComment, {
                         cartoonId: cartoonId,
+                        CartoonPartId: partId === 0 ? null : partId,
                         ParentCommentId: commentId,
                         Text: replyComment
                     }, {
@@ -37,10 +39,11 @@ const ReplyComment = ({ cartoonId, commentId, setIsAuthPrompt, update, setUpdate
                     });
 
                     setReplyComment('');
+                    setUpdate(!update);
+                    setReplyStates([]);
                 } catch (error) {
                     console.log("Add comment error: " + error)
                 }
-                setUpdate(!update);
             }
         } else {
             setIsAuthPrompt(true);

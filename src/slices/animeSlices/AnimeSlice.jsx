@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ANIME_ENDPOINTS } from '../../constants/animeEndpoints';
 
 const initialState = {
     anime: [],
@@ -10,11 +11,11 @@ const initialState = {
 export const fetchAnime = createAsyncThunk(
     'fetchAnime',
     async (payload) => {
-        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, studios } = payload;
+        const { pageNumber, pageSize, sortByDate, sortByPopularity, genres, selections } = payload;
     
-        const response = await axios.post('https://localhost:7095/api/Films/byfiltersandsorting', {
+        const response = await axios.post(ANIME_ENDPOINTS.anime, {
             Genres: genres,
-            Studios: studios
+            Selections: selections,
         },  {
             params: {    
                 pageNumber: pageNumber,

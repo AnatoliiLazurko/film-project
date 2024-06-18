@@ -1,8 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
+import axios from 'axios';
+import { ANIME_ENDPOINTS } from '../../../../../constants/animeEndpoints';
 
-const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) => {
+const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists }) => {
+
+    const [partData, setPartData] = useState([]);
+    const [sasToken, setSasToken] = useState();
+    const [plyrPropsState, setPlyrProps] = useState([]);
+    
+    useEffect(() => {      
+        const fetchEpisod = async () => {
+            try {
+                const response = await axios.get(ANIME_ENDPOINTS.getPartById, {
+                    params: {
+                        Id: episodeId,
+                    }
+                });
+
+                setPartData(response.data);
+            } catch (error) {
+                console.log("Fetch episod error: " + error);
+            }
+        }
+        
+        if (partExists) {
+            fetchEpisod();
+        }
+        
+    }, [animeDetails, episodeId]);
+
+    useEffect(() => { 
+        const fileName = partExists ? partData.fileName : animeDetails.fileName;
+
+        const fetchSasToken = async () => {
+            try {
+                const response = await axios.get(`${ANIME_ENDPOINTS.getSasToken}?blobName=${fileName}`);
+
+                setSasToken(response.data);
+            } catch (error) {
+                console.log("Fetch sastoken error: " + error);
+            }
+        }
+        
+        fetchSasToken();      
+
+    }, [animeDetails, partData]);
 
     const controls = [
       'play-large',
@@ -17,30 +61,36 @@ const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) =>
       'fullscreen',
     ];
 
+    useEffect(() => {
+        
+        const plyrProps = {
+            
+            source: {
+                type: 'video',
+                sources: `${partExists ? partData.fileUri : animeDetails.fileUri}?${sasToken}`,
+                poster: `${animeDetails.poster ? `data:image/jpeg;base64,${animeDetails.poster}` : ''}`,
+            },
+            options: {
+                controls,
+                settings: ['captions', 'quality', 'speed'],
+                captions: {
+                    active: true,
+                    update: true,
+                    language: 'auto',
+                },
+                quality: {
+                    default: 720,
+                    options: [720],
+                    forced: true,
+                },
+            },
+            
+        }
 
-    const plyrProps = {
+        setPlyrProps(plyrProps);
         
-        source: {
-            type: 'video',
-            sources: 'd',
-            poster: `${animeDetails.poster ? `data:image/jpeg;base64,${animeDetails.poster}` : ''}`,
-        },
-        options: {
-            controls,
-            settings: ['captions', 'quality', 'speed'],
-            captions: {
-                active: true,
-                update: true,
-                language: 'auto',
-            },
-            quality: {
-                default: 720,
-                options: [720],
-                forced: true,
-            },
-        },
-        
-    }
+    }, [sasToken, partData]);
+
 
     // TRAILER
 
@@ -64,7 +114,7 @@ const Player = ({ switchPlayer, voiceActing, season, episode, animeDetails }) =>
         },
     }
 
-    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+    const switchProps = switchPlayer === true ? plyrPropsState : plyrPropsTrailer;
 
     return (
         <>

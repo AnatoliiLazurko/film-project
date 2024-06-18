@@ -7,6 +7,14 @@ import { NavLink } from 'react-router-dom';
 
 const NewSerialCard = ({ serials }) => {
 
+    const truncateDescription = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + "...";
+        } else {
+            return text;
+        }
+    };
+
     useEffect(() => {
         const handleMouseEnter = (event) => {
             handleSerialInfoPositioning(event, styles);
@@ -25,7 +33,7 @@ const NewSerialCard = ({ serials }) => {
     }, [serials]);
 
     return (
-        <NavLink to={`/serial-view/${serials.genres[0].name.toLowerCase()}/${serials.id}`} className={styles["serial-card"]}>
+        <NavLink to={`/serial-view/${serials.genres[0].name.toLowerCase().replace(/ /g, '_')}/${serials.id}`} className={styles["serial-card"]}>
             <div className={styles["serial-poster"]}>
                 <img src={serials.poster ? `data:image/jpeg;base64,${serials.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
@@ -46,7 +54,7 @@ const NewSerialCard = ({ serials }) => {
                     <div className={styles["info-description"]}>
                         <h1>Description</h1>
                         <p>
-                            {serials.description}
+                            {truncateDescription(serials.description, 300)}
                         </p>
                     </div>
                 </div>

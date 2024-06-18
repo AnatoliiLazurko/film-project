@@ -11,7 +11,7 @@ const Subscription = ({ close, payWindow }) => {
         <>
             <div className={styles["screen-dimming"]}></div>
             <div className={styles["subscription"]}>
-                <FontAwesomeIcon icon={faXmark} className={styles["close-mark"]} onClick={() => {close(true)}}/>
+                <FontAwesomeIcon icon={faXmark} className={styles["close-mark"]} onClick={() => {close(false)}}/>
                 
                 
                 <img src={subscription} alt="" />

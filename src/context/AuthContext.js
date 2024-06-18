@@ -1,10 +1,11 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { useCookies } from "react-cookie";
 import RequestError from '../components/Technicall/Error/RequestError';
 import EmailVerification from "../components/Technicall/Email/EmailVerification";
 import Spinner from "../components/Technicall/Spinner/Spinner";
 import { useNavigate } from "react-router-dom";
+import { USER_ENDPOINTS } from '../constants/userEndpoints';
 
 const initialState = {
     isAuth: false,
@@ -74,7 +75,7 @@ export const AuthProvider = ({ children }) => {
     const login = async ({ email, password }) => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            await axios.post('https://localhost:7176/api/Auth/authenticate', { email, password }, {
+            await axios.post(USER_ENDPOINTS.login, { email, password }, {
                     withCredentials: true
                 }
             );
@@ -86,6 +87,7 @@ export const AuthProvider = ({ children }) => {
         }
         catch (error) { 
             //console.log('Login error:' + error);
+            removeCookie('authenticated');
             setError(error.response.data);
             setTimeout(() => {
                 setError(null);
@@ -97,11 +99,12 @@ export const AuthProvider = ({ children }) => {
     const register = async ({ email, password }) => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            await axios.post('https://localhost:7176/api/Auth/register', { email, password });
+            await axios.post(USER_ENDPOINTS.register, { email, password });
 
             setEmailVerifi(true);
         }   
         catch (error) {
+            removeCookie('authenticated');
             //console.log('Register error:' + error.response.data);
             setError(error.response.data);
             setTimeout(() => {
@@ -114,26 +117,28 @@ export const AuthProvider = ({ children }) => {
     const authWithGoogle = async (googleToken) => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            const response = await axios.post('https://localhost:7176/api/Auth/google', { token: googleToken }, {
+            await axios.post(USER_ENDPOINTS.googleAuth, { token: googleToken }, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 }
             );
             
-            if (response.data) {       
-                navigate(`/migrate?token=${response.data}`);
-            } else {
-                
-                removeCookie('authenticated');
-                setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
+            removeCookie('authenticated');
+            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
 
-                await getUser();
-            }
-
+            await getUser();
         }
-        catch (error) { 
+        catch (error) {
+            console.log(error);
+
+            if (error.response.status === 409) {
+                navigate(`/migrate?token=${error.response.data}`);
+            }
+            if (error.response.status === 400) {
+                setError(error.response.data);
+            }
             //console.log('Login with Google error:' + error);
-            setError(error.response.data);
+            removeCookie('authenticated');
             setTimeout(() => {
                 setError(null);
             }, 6000);
@@ -144,7 +149,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         dispatchLoading({ type: 'LOADING' })
         try {
-            await axios.delete('https://localhost:7176/api/Auth/logout', { withCredentials: true });
+            await axios.delete(USER_ENDPOINTS.logout, {  withCredentials: true });
 
             removeCookie('authenticated');
 
@@ -159,13 +164,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     const getUser = async () => {
+        //refreshJwtToken();
         dispatchLoading({ type: 'LOADING' })
-
-        //console.log(cookiesInfo.authenticated);
 
         if (cookiesInfo.authenticated) {
             try {
-                const res = await axios.get('https://localhost:7176/api/Users/byid', { withCredentials: true });
+                const res = await axios.get(USER_ENDPOINTS.getUserById, { withCredentials: true });
 
                 dispatch({
                     type: 'LOGIN',
@@ -173,9 +177,10 @@ export const AuthProvider = ({ children }) => {
                         user: res.data
                     }
                 });
-            }
-            catch (error) {
+            } catch (error) {
                 console.log('Get user error: ' + error);
+                removeCookie('authenticated');
+                navigate('/');
                 setError(error.response.data);
                 setTimeout(() => {
                     setError(null);
@@ -201,22 +206,27 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const tokenRefreshInterval = setInterval(() => {
             refreshJwtToken();
-        }, 14 * 60 * 1000);
+        }, 133 * 60 * 1000);
 
         return () => clearInterval(tokenRefreshInterval);
     }, [state.user]);
 
     const refreshJwtToken = async () => {
         try {
-            await axios.put('https://localhost:7176/api/Auth/refreshjwt', null, { withCredentials: true });
-
+            await axios.put(USER_ENDPOINTS.refreshToken, null, { withCredentials: true });
+            
             removeCookie('authenticated');
-            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 15 * 60 * 1000) });
+            setCookie('authenticated', true, { path: '/', expires: new Date(Date.now() + 14 * 60 * 1000) });
 
         } catch (error) {
+            removeCookie('authenticated');
             console.error('JWT токен не оновлено:', error);
         }
     };
+
+    useEffect(() => {       
+        refreshJwtToken();
+    }, []);
 
     return <AuthContext.Provider value={{...state, login, register, authWithGoogle, logout}}>
         <LoadingContext.Provider value={{ ...stateLoading }}>

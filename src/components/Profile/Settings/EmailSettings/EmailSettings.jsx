@@ -8,6 +8,7 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import RequestError from '../../../Technicall/Error/RequestError';
 import EmailChangeAlert from '../../../Technicall/Email/EmailChange/EmailChangeAlert';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const initialValues = {
     email: '',
@@ -37,7 +38,7 @@ const EmailSettings = () => {
 
     const submitHadler = async (values, formikBag) => {
         try {
-            await axios.post(`https://localhost:7176/api/Users/sendemailchangeemailaddress`, {
+            await axios.post(USER_ENDPOINTS.sendEmailChange, {
                 password: values.password,
                 email: values.email
             }, {

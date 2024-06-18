@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './EmailWarningStyles.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../constants/userEndpoints';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -18,7 +19,7 @@ const EmailWarning = () => {
 
     const sendToken = async () => {
         try {
-            await axios.post(`https://localhost:7176/api/Auth/migrateuser?token=${token}`);
+            await axios.post(`${USER_ENDPOINTS.migrateUser}?token=${token}`);
 
             nav('/');
         } catch (error) {

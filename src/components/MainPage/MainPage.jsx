@@ -11,8 +11,6 @@ import { fetchFilms } from '../../slices/filmsSlices/FilmsSlice';
 import { fetchSerials } from '../../slices/serialsSlices/SerialsSlice';
 import { fetchCartoons } from '../../slices/cartoonsSlices/CartoonsSlice';
 import { fetchAnime } from '../../slices/animeSlices/AnimeSlice';
-import useAuth from '../../hooks/useAuth';
-import { useCookies } from 'react-cookie';
 
 const MainPage = () => {
 
@@ -71,9 +69,13 @@ const MainPage = () => {
         return <Spinner />;
     }
 
+    //console.log(filmsData);
+    //console.log(animeData);
+    //console.log(cartoonsData);
+
     return (
         <>
-            <Carousel films={filmsData.slice(0, 6)} />
+            <Carousel films={filmsData} />
 
             <JarDonate />
             

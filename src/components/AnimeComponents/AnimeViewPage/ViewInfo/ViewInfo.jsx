@@ -8,6 +8,7 @@ import RateWindow from '../../../Technicall/RateWindow/RateWindow';
 import useAuth from '../../../../hooks/useAuth';
 import AuthPrompt from '../../../Technicall/Auth/AuthPrompt';
 import axios from 'axios';
+import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 
 const ViewInfo = ({ animeDetails }) => {
 
@@ -22,7 +23,7 @@ const ViewInfo = ({ animeDetails }) => {
     useEffect(() => {
         const fetchBooked = async () => {
             try {
-                const response = await axios.get('https://localhost:7176/api/BookMarks', { withCredentials: true });
+                const response = await axios.get(USER_ENDPOINTS.isBooked, { withCredentials: true });
                 setBookedList(response.data);
             } catch (error) {
                 //console.error('Getting booked list error: ' + error);
@@ -36,7 +37,7 @@ const ViewInfo = ({ animeDetails }) => {
 
     useEffect(() => {
         if (bookedList.length > 0) {
-            const isBookmarked = bookedList.some(media => media.mediaId === animeDetails.id);
+            const isBookmarked = bookedList.some(media => media.mediaId === animeDetails.id && media.mediaTypeId === 4);
             setSaved(isBookmarked);
         }
     }, [bookedList]);
@@ -46,7 +47,7 @@ const ViewInfo = ({ animeDetails }) => {
             setSaved(!isSaved);
 
             try {
-                await axios.post('https://localhost:7176/api/BookMarks', {
+                await axios.post(USER_ENDPOINTS.makeBook, {
                     mediaId: animeDetails.id,
                     mediaTypeId: 4
                 }, {

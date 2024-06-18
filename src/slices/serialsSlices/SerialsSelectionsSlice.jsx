@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERIAL_ENDPOINTS } from '../../constants/serialEndpoints';
 
 const initialState = {
     serialsSelections: [],
@@ -10,7 +11,7 @@ const initialState = {
 export const fetchSerialsSelections = createAsyncThunk(
     'fetchSerialsSelections',
     async () => {  
-        const res = await axios.get("https://localhost:7095/api/films/selections");
+        const res = await axios.get(SERIAL_ENDPOINTS.serialSelections);
         return res.data;
     }
 );

@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import axios from 'axios';
 import RequestError from '../Error/RequestError';
 import EmailVerification from '../Email/EmailVerification';
+import { USER_ENDPOINTS } from '../../../constants/userEndpoints';
 
 const initialValues = {
     email: '',
@@ -21,7 +22,7 @@ const ResetPassword = () => {
 
     const submitHadler = async (values, formikBag) => {
         try {
-            await axios.post('https://localhost:7176/api/Users/sendemailchangepassword', { email: values.email }, {
+            await axios.post(USER_ENDPOINTS.sendPasswordChange, { email: values.email }, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

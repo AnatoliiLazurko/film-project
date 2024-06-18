@@ -7,6 +7,10 @@ import axios from 'axios';
 import ResultList from './ResultList/ResultList';
 import box from '../../images/subscription/box.png';
 import Spinner from '../Technicall/Spinner/Spinner';
+import { FILM_ENDPOINTS } from '../../constants/filmEndpoints';
+import { CARTOON_ENDPOINTS } from '../../constants/cartoonEndpoints';
+import { SERIAL_ENDPOINTS } from '../../constants/serialEndpoints';
+import { ANIME_ENDPOINTS } from '../../constants/animeEndpoints';
 
 const SearchResult = () => {
 
@@ -43,7 +47,7 @@ const SearchResult = () => {
 
     const searchFilmsByParam = async () => {
         try {
-            const response = await axios.get(`https://localhost:7095/api/Films/bytitle`, {
+            const response = await axios.get(FILM_ENDPOINTS.filmsByTitle, {
                 params: {
                     title: query
                 }
@@ -57,7 +61,7 @@ const SearchResult = () => {
 
     const searchCartoonsByParam = async () => {
         try {
-            const response = await axios.get(`https://localhost:7095/api/Films/bytitle`, {
+            const response = await axios.get(CARTOON_ENDPOINTS.cartoonsByTitle, {
                 params: {
                     title: query
                 }
@@ -71,7 +75,7 @@ const SearchResult = () => {
 
     const searchSerialsByParam = async () => {
         try {
-            const response = await axios.get(`https://localhost:7095/api/Films/bytitle`, {
+            const response = await axios.get(SERIAL_ENDPOINTS.serialsByTitle, {
                 params: {
                     title: query
                 }
@@ -85,7 +89,7 @@ const SearchResult = () => {
 
     const searchAnimeByParam = async () => {
         try {
-            const response = await axios.get(`https://localhost:7095/api/Films/bytitle`, {
+            const response = await axios.get(ANIME_ENDPOINTS.animeByTitle, {
                 params: {
                     title: query
                 }
@@ -106,8 +110,6 @@ const SearchResult = () => {
     }
 
     const totalResults = films.length + cartoons.length + serials.length + anime.length;
-
-    console.log(films);
 
     return (
         <div className={styles["search-page"]}>
