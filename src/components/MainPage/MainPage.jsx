@@ -69,7 +69,7 @@ const MainPage = () => {
         return <Spinner />;
     }
 
-    // console.log(filmsData);
+    //console.log(filmsData);
     //console.log(animeData);
     //console.log(cartoonsData);
 

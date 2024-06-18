@@ -8,6 +8,7 @@ const Player = ({ switchPlayer, episodeId, cartoonDetails, partExists }) => {
 
     const [partData, setPartData] = useState([]);
     const [sasToken, setSasToken] = useState();
+    const [plyrPropsState, setPlyrProps] = useState([]);
     
     useEffect(() => {      
         const fetchEpisod = async () => {
@@ -58,29 +59,35 @@ const Player = ({ switchPlayer, episodeId, cartoonDetails, partExists }) => {
       'fullscreen',
     ];
 
-    const plyrProps = {
+    useEffect(() => {
         
-        source: {
-            type: 'video',
-            sources: `${partExists ? partData.fileUri : cartoonDetails.fileUri}?${sasToken}`,
-            poster: `${cartoonDetails.poster ? `data:image/jpeg;base64,${cartoonDetails.poster}` : ''}`,
-        },
-        options: {
-            controls,
-            settings: ['captions', 'quality', 'speed'],
-            captions: {
-                active: true,
-                update: true,
-                language: 'auto',
-            },
-            quality: {
-                default: 720,
-                options: [720],
-                forced: true,
-            },
-        },
+        const plyrProps = {
         
-    }
+            source: {
+                type: 'video',
+                sources: `${cartoonDetails.fileUri}?${sasToken}`,
+                poster: `${cartoonDetails.poster ? `data:image/jpeg;base64,${cartoonDetails.poster}` : ''}`,
+            },
+            options: {
+                controls,
+                settings: ['captions', 'quality', 'speed'],
+                captions: {
+                    active: true,
+                    update: true,
+                    language: 'auto',
+                },
+                quality: {
+                    default: 720,
+                    options: [720],
+                    forced: true,
+                },
+            },
+            
+        }
+
+        setPlyrProps(plyrProps);
+        
+    }, [sasToken, partData]);
 
     // TRAILER
 
@@ -104,7 +111,7 @@ const Player = ({ switchPlayer, episodeId, cartoonDetails, partExists }) => {
         },
     }
 
-    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+    const switchProps = switchPlayer === true ? plyrPropsState : plyrPropsTrailer;
 
     return (
         <>

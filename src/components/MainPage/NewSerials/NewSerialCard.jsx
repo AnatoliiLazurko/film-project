@@ -33,7 +33,7 @@ const NewSerialCard = ({ serials }) => {
     }, [serials]);
 
     return (
-        <NavLink to={`/serial-view/${serials.genres[0].name.toLowerCase()}/${serials.id}`} className={styles["serial-card"]}>
+        <NavLink to={`/serial-view/${serials.genres[0].name.toLowerCase().replace(/ /g, '_')}/${serials.id}`} className={styles["serial-card"]}>
             <div className={styles["serial-poster"]}>
                 <img src={serials.poster ? `data:image/jpeg;base64,${serials.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>

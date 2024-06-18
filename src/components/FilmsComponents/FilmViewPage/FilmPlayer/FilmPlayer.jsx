@@ -11,10 +11,10 @@ const FilmPlayer = ({ filmDetails }) => {
 
     const { isAuth } = useAuth();
 
-    const voiceActingArray = ['English'];
+    const voiceActingArray = ['Ukrainian'];
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
-    const [voiceActing, setVoiceActing] = useState('English');
+    const [voiceActing, setVoiceActing] = useState('Ukrainian');
     const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
     const selectRef = useRef(null);
 

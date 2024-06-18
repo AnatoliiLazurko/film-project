@@ -134,6 +134,9 @@ export const AuthProvider = ({ children }) => {
             if (error.response.status === 409) {
                 navigate(`/migrate?token=${error.response.data}`);
             }
+            if (error.response.status === 400) {
+                setError(error.response.data);
+            }
             //console.log('Login with Google error:' + error);
             removeCookie('authenticated');
             setTimeout(() => {

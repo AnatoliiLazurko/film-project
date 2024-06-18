@@ -35,8 +35,6 @@ const ViewInfo = ({ cartoonDetails }) => {
         }
     }, [isAuth]);
 
-    console.log(bookedList);
-
     useEffect(() => {
         if (bookedList.length > 0) {
             const isBookmarked = bookedList.some(media => media.mediaId === cartoonDetails.id && media.mediaTypeId === 3);

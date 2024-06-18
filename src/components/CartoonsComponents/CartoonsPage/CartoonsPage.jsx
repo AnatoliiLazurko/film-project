@@ -34,6 +34,7 @@ const CartoonsPage = () => {
     const [popularFilter, setPopularFilter] = useState('');
     const categoryFilter = [];
     const studioFilter = [];
+    const animationFilter = [];
 
     useEffect(() => {
         if (date === 'from_old_to_new') {
@@ -64,6 +65,10 @@ const CartoonsPage = () => {
             studioFilter.push(studio.replace(/_/g, ' '));
         }
 
+        if (animation !== 'animation=u') {
+            animationFilter.push(animation.replace(/_/g, ' '));
+        }
+
         dispatch(fetchCartoons(
             {
                 pageNumber: currentPage,
@@ -72,6 +77,7 @@ const CartoonsPage = () => {
                 sortByPopularity: popularFilter,
                 categories: categoryFilter,
                 studios: studioFilter,
+                animations: animationFilter,
             }
         ));
     }, [dispatch, isClean, currentPage, pageSize, dateFilter, popularFilter, category, animation, studio])

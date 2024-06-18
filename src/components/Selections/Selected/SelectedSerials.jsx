@@ -66,9 +66,9 @@ const SelectedSerials = () => {
         ));
     }, [dispatch, currentPage])
 
-    const selectionData = useSelector((state) => state.films.films); 
-    const isLoadingSelection = useSelector((state) => state.films.isLoading);
-    const selectionError = useSelector((state) => state.films.error)
+    const selectionData = useSelector((state) => state.serials.serials); 
+    const isLoadingSelection = useSelector((state) => state.serials.isLoading);
+    const selectionError = useSelector((state) => state.serials.error)
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -119,7 +119,7 @@ const SelectedSerials = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/serial-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/serial-view/${movie.genres[0].name.toLowerCase().replace(/ /g, '_')}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
                              <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>

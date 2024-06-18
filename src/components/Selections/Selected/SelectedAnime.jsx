@@ -30,7 +30,6 @@ const SelectedAnime = () => {
             try {
                 const response = await axios.post(ANIME_ENDPOINTS.countPages, {
                     Genres: [],
-                    Studios: [],
                     Selections: selectedFilter
                 }, {
                     params: {    
@@ -66,9 +65,9 @@ const SelectedAnime = () => {
         ));
     }, [dispatch, currentPage])
 
-    const selectionData = useSelector((state) => state.films.films); 
-    const isLoadingSelection = useSelector((state) => state.films.isLoading);
-    const selectionError = useSelector((state) => state.films.error)
+    const selectionData = useSelector((state) => state.anime.anime); 
+    const isLoadingSelection = useSelector((state) => state.anime.isLoading);
+    const selectionError = useSelector((state) => state.anime.error)
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -119,7 +118,7 @@ const SelectedAnime = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/anime-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/anime-view/${movie.genres[0].name.toLowerCase().replace(/ /g, '_')}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
                              <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>

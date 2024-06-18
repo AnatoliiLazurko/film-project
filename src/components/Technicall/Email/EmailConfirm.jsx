@@ -23,6 +23,8 @@ const EmailConfirm = () => {
             const fetchEmailConfirm = async () => {
                 try {
                     await axios.post(`${USER_ENDPOINTS.emailConfirm}?token=${token}`);
+
+                    setError();
                 } catch (error) {
                     //console.error('Error email confirming: ', error);
                     setError(error.response.data);

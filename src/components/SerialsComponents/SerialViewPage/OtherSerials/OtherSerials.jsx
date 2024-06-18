@@ -39,7 +39,7 @@ const OtherSerials = ({ serials }) => {
             <div className={styles["list-other-serials"]}>
 
                 {serials.map((serial, index) => (
-                    <NavLink to={`/serial-view/${serial.genres?.[0]?.name?.toLowerCase() ?? ''}/${serial.id}`} className={styles["serial-card"]} key={index}>
+                    <NavLink to={`/serial-view/${serial.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/${serial.id}`} className={styles["serial-card"]} key={index}>
                         <div className={styles["serial-poster"]}>
                             <img src={serial.poster ? `data:image/jpeg;base64,${serial.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>

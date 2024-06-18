@@ -76,7 +76,7 @@ const ViewInfo = ({ serialDetails }) => {
                 <div className={styles["path"]}>
                     <NavLink to={'/serials/genre=u/studio=u/date=u/popular=u/1'}>Serials</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
-                    <NavLink to={`/serials/${serialDetails.genres?.[0]?.name?.toLowerCase() ?? ''}/studio=u/date=u/popular=u/1`}>{serialDetails.genres?.[0]?.name ?? ''}</NavLink>
+                    <NavLink to={`/serials/${serialDetails.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/studio=u/date=u/popular=u/1`}>{serialDetails.genres?.[0]?.name ?? ''}</NavLink>
                     <FontAwesomeIcon icon={faAnglesRight} />
                     <span>{serialDetails.title}</span>
                 </div>

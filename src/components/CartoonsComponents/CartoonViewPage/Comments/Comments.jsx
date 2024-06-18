@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './CommentsStyles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as solidHeart, faHeartCrack, faShuffle, faEllipsis, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as solidHeart, faHeartCrack, faShuffle, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart, faFaceSmile, faCommentDots as faEmptyCommentDots } from '@fortawesome/free-regular-svg-icons';
 import Subcomment from './Subcomment';
 import ReplyComment from './ReplyComment';
@@ -73,13 +73,14 @@ const Comments = ({ cartoonDetails, partId }) => {
 
             } catch (error) {
                 //console.log(error);
+                setCommentsList([]);
             } finally {
                 setIsLoading(false);
             }
         }
         
         fetchGetComments();
-    }, [cartoonDetails.id, update]);
+    }, [cartoonDetails.id, update, partId]);
 
     
     //LIKE AND DISLIKE

@@ -73,13 +73,13 @@ const Comments = ({ filmDetails }) => {
 
             } catch (error) {
                 //console.log(error);
+                setCommentsList([]);
             } finally {
                 setIsLoading(false);
             }
         }
         
         fetchGetComments();
-        console.log("YESSS");
     }, [filmDetails.id, update]);
 
     

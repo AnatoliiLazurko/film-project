@@ -24,11 +24,11 @@ const ReplyComment = ({ animeId, commentId, partId, setIsAuthPrompt, update, set
         setReplyComment(replyComment + emoji);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (isAuth) {
             if (replyComment.trim() !== '') {
                 try {
-                    axios.post(ANIME_ENDPOINTS.createComment, {
+                    await axios.post(ANIME_ENDPOINTS.createComment, {
                         AnimeId: animeId,
                         AnimePartId: partId === 0 ? null : partId,
                         ParentCommentId: commentId,

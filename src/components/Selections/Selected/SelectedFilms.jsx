@@ -68,7 +68,7 @@ const SelectedFilms = () => {
 
     const selectionData = useSelector((state) => state.films.films); 
     const isLoadingSelection = useSelector((state) => state.films.isLoading);
-    const selectionError = useSelector((state) => state.films.error)
+    const selectionError = useSelector((state) => state.films.error);
 
     useEffect(() => {
         const handleMouseEnter = (event) => {
@@ -119,7 +119,7 @@ const SelectedFilms = () => {
             
                 {selectionData.map((movie, index) => (
                     
-                    <NavLink to={`/film-view/${movie.genres[0].name.toLowerCase()}/${movie.id}`} className={styles["movie-card"]} key={index}>
+                    <NavLink to={`/film-view/${movie.genres[0].name.toLowerCase().replace(/ /g, '_')}/${movie.id}`} className={styles["movie-card"]} key={index}>
                         <div className={styles["movie-poster"]}>
                              <img src={movie.poster ? `data:image/jpeg;base64,${movie.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>

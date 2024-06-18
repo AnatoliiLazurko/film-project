@@ -39,7 +39,7 @@ const OtherCartoons = ({ cartoons }) => {
             <div className={styles["list-other-cartoons"]}>
 
                 {cartoons.map((cartoon, index) => (
-                    <NavLink to={`/cartoon-view/${cartoon.genres?.[0]?.name?.toLowerCase() ?? ''}/${cartoon.id}`} className={styles["cartoon-card"]} key={index}>
+                    <NavLink to={`/cartoon-view/${cartoon.genres?.[0]?.name?.toLowerCase().replace(/ /g, '_') ?? ''}/${cartoon.id}`} className={styles["cartoon-card"]} key={index}>
                         <div className={styles["cartoon-poster"]}>
                             <img src={cartoon.poster ? `data:image/jpeg;base64,${cartoon.poster}` : ''} alt="Poster" />
                             <div className={styles["question-mark"]}>?</div>
@@ -54,7 +54,7 @@ const OtherCartoons = ({ cartoons }) => {
                                         <p>Release year: {new Date(cartoon.dateOfPublish).getFullYear()}</p>
                                         <p>Country: {cartoon.country}</p>
                                         <p>Genre: {cartoon.genres?.map(genre => genre.name).join(', ') ?? ''}</p>
-                                        <p>Actors: {cartoon.actors}</p>
+                                        {/* <p>Actors: {cartoon.actors}</p> */}
                                     </div>
                                     <div className={styles["info-line"]}></div>
                                     <div className={styles["info-description"]}>

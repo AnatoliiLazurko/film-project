@@ -14,8 +14,8 @@ export const SERIAL_ENDPOINTS = {
     commentLike: `${SERIAL_URL}/api/Comments/like`,
     commentDislike: `${SERIAL_URL}/api/Comments/dislike`,
     rateSerial: `${SERIAL_URL}/api/Rating`,
-    getSerialParts: `${SERIAL_URL}/api/SeriesParts/getbyseriesid`,
-    getPartById: `${SERIAL_URL}/api/SeriesParts/getbyid`,
+    getSerialParts: `${SERIAL_URL}/api/SeriesPart/getbyseriesid`,
+    getPartById: `${SERIAL_URL}/api/SeriesPart/getbyid`,
 
     getSerialsByIds: `${SERIAL_URL}/api/Series/byids`,
     countPages: `${SERIAL_URL}/api/Series/countpagesbyfiltersandsorting`,

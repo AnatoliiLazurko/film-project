@@ -7,6 +7,7 @@ import { FILM_ENDPOINTS } from '../../../../../constants/filmEndpoints'
 const Player = ({ switchPlayer, filmDetails }) => {
 
     const [sasToken, setSasToken] = useState();
+    const [plyrPropsState, setPlyrProps] = useState([]);
 
     useEffect(() => {
         
@@ -21,7 +22,7 @@ const Player = ({ switchPlayer, filmDetails }) => {
         }
 
         fetchSasToken();
-    }, []);
+    }, [filmDetails]);
 
     const controls = [
       'play-large',
@@ -36,29 +37,35 @@ const Player = ({ switchPlayer, filmDetails }) => {
       'fullscreen',
     ];
 
-    const plyrProps = {
+    useEffect(() => {
         
-        source: {
-            type: 'video',
-            sources: `${filmDetails.fileUri}?${sasToken}`,
-            poster: `${filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''}`,
-        },
-        options: {
-            controls,
-            settings: ['captions', 'quality', 'speed'],
-            captions: {
-                active: true,
-                update: true,
-                language: 'auto',
-            },
-            quality: {
-                default: 720,
-                options: [720],
-                forced: true,
-            },
-        },
+        const plyrProps = {
         
-    }
+            source: {
+                type: 'video',
+                sources: `${filmDetails.fileUri}?${sasToken}`,
+                poster: `${filmDetails.poster ? `data:image/jpeg;base64,${filmDetails.poster}` : ''}`,
+            },
+            options: {
+                controls,
+                settings: ['captions', 'quality', 'speed'],
+                captions: {
+                    active: true,
+                    update: true,
+                    language: 'auto',
+                },
+                quality: {
+                    default: 720,
+                    options: [720],
+                    forced: true,
+                },
+            },
+            
+        }
+
+        setPlyrProps(plyrProps);
+        
+    }, [sasToken]);
 
     // TRAILER
 
@@ -82,7 +89,7 @@ const Player = ({ switchPlayer, filmDetails }) => {
         },
     }
 
-    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+    const switchProps = switchPlayer === true ? plyrPropsState : plyrPropsTrailer;
 
     return (
         <>

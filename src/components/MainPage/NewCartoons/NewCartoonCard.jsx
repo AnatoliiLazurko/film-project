@@ -33,7 +33,7 @@ const NewCartoonCard = ({ cartoons }) => {
     }, [cartoons]);
 
     return (
-        <NavLink to={`/cartoon-view/${cartoons.genres[0].name.toLowerCase()}/${cartoons.id}`} className={styles["cartoon-card"]}>
+        <NavLink to={`/cartoon-view/${cartoons.genres[0].name.toLowerCase().replace(/ /g, '_')}/${cartoons.id}`} className={styles["cartoon-card"]}>
             <div className={styles["cartoon-poster"]}>
                 <img src={cartoons.poster ? `data:image/jpeg;base64,${cartoons.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>
@@ -48,7 +48,7 @@ const NewCartoonCard = ({ cartoons }) => {
                         <p>Release year: {new Date(cartoons.dateOfPublish).getFullYear()}</p>
                         <p>Country: {cartoons.country}</p>
                         <p>Genre: {cartoons.genres.map(genre => genre.name).join(', ')}</p>
-                        <p>Actors: {cartoons.actors}</p>
+                        {/* <p>Actors: {cartoons.actors}</p> */}
                     </div>
                     <div className={styles["info-line"]}></div>
                     <div className={styles["info-description"]}>

@@ -14,21 +14,33 @@ function useQuery() {
 }
 
 const AnimePlayer = ({ animeDetails, setPartId }) => {
-
     const { isAuth } = useAuth();
-
     const navigate = useNavigate();
     const { genre, id } = useParams();
-
     const query = useQuery();
     const seasonUrl = query.get('season');
     const episodUrl = query.get('episod');
 
     const [partExists, setPartExists] = useState(false);
-    
-    const voiceActingArray = ['English'];
+
+    const voiceActingArray = ['Ukrainian'];
+
     const [seasonArray, setSeasonArray] = useState([]);
     const [episodesData, setEpisodesData] = useState({});
+    const [season, setSeason] = useState(Number(seasonUrl) || 1);
+    const [episode, setEpisode] = useState({ episodeNumber: Number(episodUrl) || 1, episodeId: null });
+
+    const [switchPlayer, setSwitchPlayer] = useState(true);
+    
+    const [voiceActing, setVoiceActing] = useState('Ukrainian');
+    const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
+    const selectVoiceRef = useRef(null);
+
+    const [isSeasonOpen, setSeasonOpen] = useState(false);
+    const selectSeasonRef = useRef(null);
+
+    const [isEpisodeOpen, setEpisodeOpen] = useState(false);
+    const selectEpisodeRef = useRef(null);
 
     useEffect(() => {
         const fetchAnimeParts = async () => {
@@ -52,24 +64,24 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
                 setPartExists(true);
 
                 if (seasonUrl && episodUrl) {
+                    const initialEpisode = structuredData[seasonUrl]?.find(ep => ep.episodeNumber === Number(episodUrl)) || { episodeNumber: 1, episodeId: null };
                     setSeason(Number(seasonUrl));
-                    setEpisode(structuredData[seasonUrl]?.find(ep => ep.episodeNumber === Number(episodUrl)) || { episodeNumber: 1, episodeId: 1 });
+                    setEpisode(initialEpisode);
+                    setPartId(initialEpisode.episodeId);
+                } else {
+                    const initialEpisode = structuredData[1] ? structuredData[1][0] : { episodeNumber: 1, episodeId: null };
+                    setEpisode(initialEpisode);
+                    setPartId(initialEpisode.episodeId);
                 }
             } catch (error) {
-                //console.log("Fetch anime parts error: " + error);
-                if (error.response.status === 404) {
+                if (error.response?.status === 404) {
                     setPartExists(false);
                 }
             }
         };
 
         fetchAnimeParts();
-    }, [animeDetails]);
-
-    const [switchPlayer, setSwitchPlayer] = useState(true);
-    const [voiceActing, setVoiceActing] = useState('English');
-    const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
-    const selectVoiceRef = useRef(null);
+    }, [animeDetails, seasonUrl, episodUrl, setPartId]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -84,10 +96,6 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
         };
     }, []);
 
-    const [season, setSeason] = useState(Number(seasonUrl) || 1);
-    const [isSeasonOpen, setSeasonOpen] = useState(false);
-    const selectSeasonRef = useRef(null);
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (selectSeasonRef.current && !selectSeasonRef.current.contains(event.target)) {
@@ -100,12 +108,6 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
-
-    const [episode, setEpisode] = useState({ episodeNumber: Number(episodUrl) || 1, episodeId: 1 });
-    const [isEpisodeOpen, setEpisodeOpen] = useState(false);
-    const selectEpisodeRef = useRef(null);
-
-    setPartId(partExists ? episode.episodeId : 0);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -121,12 +123,10 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
     }, []);
 
     useEffect(() => {
-        
-        if (partExists) {
+        if (partExists && episode.episodeId) {
             navigate(`/anime-view/${genre}/${id}?season=${season}&episod=${episode.episodeNumber}`);
         }
-
-    }, [partExists, season, episode]);
+    }, [partExists, season, episode, navigate, genre, id]);
 
     const handlePlayer = (option) => {
         setSwitchPlayer(true);
@@ -208,7 +208,7 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
                                         {seasonArray.map((option, index) => (
                                             <p
                                                 key={index}
-                                                onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); }}
+                                                onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); setPartId(episodesData[option][0].episodeId); }}
                                                 className={`${option === season.toString() ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                             >
                                                 Season {option}
@@ -235,7 +235,7 @@ const AnimePlayer = ({ animeDetails, setPartId }) => {
                                         {episodesData[season]?.map((option, index) => (
                                             <p
                                                 key={index}
-                                                onClick={() => { setEpisode(option); }}
+                                                onClick={() => { setEpisode(option); setPartId(option.episodeId); }}
                                                 className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
                                             >
                                                 Episod {option.episodeNumber}

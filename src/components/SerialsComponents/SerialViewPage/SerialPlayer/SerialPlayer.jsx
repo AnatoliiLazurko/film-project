@@ -7,16 +7,28 @@ import useAuth from '../../../../hooks/useAuth';
 import axios from 'axios';
 import { USER_ENDPOINTS } from '../../../../constants/userEndpoints';
 import { SERIAL_ENDPOINTS } from '../../../../constants/serialEndpoints';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const SerialPlayer = ({ serialDetails, setPartId }) => {
-
     const { isAuth } = useAuth();
+    const navigate = useNavigate();
+    const { genre, id } = useParams();
+    const query = useQuery();
+    const seasonUrl = query.get('season');
+    const episodUrl = query.get('episod');
 
     const [partExists, setPartExists] = useState(false);
 
-    const voiceActingArray = ['English'];
+    const voiceActingArray = ['Ukrainian'];
     const [seasonArray, setSeasonArray] = useState([]);
     const [episodesData, setEpisodesData] = useState({});
+
+    const [season, setSeason] = useState(Number(seasonUrl) || 1);
+    const [episode, setEpisode] = useState({ episodeNumber: Number(episodUrl) || 1, episodeId: null });
 
     useEffect(() => {
         const fetchSerialParts = async () => {
@@ -29,7 +41,7 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
                     const seasonKey = seasonNumber;
                     const episodeKey = { episodeNumber: partNumber, episodeId: id };
                     if (!acc[seasonKey]) {
-                        acc[seasonKey] = [];
+                    acc[seasonKey] = [];
                     }
                     acc[seasonKey].push(episodeKey);
                     return acc;
@@ -38,19 +50,29 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
                 setSeasonArray(Object.keys(structuredData));
                 setEpisodesData(structuredData);
                 setPartExists(true);
+
+                if (seasonUrl && episodUrl) {
+                    const initialEpisode = structuredData[seasonUrl]?.find(ep => ep.episodeNumber === Number(episodUrl)) || { episodeNumber: 1, episodeId: null };
+                    setSeason(Number(seasonUrl));
+                    setEpisode(initialEpisode);
+                    setPartId(initialEpisode.episodeId);
+                } else {
+                    const initialEpisode = structuredData[1] ? structuredData[1][0] : { episodeNumber: 1, episodeId: null };
+                    setEpisode(initialEpisode);
+                    setPartId(initialEpisode.episodeId);
+                }
             } catch (error) {
-                //console.log("Fetch serial parts error: " + error);
-                if (error.response.status === 404) {
+                if (error.response?.status === 404) {
                     setPartExists(false);
                 }
             }
         };
 
         fetchSerialParts();
-    }, [serialDetails]);
+    }, [serialDetails, seasonUrl, episodUrl, setPartId]);
 
     const [switchPlayer, setSwitchPlayer] = useState(true);
-    const [voiceActing, setVoiceActing] = useState('English');
+    const [voiceActing, setVoiceActing] = useState('Ukrainian');
     const [isVoiceActingOpen, setVoiceActingOpen] = useState(false);
     const selectVoiceRef = useRef(null);
 
@@ -67,7 +89,6 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
         };
     }, []);
 
-    const [season, setSeason] = useState(1);
     const [isSeasonOpen, setSeasonOpen] = useState(false);
     const selectSeasonRef = useRef(null);
 
@@ -84,11 +105,8 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
         };
     }, []);
 
-    const [episode, setEpisode] = useState({ episodeNumber: 1, episodeId: 1 });
     const [isEpisodeOpen, setEpisodeOpen] = useState(false);
     const selectEpisodeRef = useRef(null);
-
-    setPartId(episode.episodeId);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -103,26 +121,32 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (partExists) {
+            navigate(`/serial-view/${genre}/${id}?season=${season}&episod=${episode.episodeNumber}`);
+        }
+    }, [partExists, season, episode, navigate, genre, id]);
+
     const handlePlayer = (option) => {
         setSwitchPlayer(true);
         setVoiceActing(option);
-    }
+    };
 
     const handleTrailer = () => {
         setSwitchPlayer(false);
         setVoiceActing('Player');
-    }
+    };
 
     const handleHistory = async () => {
         if (isAuth) {
             try {
                 const data = {
                     MediaWithType: {
-                        mediaId: serialDetails.id, 
-                        mediaTypeId: 2, 
+                    mediaId: serialDetails.id,
+                    mediaTypeId: 2,
                     },
-                    partNumber: episode.episodeNumber, 
-                    seasonNumber: season, 
+                    partNumber: episode.episodeNumber,
+                    seasonNumber: season,
                 };
 
                 await axios.post(USER_ENDPOINTS.addHistory, data, { withCredentials: true });
@@ -130,111 +154,105 @@ const SerialPlayer = ({ serialDetails, setPartId }) => {
                 console.error('Adding history: ' + error);
             }
         }
-    }
+    };
 
-    return (
-        <div className={styles["player-section"]}>
-            <div className={styles["player-content"]}>
-                <div className={styles["switch-players"]}>
-                    <div onClick={handleTrailer} className={`${styles["btn-trailer"]} ${!switchPlayer ? styles["active"] : ''}`}>Trailer</div>
-                    <div
-                        className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
-                        onClick={() => setVoiceActingOpen(!isVoiceActingOpen)}
-                        ref={selectVoiceRef}
-                    >
-                        <div className={styles["custom-select"]}>
-                            <span>
-                                {voiceActing}
-                            </span>
-                            {!isVoiceActingOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                            {isVoiceActingOpen && <FontAwesomeIcon icon={faCaretDown}/>}
-                        </div>
-                        {isVoiceActingOpen && 
-                            <div className={styles["list-options"]}>
-                                {voiceActingArray.map((option, index) => (
-                                    <p
-                                        key={index}
-                                        onClick={() => { handlePlayer(option) }}
-                                        className={`${option === voiceActing ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                    >
-                                        {option}
-                                    </p>
-                                ))}
-                            </div>
-                        }
-                    </div>
-
-                    {partExists &&
-                        <>
-                            <div
-                                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
-                                onClick={() => setSeasonOpen(!isSeasonOpen)}
-                                ref={selectSeasonRef}
-                            >
-                                <div className={styles["custom-select"]}>
-                                    <span>
-                                        Season {season}
-                                    </span>
-                                    {!isSeasonOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                                    {isSeasonOpen && <FontAwesomeIcon icon={faCaretDown}/>}
-                                </div>
-                                {isSeasonOpen && 
-                                    <div className={styles["list-options"]}>
-                                        {seasonArray.map((option, index) => (
-                                            <p
-                                                key={index}
-                                                onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); }}
-                                                className={`${option === season.toString() ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                            >
-                                                Season {option}
-                                            </p>
-                                        ))}
-                                    </div>
-                                }
-                            </div>
-
-                            <div
-                                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
-                                onClick={() => setEpisodeOpen(!isEpisodeOpen)}
-                                ref={selectEpisodeRef}
-                            >
-                                <div className={styles["custom-select"]}>
-                                    <span>
-                                        Episod {episode.episodeNumber}
-                                    </span>
-                                    {!isEpisodeOpen && <FontAwesomeIcon icon={faCaretRight}/>}
-                                    {isEpisodeOpen && <FontAwesomeIcon icon={faCaretDown}/>}
-                                </div>
-                                {isEpisodeOpen && 
-                                    <div className={styles["list-options"]}>
-                                        {episodesData[season]?.map((option, index) => (
-                                            <p
-                                                key={index}
-                                                onClick={() => { setEpisode(option); }}
-                                                className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
-                                            >
-                                                Episod {option.episodeNumber}
-                                            </p>
-                                        ))}
-                                    </div>
-                                }
-                            </div>
-                        </>
-                    }
-
-                </div>
-                <div className={styles["player"]} onClick={handleHistory}>
-                    <Player
-                        switchPlayer={switchPlayer}
-                        voiceActing={voiceActing}
-                        episodeId={episode.episodeId}
-                        serialDetails={serialDetails}
-                        partExists={partExists}
-                    />
-                </div>
+  return (
+    <div className={styles["player-section"]}>
+      <div className={styles["player-content"]}>
+        <div className={styles["switch-players"]}>
+          <div onClick={handleTrailer} className={`${styles["btn-trailer"]} ${!switchPlayer ? styles["active"] : ''}`}>Trailer</div>
+          <div
+            className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+            onClick={() => setVoiceActingOpen(!isVoiceActingOpen)}
+            ref={selectVoiceRef}
+          >
+            <div className={styles["custom-select"]}>
+              <span>{voiceActing}</span>
+              {!isVoiceActingOpen && <FontAwesomeIcon icon={faCaretRight} />}
+              {isVoiceActingOpen && <FontAwesomeIcon icon={faCaretDown} />}
             </div>
+            {isVoiceActingOpen &&
+              <div className={styles["list-options"]}>
+                {voiceActingArray.map((option, index) => (
+                  <p
+                    key={index}
+                    onClick={() => { handlePlayer(option); }}
+                    className={`${option === voiceActing ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                  >
+                    {option}
+                  </p>
+                ))}
+              </div>
+            }
+          </div>
+
+          {partExists &&
+            <>
+              <div
+                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+                onClick={() => setSeasonOpen(!isSeasonOpen)}
+                ref={selectSeasonRef}
+              >
+                <div className={styles["custom-select"]}>
+                  <span>Season {season}</span>
+                  {!isSeasonOpen && <FontAwesomeIcon icon={faCaretRight} />}
+                  {isSeasonOpen && <FontAwesomeIcon icon={faCaretDown} />}
+                </div>
+                {isSeasonOpen &&
+                  <div className={styles["list-options"]}>
+                    {seasonArray.map((option, index) => (
+                      <p
+                        key={index}
+                        onClick={() => { setSeason(option); setEpisode(episodesData[option][0]); setPartId(episodesData[option][0].episodeId); }}
+                        className={`${option === season.toString() ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                      >
+                        Season {option}
+                      </p>
+                    ))}
+                  </div>
+                }
+              </div>
+
+              <div
+                className={`${styles["select-container"]} ${switchPlayer ? styles["active"] : ''}`}
+                onClick={() => setEpisodeOpen(!isEpisodeOpen)}
+                ref={selectEpisodeRef}
+              >
+                <div className={styles["custom-select"]}>
+                  <span>Episod {episode.episodeNumber}</span>
+                  {!isEpisodeOpen && <FontAwesomeIcon icon={faCaretRight} />}
+                  {isEpisodeOpen && <FontAwesomeIcon icon={faCaretDown} />}
+                </div>
+                {isEpisodeOpen &&
+                  <div className={styles["list-options"]}>
+                    {episodesData[season]?.map((option, index) => (
+                      <p
+                        key={index}
+                        onClick={() => { setEpisode(option); setPartId(option.episodeId); }}
+                        className={`${option.episodeNumber === episode.episodeNumber ? `${styles["selected-option"]}` : `${styles["select-option"]}`}`}
+                      >
+                        Episod {option.episodeNumber}
+                      </p>
+                    ))}
+                  </div>
+                }
+              </div>
+            </>
+          }
+
         </div>
-    );
-}
+        <div className={styles["player"]} onClick={handleHistory}>
+          <Player
+            switchPlayer={switchPlayer}
+            voiceActing={voiceActing}
+            episodeId={episode.episodeId}
+            serialDetails={serialDetails}
+            partExists={partExists}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default SerialPlayer;

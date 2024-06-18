@@ -41,7 +41,16 @@ const Profile = () => {
         try {
             const response = await axios.get(USER_ENDPOINTS.getHistory, { withCredentials: true });
             const historyArray = response.data;
-            setHistoryNumber(historyArray.length);
+
+            const uniqueMedia = new Set();
+
+            historyArray.forEach(item => {
+                const uniqueKey = `${item.mediaId}-${item.mediaTypeId}`;
+                uniqueMedia.add(uniqueKey);
+            });
+
+            const uniqueMediaCount = uniqueMedia.size;
+            setHistoryNumber(uniqueMediaCount);
 
             const filteredArray = filterHistory(historyArray);
 

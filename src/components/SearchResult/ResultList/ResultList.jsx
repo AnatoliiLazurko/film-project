@@ -29,7 +29,7 @@ const ResultList = ({ media, type }) => {
             
             {media.map((media, index) => (
                 
-                <NavLink to={`/${type}-view/${media.genres[0].name.toLowerCase()}/${media.id}`} className={styles["film-card"]} key={index}>
+                <NavLink to={`/${type}-view/${media.genres[0].name.toLowerCase().replace(/ /g, '_')}/${media.id}`} className={styles["film-card"]} key={index}>
                     <div className={styles["film-poster"]}>
                         <img src={media.poster ? `data:image/jpeg;base64,${media.poster}` : ''} alt="Poster" />
                         <div className={styles["question-mark"]}>?</div>

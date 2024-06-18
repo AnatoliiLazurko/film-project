@@ -33,7 +33,7 @@ const NewAnimeCard = ({ anime }) => {
     }, [anime]);
 
     return (
-        <NavLink to={`/anime-view/${anime.genres[0].name.toLowerCase()}/${anime.id}`} className={styles["anime-card"]}>
+        <NavLink to={`/anime-view/${anime.genres[0].name.toLowerCase().replace(/ /g, '_')}/${anime.id}`} className={styles["anime-card"]}>
             <div className={styles["anime-poster"]}>
                 <img src={anime.poster ? `data:image/jpeg;base64,${anime.poster}` : ''} alt="Poster" />
                 <div className={styles["question-mark"]}>?</div>

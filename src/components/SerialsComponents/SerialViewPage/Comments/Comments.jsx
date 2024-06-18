@@ -49,7 +49,7 @@ const Comments = ({ serialDetails, partId }) => {
         
         const fetchGetComments = async () => {
             try {
-                const response = await axios.get(`${SERIAL_ENDPOINTS.getComments}?seriesPartId=${serialDetails.id}`, {
+                const response = await axios.get(`${SERIAL_ENDPOINTS.getComments}?seriesPartId=${partId}`, {
                     withCredentials: true
                 });
 
@@ -73,13 +73,14 @@ const Comments = ({ serialDetails, partId }) => {
 
             } catch (error) {
                 //console.log(error);
+                setCommentsList([]);
             } finally {
                 setIsLoading(false);
             }
         }
         
         fetchGetComments();
-    }, [serialDetails.id, update]);
+    }, [serialDetails.id, update, partId]);
 
     
     //LIKE AND DISLIKE

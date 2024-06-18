@@ -8,6 +8,7 @@ const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists
 
     const [partData, setPartData] = useState([]);
     const [sasToken, setSasToken] = useState();
+    const [plyrPropsState, setPlyrProps] = useState([]);
     
     useEffect(() => {      
         const fetchEpisod = async () => {
@@ -27,7 +28,8 @@ const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists
         if (partExists) {
             fetchEpisod();
         }
-    }, [episodeId]);
+        
+    }, [animeDetails, episodeId]);
 
     useEffect(() => { 
         const fileName = partExists ? partData.fileName : animeDetails.fileName;
@@ -42,8 +44,9 @@ const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists
             }
         }
         
-        fetchSasToken();
-    }, [partData]);
+        fetchSasToken();      
+
+    }, [animeDetails, partData]);
 
     const controls = [
       'play-large',
@@ -58,29 +61,36 @@ const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists
       'fullscreen',
     ];
 
-    const plyrProps = {
+    useEffect(() => {
         
-        source: {
-            type: 'video',
-            sources: `${partExists ? partData.fileUri : animeDetails.fileUri}?${sasToken}`,
-            poster: `${animeDetails.poster ? `data:image/jpeg;base64,${animeDetails.poster}` : ''}`,
-        },
-        options: {
-            controls,
-            settings: ['captions', 'quality', 'speed'],
-            captions: {
-                active: true,
-                update: true,
-                language: 'auto',
+        const plyrProps = {
+            
+            source: {
+                type: 'video',
+                sources: `${partExists ? partData.fileUri : animeDetails.fileUri}?${sasToken}`,
+                poster: `${animeDetails.poster ? `data:image/jpeg;base64,${animeDetails.poster}` : ''}`,
             },
-            quality: {
-                default: 720,
-                options: [720],
-                forced: true,
+            options: {
+                controls,
+                settings: ['captions', 'quality', 'speed'],
+                captions: {
+                    active: true,
+                    update: true,
+                    language: 'auto',
+                },
+                quality: {
+                    default: 720,
+                    options: [720],
+                    forced: true,
+                },
             },
-        },
+            
+        }
+
+        setPlyrProps(plyrProps);
         
-    }
+    }, [sasToken, partData]);
+
 
     // TRAILER
 
@@ -104,7 +114,7 @@ const Player = ({ switchPlayer, voiceActing, episodeId, animeDetails, partExists
         },
     }
 
-    const switchProps = switchPlayer === true ? plyrProps : plyrPropsTrailer;
+    const switchProps = switchPlayer === true ? plyrPropsState : plyrPropsTrailer;
 
     return (
         <>
